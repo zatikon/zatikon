@@ -53,11 +53,21 @@ To do so:
 This should allow you to run the game through "Non-Steam" section in the game mode. The game is intended
 to be able to run there without having to use the desktop mode; if it doesn't, please file an issue.
 
-## Windows/macOS
+## Windows
 
-There's currently no special build or installer for Windows and macOS (although it's planned).
+Windows installer is available on the releases page (the .exe file): https://github.com/zatikon/zatikon/releases
 
-To run the game, install Java 17 JRE/JDK, and simply run the latest .jar file downloaded from the releases page.
+Running that executable should guide you through installation process.
+
+## macOS
+
+To run the game, install Java 17 JRE/JDK, and run the latest .jar file downloaded from the releases page: https://github.com/zatikon/zatikon/releases
+
+You can do that by either opening the .jar file in Finder, or alternativly, from the terminal with:
+
+```shell
+$ java -jar zatikon.jar
+```
 
 # Running
 
