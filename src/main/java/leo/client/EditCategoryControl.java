@@ -1,0 +1,89 @@
+///////////////////////////////////////////////////////////////////////
+// Name: EditCategoryControl
+// Desc: The board showing the catagories
+// Date: 7/07/2003 - Gabe Jones
+// TODO:
+///////////////////////////////////////////////////////////////////////
+package leo.client;
+
+// imports
+
+import leo.shared.Constants;
+import leo.shared.Unit;
+
+import java.util.Vector;
+
+
+public class EditCategoryControl extends EditCastleBoard {
+    /////////////////////////////////////////////////////////////////
+    // Constants
+    /////////////////////////////////////////////////////////////////
+    public static final int MARGIN = 3;
+
+    /////////////////////////////////////////////////////////////////
+    // Properties
+    /////////////////////////////////////////////////////////////////
+    private int buttons = 0;
+
+
+    /////////////////////////////////////////////////////////////////
+    // Constructor
+    /////////////////////////////////////////////////////////////////
+    public EditCategoryControl(EditCastlePanel panel, String newMessage, int x, int y, int width, int height) {
+        super(panel, newMessage, x, y, width, height, Constants.IMG_EDIT_CATEGORY_PANEL);
+        initialize();
+    }
+
+
+    /////////////////////////////////////////////////////////////////
+    // Initialize the control
+    /////////////////////////////////////////////////////////////////
+    public void initialize() {
+        clear();
+
+        for (int i = 0; i < Unit.CLASS_COUNT; i++) {
+            add(new CategoryButton(i, this, panel, (populated(Unit.getUnits(i, null)))));
+        }
+    }
+
+
+    /////////////////////////////////////////////////////////////////
+    // Does the player have anything from here?
+    /////////////////////////////////////////////////////////////////
+    private boolean populated(Vector units) {
+        if (Client.getGameData() == null) return false;
+
+        for (int i = 0; i < units.size(); i++) {
+            Unit unit = (Unit) units.elementAt(i);
+            if (Client.getUnits()[unit.getID()] > 0)
+                return true;
+        }
+        return false;
+    }
+
+
+    /////////////////////////////////////////////////////////////////
+    // Get button position
+    /////////////////////////////////////////////////////////////////
+    public int getButtonPosition() {
+        return buttons * (ArmyButton.getButtonHeight() + MARGIN) + Client.FONT_HEIGHT + (MARGIN * 3);
+    }
+
+
+    /////////////////////////////////////////////////////////////////
+    // Add button
+    /////////////////////////////////////////////////////////////////
+    public void add(LeoComponent newLeoComponent) {
+        super.add(newLeoComponent);
+        buttons++;
+    }
+
+
+    /////////////////////////////////////////////////////////////////
+    // Clear
+    /////////////////////////////////////////////////////////////////
+    public void clear() {
+        buttons = 0;
+        super.clear();
+    }
+}

@@ -1,0 +1,36 @@
+# Plans for the future releases
+
+- re-enable password recovery
+- make tutorial skippable
+- headless mode (for tests)
+- better AI
+- more units
+- pause, at least for standalone
+  - save and resume?
+- protobuf or other (backwards compatible) serialization for:
+  - player state in DB
+  - network protocol
+- enforce migration path for the saved DB state
+- restore the ability to use MySQL/Postgres/other for state separation
+- better utils for debug/cheats
+- balance
+  - counter for inorganic
+  - unit cost
+- customizability
+  - board size
+  - limits: commands, army size, turn length, etc.
+- fix the unit cost function not to use a loop
+- keyboard controls
+- controller support
+- change the GUI to be more portable
+- make GUI resizable, or otherwise fill the screen space
+- tileset support
+- available on stores
+- add server config
+  - allow changing the bind address
+  - allow changing the ports the game is running on (maybe reduce it to a single one)
+- untangle the object instances representing the client and server side, so that it's possible to run server as a thread set rather than a separate process
+- go through all the code warnings and fix what's viable to fix
+- review the patterns used by the code in order to plan further refactors
+- port to more platforms, in particular web
+- update buttons in the main UI (refer friend, etc.)

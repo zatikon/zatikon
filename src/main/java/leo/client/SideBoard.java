@@ -1,0 +1,60 @@
+///////////////////////////////////////////////////////////////////////
+//	Name:	LeoContainer
+//	Desc:	A basic leopold container
+//	Date:	5/23/2003 - Gabe Jones
+//	TODO:
+///////////////////////////////////////////////////////////////////////
+package leo.client;
+
+// imports
+
+import java.awt.*;
+
+
+public class SideBoard extends LeoContainer {
+
+    /////////////////////////////////////////////////////////////////
+    // Constants
+    /////////////////////////////////////////////////////////////////
+    public static final int MARGIN = 8;
+
+
+    /////////////////////////////////////////////////////////////////
+    // Properties
+    /////////////////////////////////////////////////////////////////
+    private final Color color;
+
+
+    /////////////////////////////////////////////////////////////////
+    // Constructor
+    /////////////////////////////////////////////////////////////////
+    public SideBoard(Color newColor, int newX, int newY, int newWidth, int newHeight) {
+        super(newX, newY, newWidth, newHeight);
+        color = newColor;
+    }
+
+
+    /////////////////////////////////////////////////////////////////
+    // Process a click
+    /////////////////////////////////////////////////////////////////
+    public boolean clickAt(int x, int y) {
+        if (!super.clickAt(x, y)) {
+            Client.getGameData().setSelectedUnit(null);
+            return false;
+        }
+        return true;
+    }
+
+
+    /////////////////////////////////////////////////////////////////
+    // Draw the component
+    /////////////////////////////////////////////////////////////////
+    public void draw(Graphics2D g, Frame mainFrame) {	/*g.setColor(color);
+		g.fillRect(getScreenX(), getScreenY(), getWidth(), getHeight());
+		g.setColor(Color.black);
+		g.drawRect(getScreenX(), getScreenY(), getWidth()-1, getHeight()-1);
+		g.drawRect(getScreenX()+1, getScreenY()+1, getWidth()-3, getHeight()-3);
+		*/
+        super.draw(g, mainFrame);
+    }
+}

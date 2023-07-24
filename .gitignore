@@ -1,0 +1,15 @@
+# target directory
+target/
+
+# project files
+*.iml
+
+# SQLite DBs
+*.db
+
+# certs and the like
+ssl/
+*.p12
+*.cer
+*.jks
+*.pem
