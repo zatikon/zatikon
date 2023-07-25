@@ -77,7 +77,7 @@ public class LobbyPractice implements Runnable {
                     Player player = players.elementAt(0);
                     PracticeGame pg;
                     TutorialGame tg;
-                    if (BuildConfig.skipTutorial) pg = new PracticeGame(player);
+                    if (player.getLevel() > tutorial_level || BuildConfig.skipTutorial) pg = new PracticeGame(player);
                     else tg = new TutorialGame(player);
                     Server.sendText(player, "*** " + player.getChatName() + " is facing against the Artificial Opponent(" + player.getLevel() + ") ***");
                     players.remove(player);
