@@ -635,6 +635,10 @@ public class Player {
         return losses;
     }
 
+    public int getComputerWins() { return computerWins; }
+
+    public void setComputerWins(int wins) { computerWins = wins; }
+
     public int getLossesToHigher() {
         return lossesToHigher;
     }
