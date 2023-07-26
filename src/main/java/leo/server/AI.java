@@ -32,7 +32,7 @@ public class AI {
     private final Castle castle;
     private final Castle enemyCastle;
     private int turns = 0;
-    private int points;
+    private long points;
     private short want;
     private int diminish;
     private final DNA dna;
@@ -122,11 +122,21 @@ public class AI {
                     unit.getScript().perform();
             }
             turns++;
-            points += (21 + (4 * level)) + 100;
+            points += calculatePointsIncrease(level, turns);
 
         } catch (Exception e) {
             Log.error("Script Error3: " + lastUnit + ", " + e);
         }
+    }
+
+    public static long calculatePointsIncrease(int aiLevel, int turnCount) {
+        var exhaustionRatio = (double) (aiLevel+9) / (aiLevel+10);
+        var exhaustionFactor = Math.pow(exhaustionRatio, turnCount);
+
+        // Mostly trying to keep the original formula, but with some shifts
+        var minimumIncrease = 20 + aiLevel * 2;
+
+        return Math.round((101 + (4 * aiLevel)) * exhaustionFactor) + minimumIncrease;
     }
 
 
