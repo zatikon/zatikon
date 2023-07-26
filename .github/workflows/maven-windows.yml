@@ -1,4 +1,4 @@
-name: Build a Windows installer
+name: Main branch - Windows installer
 
 on:
   push:
@@ -32,10 +32,10 @@ jobs:
 
       # TODO: handle version number
     - name: Package into exe
-      run: jpackage --type exe --name Zatikon --input target/jpack/ --main-jar zatikon.jar --main-class leo.client.WindowsLauncher --dest exepack --app-version 1.1.0 --icon src/main/resources/icons/zatikon.ico --win-dir-chooser --win-shortcut --win-menu --win-shortcut-prompt --win-upgrade-uuid 6540EFA3-65AB-4E93-920C-54793ECC7E86
+      run: jpackage --type exe --name Zatikon --input target/jpack/ --main-jar zatikon.jar --main-class leo.client.WindowsLauncher --dest exepack --app-version 1.2.0 --icon src/main/resources/icons/zatikon.ico --win-dir-chooser --win-shortcut --win-menu --win-shortcut-prompt --win-upgrade-uuid 6540EFA3-65AB-4E93-920C-54793ECC7E86
 
     - name: Upload
       uses: actions/upload-artifact@v3
       with:
-        name: zatikon
+        name: zatikon-1.2.0-dev
         path: exepack

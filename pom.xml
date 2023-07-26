@@ -6,11 +6,12 @@
 
     <groupId>com.chroniclogic</groupId>
     <artifactId>zatikon</artifactId>
-    <version>1.1.1</version>
+    <version>${project.version}</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <project.version>1.2.0-SNAPSHOT</project.version>
     </properties>
 
     <dependencies>
