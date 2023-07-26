@@ -13,3 +13,6 @@ ssl/
 *.cer
 *.jks
 *.pem
+
+# generated files
+dependency-reduced-pom.xml
