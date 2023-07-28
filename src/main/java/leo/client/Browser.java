@@ -14,7 +14,6 @@ package leo.client;
 import javax.swing.*;
 import java.lang.reflect.Method;
 
-
 public class Browser {
     private static final String errMsg = "Error attempting to launch web browser";
 
@@ -23,28 +22,25 @@ public class Browser {
         Runtime runtime = Runtime.getRuntime();
         try {
             if (osName.startsWith("Mac OS")) {
-            	runtime.exec("open " + url);
+                runtime.exec("open " + url);
             } else if (osName.startsWith("Windows")) {
-            	runtime.exec("rundll32 url.dll,FileProtocolHandler " + url);
-            }
-            else {
-                //assume Unix or Linux
-                String[] browsers =
-                        {"firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape"};
+                runtime.exec("rundll32 url.dll,FileProtocolHandler " + url);
+            } else {
+                // assume Unix or Linux
+                String[] browsers = { "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape" };
                 String browser = null;
                 for (int count = 0; count < browsers.length && browser == null; count++)
-                    if (Runtime.getRuntime().exec(new String[]{"which", browsers[count]}).waitFor() == 0) {
+                    if (Runtime.getRuntime().exec(new String[] { "which", browsers[count] }).waitFor() == 0) {
                         browser = browsers[count];
                     }
                 if (browser == null) {
                     throw new Exception(String.format("Could not find web browser.%nURL: %s", url));
-                }
-                else {
-                	runtime.exec("xdg-open " + url);
+                } else {
+                    runtime.exec("xdg-open " + url);
                 }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, errMsg + ":\n" + e.getLocalizedMessage());
         }
     }
-} 
+}
