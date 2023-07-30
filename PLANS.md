@@ -40,3 +40,6 @@
 - AI limitations, especially on lower levels; exhaustion of points, command limits, slowly replace with better logic
 - undo for moves
 - tool for managing the users
+- localization support
+- accessibility features
+  - no reliance on colors (add symbols?)
