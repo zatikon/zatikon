@@ -19,6 +19,7 @@
 - customizability
   - board size
   - limits: commands, army size, turn length, etc.
+  - introduce as "custom game" button?
 - fix the unit cost function not to use a loop
 - keyboard controls
 - controller support
@@ -34,3 +35,11 @@
 - review the patterns used by the code in order to plan further refactors
 - port to more platforms, in particular web
 - update buttons in the main UI (refer friend, etc.)
+- spectator mode
+- unit tiers to reduce complexity
+- AI limitations, especially on lower levels; exhaustion of points, command limits, slowly replace with better logic
+- undo for moves
+- tool for managing the users
+- localization support
+- accessibility features
+  - no reliance on colors (add symbols?)
