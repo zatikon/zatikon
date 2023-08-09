@@ -195,7 +195,7 @@ public class ClientLoginDialog extends Dialog
             System.err.println("Attempting login");
             status.setText("Attempting to contact server...");
             LoginAttempt loginAttempt =
-                    new LoginAttempt(username.toLowerCase(), password, "fb", loginType, Client.VERSION, false);
+                    new LoginAttempt(username.toLowerCase(), password, "fb", loginType, Client.PROTOCOL_VERSION, false);
             clientNetManager = new ClientNetManager(!standalone);
             loginResponse = clientNetManager.connect(loginAttempt);
         } catch (Exception e) {

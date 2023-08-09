@@ -343,7 +343,7 @@ public class User implements Runnable {
             // Check the version
 //            if (login.getVersion() < Client.VERSION) {
             // I don't think we can do backward compatibility just yet
-            if (!Client.VERSION.equals(login.getVersion())) {
+            if (!Client.PROTOCOL_VERSION.equals(login.getVersion())) {
                 Log.activity(
                         "User "
                                 + socket.getInetAddress()

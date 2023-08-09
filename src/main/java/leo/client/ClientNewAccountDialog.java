@@ -228,7 +228,7 @@ public class ClientNewAccountDialog extends JDialog
             status.setText("Attempting to contact server...");
             LoginAttempt loginAttempt =
 //                    new LoginAttempt(username.toLowerCase(), password, emailField.getText(), LoginAttempt.NEW_ACCOUNT, Client.VERSION, Newsletter.answer());
-                    new LoginAttempt(username.toLowerCase(), password, emailField.getText(), LoginAttempt.NEW_ACCOUNT, Client.VERSION, false);
+                    new LoginAttempt(username.toLowerCase(), password, emailField.getText(), LoginAttempt.NEW_ACCOUNT, Client.PROTOCOL_VERSION, false);
             clientNetManager = new ClientNetManager(Client.shouldUseTls());
             loginResponse = clientNetManager.connect(loginAttempt);
         } catch (Exception e) {
