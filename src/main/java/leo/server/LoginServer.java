@@ -30,8 +30,9 @@ public class LoginServer implements Runnable {
     private final boolean useTls;
     private ServerSocket serverSocket;
 
-    private Server server;
+    private final Server server;
 
+    private boolean ready = false;
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -44,6 +45,9 @@ public class LoginServer implements Runnable {
         runner.start();
     }
 
+    public boolean isReady() {
+        return ready;
+    }
 
     /////////////////////////////////////////////////////////////////
     // The main loop
@@ -59,24 +63,11 @@ public class LoginServer implements Runnable {
         }
 
         Log.system("Starting login server at " + serverSocket.getLocalSocketAddress());
-        System.err.println(Constants.SERVER_READY_MESSAGE);
 
-        var pid = ProcessHandle.current().pid();
-        var pidFile = new File(Constants.READY_PID_FILE);
-        var succeeded = new File(pidFile.getParent()).mkdirs();
+        // Socket is ready by now, client shouldn't bounce off anymore.
+        ready = true;
 
-        try {
-            var fileSucceeded = pidFile.createNewFile();
-
-            var pidWriter = new BufferedWriter(new FileWriter(pidFile));
-            pidWriter.write(String.format("%d\n", pid));
-            pidWriter.flush();
-            pidWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // Loop indefinately, accepting socket connections
+        // Loop indefinitely, accepting socket connections
         while (true) {
             try {
                 Socket socket = serverSocket.accept();

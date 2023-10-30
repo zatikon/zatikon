@@ -55,7 +55,7 @@ public class Server {
     // Main module
     /////////////////////////////////////////////////////////////////
 
-    private Server(boolean useTls) {
+    public Server(boolean useTls) {
         dbm = new DatabaseManager();
         //TopTen.main();
 
@@ -83,6 +83,10 @@ public class Server {
 //        dbm.getScoreDump();
 //        System.out.println("Dumping complete.");
 //    }
+
+    public boolean isReady() {
+        return loginServer.isReady() && chatServer.isReady();
+    }
 
     /////////////////////////////////////////////////////////////////
     // Add a player to the logins

@@ -8,10 +8,9 @@ package leo.client;
 
 // imports
 
+import leo.server.Server;
+import leo.shared.*;
 import leo.shared.Action;
-import leo.shared.Castle;
-import leo.shared.Constants;
-import leo.shared.Unit;
 import org.tinylog.Logger;
 
 import javax.swing.*;
@@ -113,7 +112,7 @@ public class Client {
             };
     public static boolean standalone = false;
 
-    private static ServerProcess serverProcess;
+    private static Server server = null;
 
 
     public static String getGameVersion() {
@@ -198,8 +197,13 @@ public class Client {
 
         System.err.println("Standalone mode - starting local server");
 
-        serverProcess = ServerProcess.getInstance();
-        serverProcess.waitUntilReady(10000);
+        if (server == null) {
+            server = new Server(false);
+        }
+
+        while (!server.isReady()) {
+            Thread.yield();
+        }
     }
 
 
