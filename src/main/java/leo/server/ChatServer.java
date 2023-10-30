@@ -25,6 +25,7 @@ public class ChatServer implements Runnable {
     private final boolean useTls;
     private final Server server;
     private ServerSocket serverSocket;
+    private boolean ready = false;
 
 
     /////////////////////////////////////////////////////////////////
@@ -54,6 +55,8 @@ public class ChatServer implements Runnable {
 
         Log.system("Starting chat server at " + serverSocket.getLocalSocketAddress());
 
+        ready = true;
+
         // Loop indefinitely, accepting socket connections
         int cycle = 0;
         while (true) {
@@ -65,5 +68,9 @@ public class ChatServer implements Runnable {
             } catch (Exception e) {
             }
         }
+    }
+
+    public boolean isReady() {
+        return ready;
     }
 }

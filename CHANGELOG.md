@@ -4,6 +4,7 @@
 - parameterized SQL queries now done so correctly
 - browser-starting code improved
 - logging now more consistent, and done using Tinylog library
+- server in standalone-client mode now runs as a thread instead of a process
 
 # 1.1.2
 
