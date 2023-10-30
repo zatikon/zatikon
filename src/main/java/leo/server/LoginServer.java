@@ -30,11 +30,14 @@ public class LoginServer implements Runnable {
     private final boolean useTls;
     private ServerSocket serverSocket;
 
+    private Server server;
+
 
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public LoginServer(int newPort, boolean useTls) {
+    public LoginServer(Server server, int newPort, boolean useTls) {
+        this.server = server;
         this.port = newPort;
         this.useTls = useTls;
         runner = new Thread(this, "LoginServerThread");
@@ -78,7 +81,7 @@ public class LoginServer implements Runnable {
             try {
                 Socket socket = serverSocket.accept();
                 Log.system("Connection received at: " + socket.getInetAddress());
-                User user = new User(socket);
+                User user = new User(server, socket);
                 Thread.sleep(10);
             } catch (Exception e) {
             }

@@ -35,6 +35,7 @@ public class ServerGame implements Game {
     private static final int COMMANDER_INC = 5;
     private static final int MIN_TURNS = 4;
     private static final int MIN_ACTIONS = 4;
+    private final Server server;
 
 
     /////////////////////////////////////////////////////////////////
@@ -71,9 +72,10 @@ public class ServerGame implements Game {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public ServerGame(Player newPlayer1, Player newPlayer2, int newType, boolean isRated, boolean mirrRandom, boolean isRematch) {
+    public ServerGame(Server server, Player newPlayer1, Player newPlayer2, int newType, boolean isRated, boolean mirrRandom, boolean isRematch) {
+        this.server = server;
         // get a new seed
-        seed = Server.getSeed();
+        seed = server.getSeed();
 
         // set some variables
         player1 = newPlayer1;
@@ -296,18 +298,18 @@ public class ServerGame implements Game {
             // Update the scores
             if (winner == castle1) {
                 if (rated) updateElo(player1, player2, true);
-                player1.win(player2, rated);
-                player2.lose(player1, rated);
+                player1.win(server, player2, rated);
+                player2.lose(server, player1, rated);
                 Log.game(player1.getName() + " defeated " + player2.getName());
-                Server.sendText(null, "*** " + player1.getChatName() + " defeated " + player2.getChatName() + " ***");
+                server.sendText(null, "*** " + player1.getChatName() + " defeated " + player2.getChatName() + " ***");
             }
 
             if (winner == castle2) {
                 if (rated) updateElo(player1, player2, false);
-                player2.win(player1, rated);
-                player1.lose(player2, rated);
+                player2.win(server, player1, rated);
+                player1.lose(server, player2, rated);
                 Log.game(player2.getName() + " defeated " + player1.getName());
-                Server.sendText(null, "*** " + player2.getChatName() + " defeated " + player1.getChatName() + " ***");
+                server.sendText(null, "*** " + player2.getChatName() + " defeated " + player1.getChatName() + " ***");
             }
         } else
             Log.game(player1.getName() + " and " + player2.getName() + " in a weird game");
@@ -317,8 +319,8 @@ public class ServerGame implements Game {
         player2.getUser().sendAction(Action.NOTHING, Action.NOTHING, Action.NOTHING);
   
   /*if(validGame()){
-	  Server.sendRating(player1);
-	  Server.sendRating(player2);
+	  server.sendRating(player1);
+	  server.sendRating(player2);
   }*/
 
         try {
@@ -373,7 +375,7 @@ public class ServerGame implements Game {
             Log.game("Match between " + player1.getName() + " and " + player2.getName() + " ends in a draw.");
             player1.draw(player2);
             player2.draw(player1);
-            Server.sendText(null, "*** " + "Match between " + player1.getName() + " and " + player2.getName() + " ends in a draw" + " ***");
+            server.sendText(null, "*** " + "Match between " + player1.getName() + " and " + player2.getName() + " ends in a draw" + " ***");
         } else
             Log.game(player1.getName() + " and " + player2.getName() + " in a weird game");
 

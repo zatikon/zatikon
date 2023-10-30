@@ -17,6 +17,7 @@ import java.util.Vector;
 
 
 public class CoopGame implements Game {
+    private final Server server;
 
     /////////////////////////////////////////////////////////////////
     // Constants
@@ -48,9 +49,10 @@ public class CoopGame implements Game {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public CoopGame(Player newPlayer1, Player newPlayer2) {
+    public CoopGame(Server server, Player newPlayer1, Player newPlayer2) {
+        this.server = server;
         // Get a new seed
-        seed = Server.getSeed();
+        seed = server.getSeed();
 
         // set some variables
         player1 = newPlayer1;
@@ -184,13 +186,13 @@ public class CoopGame implements Game {
                 long reward = Balance.COOP_BONUS + Balance.reward(ai.getLevel());
 //                int reward = 125 + (ai.getLevel() / 2);
 //                if (newbie) reward += 50;
-                player1.win(reward);
-                player2.win(reward);
+                player1.winAi(reward);
+                player2.winAi(reward);
             }
 
             if (winner == AICastle) {
-                player1.lose();
-                player2.lose();
+                player1.loseAi();
+                player2.loseAi();
             }
         } else
             Log.alert(player1.getName() + " and " + player2.getName() + " are doing weird things with the AI");

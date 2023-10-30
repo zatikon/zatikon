@@ -22,6 +22,7 @@ import java.util.Vector;
 
 
 public class ChatUser implements Runnable {
+    private final Server server;
     /////////////////////////////////////////////////////////////////
     // Properties
     /////////////////////////////////////////////////////////////////
@@ -39,7 +40,8 @@ public class ChatUser implements Runnable {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public ChatUser(Socket newSocket) {
+    public ChatUser(Server server, Socket newSocket) {
+        this.server = server;
         try {
             socket = newSocket;
             //socket.setSoTimeout(0);
@@ -222,7 +224,7 @@ public class ChatUser implements Runnable {
             chatID = dis.readInt();
 
             // Find a player with the right chat ID
-            Vector<Player> logins = Server.getLogins();
+            Vector<Player> logins = server.getLogins();
             Iterator<Player> it = logins.iterator();
             while (it.hasNext()) {
                 Player player = it.next();
@@ -323,7 +325,7 @@ public class ChatUser implements Runnable {
             tmpDos.writeInt(game);
             tmpDos.flush();
 
-            Player gotPlayer = Server.getPlayerChat(id);
+            Player gotPlayer = server.getPlayerChat(id);
             if (gotPlayer != null && !gotPlayer.getUser().interrupted()) {
                 ChatUser tmpChat = gotPlayer.getUser().getChat();
                 if (tmpChat != null) {
@@ -346,7 +348,7 @@ public class ChatUser implements Runnable {
             int id = dis.readInt();
             int game = dis.readInt();
 
-            Player gotPlayer = Server.getPlayerChat(id);
+            Player gotPlayer = server.getPlayerChat(id);
             if (gotPlayer != null && !gotPlayer.getUser().interrupted()) {
                 Player player1 = user.getPlayer();
                 Player player2 = gotPlayer;
@@ -392,7 +394,7 @@ public class ChatUser implements Runnable {
                     first = player2;
                     second = player1;
                 } else if (player1.getRating() == player2.getRating()) {
-                    if (Server.random().nextInt(2) == 0) {
+                    if (server.random().nextInt(2) == 0) {
                         first = player1;
                         second = player2;
                     } else {
@@ -406,33 +408,33 @@ public class ChatUser implements Runnable {
                     switch (game) {
                         case Action.GAME_CONSTRUCTED:
                             //Log.error("constructed");
-                            ServerGame newCon = new ServerGame(first, second, ServerGame.MATCH, false, false, false);
-                            Server.sendText(null, "*** Constructed game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
+                            ServerGame newCon = new ServerGame(server, first, second, ServerGame.MATCH, false, false, false);
+                            server.sendText(null, "*** Constructed game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
                             break;
 
                         case Action.GAME_RANDOM:
                             //Log.error("random");
                             //ServerGame nnewCon = new ServerGame(first, second, ServerGame.MATCH, false, false);
-                            ServerGame newRan = new ServerGame(first, second, ServerGame.DUEL, false, false, false);
-                            Server.sendText(null, "*** Random game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
+                            ServerGame newRan = new ServerGame(server, first, second, ServerGame.DUEL, false, false, false);
+                            server.sendText(null, "*** Random game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
                             break;
 
                         case Action.GAME_MIRRORED_RANDOM:
                             //Log.error("mirrored random");
-                            ServerGame newMirrRan = new ServerGame(first, second, ServerGame.DUEL, false, true, false);
-                            Server.sendText(null, "*** Mirrored random game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
+                            ServerGame newMirrRan = new ServerGame(server, first, second, ServerGame.DUEL, false, true, false);
+                            server.sendText(null, "*** Mirrored random game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
                             break;
 
                         case Action.GAME_COOPERATIVE:
                             //Log.error("cooperative");
-                            CoopGame newCoop = new CoopGame(second, first);
-                            Server.sendText(null, "*** Cooperative game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
+                            CoopGame newCoop = new CoopGame(server, second, first);
+                            server.sendText(null, "*** Cooperative game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
                             break;
 
                         case Action.GAME_REMATCH_RANDOM:
                             //Log.error("cooperative");
-                            ServerGame newRem = new ServerGame(first, second, ServerGame.DUEL, false, false, true);
-                            Server.sendText(null, "*** Random game rematch started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
+                            ServerGame newRem = new ServerGame(server, first, second, ServerGame.DUEL, false, false, true);
+                            server.sendText(null, "*** Random game rematch started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
                             break;
                     }
 
@@ -516,16 +518,16 @@ public class ChatUser implements Runnable {
             if (action == Action.CHAT_WHISPER) {
                 // check for announcement
                 if (user.getPlayer().admin() && messageBuffer.toString().charAt(0) == '#') {
-                    Server.sendText(user.getPlayer(), messageBuffer.toString());
+                    server.sendText(user.getPlayer(), messageBuffer.toString());
                 }
 
-                Player gotPlayer = Server.getPlayerChat(id);
+                Player gotPlayer = server.getPlayerChat(id);
                 if (gotPlayer != null) {
                     gotPlayer.getUser().sendText(action, user.getPlayer(), messageBuffer.toString());
                     Log.chat("Whisper " + user.getPlayer().getName() + " to " + gotPlayer.getName() + ": " + messageBuffer);
                 }
             } else if (action == Action.CHAT_BROADCAST) {
-                Vector<Player> players = Server.getPlayers();
+                Vector<Player> players = server.getPlayers();
                 Iterator<Player> it = players.iterator();
                 while (it.hasNext()) {
                     Player player = it.next();

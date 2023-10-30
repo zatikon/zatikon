@@ -22,6 +22,8 @@ public class Player {
     private static final short STOP = -1;
 
     private static final int VERSION = 1;
+//    private final Server server;
+    private final DatabaseManager dbm;
 
     /////////////////////////////////////////////////////////////////
     // Properties
@@ -65,7 +67,8 @@ public class Player {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public Player(String newName, String newPassword, String newEmail) {
+    public Player(DatabaseManager dbm, String newName, String newPassword, String newEmail) {
+        this.dbm = dbm;
         name = newName;
         password = newPassword;
         email = newEmail;
@@ -75,7 +78,7 @@ public class Player {
             castleArchives[i] = new CastleArchive(archiveName);
         }
         try {
-            Server.getDB().insert(name, password, getRating(), toBytes(), email);
+            dbm.insert(name, password, getRating(), toBytes(), email);
         } catch (Exception e) {
             Log.error("Player.constructor " + e);
         }
@@ -85,14 +88,15 @@ public class Player {
     /////////////////////////////////////////////////////////////////
     // Constructor 2
     /////////////////////////////////////////////////////////////////
-    public Player(DatabaseManager db, String username) throws Exception {
+    public Player(DatabaseManager dbm, String username) throws Exception {
+        this.dbm = dbm;
         try {
             byte[] buf;
 
-            buf = getPlayerBytes(db, username);
+            buf = getPlayerBytes(dbm, username);
             if (buf == null) return;
-            email = db.getEmail(username);
-            passwordHashed = db.getPasswordHashed(username);
+            email = dbm.getEmail(username);
+            passwordHashed = dbm.getPasswordHashed(username);
 
             ByteArrayInputStream bais = new ByteArrayInputStream(buf);
             DataInputStream dis = new DataInputStream(bais);
@@ -170,7 +174,7 @@ public class Player {
 
             // wipe, this should be commented out
             //save();
-            eloRating = db.getRating(name);
+            eloRating = dbm.getRating(name);
             //if(filename.equalsIgnoreCase("test")){eloRating = 1600;}
             //if(filename.equalsIgnoreCase("tes")){eloRating = 1400;}
         } catch (Exception e) {
@@ -179,9 +183,9 @@ public class Player {
         }
     }
 
-    public Player(String username) throws Exception {
-        this(Server.getDB(), username);
-    }
+//    public Player(DatabaseManager dbm, String username) throws Exception {
+//        this(dbm, username);
+//    }
 
 
     /////////////////////////////////////////////////////////////////
@@ -191,9 +195,9 @@ public class Player {
         try {
 //            admin = name.equals("gabe") || name.equals("ravean");
             // TODO cleanup the expansion loading. In FOSS version we don't need to restrict the players
-            access[Unit.CRUSADES] = true; //Server.getDB().getRegistration(getName(), DatabaseManager.CRUSADES);
-            access[Unit.LEGIONS] = true; //Server.getDB().getRegistration(getName(), DatabaseManager.LEGIONS);
-            access[Unit.INQUISITION] = true; //Server.getDB().getRegistration(getName(), DatabaseManager.INQUISITION);
+            access[Unit.CRUSADES] = true; //server.getDB().getRegistration(getName(), DatabaseManager.CRUSADES);
+            access[Unit.LEGIONS] = true; //server.getDB().getRegistration(getName(), DatabaseManager.LEGIONS);
+            access[Unit.INQUISITION] = true; //server.getDB().getRegistration(getName(), DatabaseManager.INQUISITION);
 
             Log.activity("loadAccess for " + getName() + " C: " + access[Unit.CRUSADES] + ", L: " + access[Unit.LEGIONS]);
 
@@ -209,7 +213,7 @@ public class Player {
     // Get bytes from db
     /////////////////////////////////////////////////////////////////
     public byte[] getPlayerBytes(String filename) throws Exception {
-        return getPlayerBytes(Server.getDB(), filename);
+        return getPlayerBytes(dbm, filename);
     }
 
     public byte[] getPlayerBytes(DatabaseManager db, String filename) throws Exception {
@@ -257,10 +261,6 @@ public class Player {
     // Save the player
     /////////////////////////////////////////////////////////////////
     public synchronized void save() {
-        save(Server.getDB());
-    }
-
-    public synchronized void save(DatabaseManager db) {
         try {
    /*FileOutputStream fos = new FileOutputStream("./users/" + name);
    DataOutputStream dos = new DataOutputStream(fos);
@@ -273,14 +273,12 @@ public class Player {
 
             // update the database
             byte[] buf = toBytes();
-            db.update(name, password, getRating(), buf, email);
-            Server.sendRating(this);
+            dbm.update(name, password, getRating(), buf, email);
 
         } catch (Exception e) {
             Log.error("Player.save " + e);
         }
     }
-
 
     /////////////////////////////////////////////////////////////////
     // Save the player to text
@@ -359,7 +357,7 @@ public class Player {
     // Gain gold
     /////////////////////////////////////////////////////////////////
     private boolean gainGold(long amount) {
-        boolean goldOk = (new Date().getTime() - goldStamp > Server.GOLD_TIMER);
+        boolean goldOk = (new Date().getTime() - goldStamp > Constants.GOLD_TIMER);
         if (goldOk) {
             gold += amount;
             goldStamp = new Date().getTime();
@@ -375,7 +373,7 @@ public class Player {
     /////////////////////////////////////////////////////////////////
     // Beat the AI
     /////////////////////////////////////////////////////////////////
-    public void win(long reward) {
+    public void winAi(long reward) {
         gold += reward;
         computerWins++;
         save();
@@ -385,16 +383,17 @@ public class Player {
     /////////////////////////////////////////////////////////////////
     // Lose against the AI
     /////////////////////////////////////////////////////////////////
-    public void lose() {
+    public void loseAi() {
         if (getLevel() > 15)
             computerLosses++;
+        save();
     }
 
 
     /////////////////////////////////////////////////////////////////
     // Win
     /////////////////////////////////////////////////////////////////
-    public boolean win(Player defeated, boolean rated) {
+    public boolean win(Server server, Player defeated, boolean rated) {
         if (rated) {
             if (defeated.getRating() < getRating())
                 winsToLower++;
@@ -407,7 +406,7 @@ public class Player {
 
         // Gold!
         boolean gained = gainGold(Balance.REWARD_PVP_WIN);
-        Server.sendRating(this);
+        server.sendRating(this);
         return gained;
     }
 
@@ -415,7 +414,7 @@ public class Player {
     /////////////////////////////////////////////////////////////////
     // Lose
     /////////////////////////////////////////////////////////////////
-    public boolean lose(Player victorious, boolean rated) {
+    public boolean lose(Server server, Player victorious, boolean rated) {
         if (rated) {
             if (victorious.getRating() > getRating())
                 lossesToHigher++;
@@ -427,7 +426,7 @@ public class Player {
         }
         // Gold!
         boolean gained = gainGold(Balance.REWARD_PVP_LOSS);
-        Server.sendRating(this);
+        server.sendRating(this);
         return gained;
     }
 
@@ -527,13 +526,13 @@ public class Player {
     }
 
     public int getRank() {
-        return Server.getDB().getRank(getRating());
+        return dbm.getRank(getRating());
     }
 
     /*public int getNewRank()
     {
 
-     return Server.getDB().getRank(this);
+     return server.getDB().getRank(this);
     }*/
     /////////////////////////////////////////////////////////////////
     // Get AI's level
@@ -548,16 +547,16 @@ public class Player {
     /////////////////////////////////////////////////////////////////
     // Register the account
     /////////////////////////////////////////////////////////////////
-    public void register(boolean refund, short gameId) {
-        // TODO cleanup
-//        if (refund)
-//            gold += 50000;
-//        else
-//            gold += 10000;
-
-        access[gameId] = true;
-        save();
-    }
+//    public void register(boolean refund, short gameId) {
+//        // TODO cleanup
+////        if (refund)
+////            gold += 50000;
+////        else
+////            gold += 10000;
+//
+//        access[gameId] = true;
+//        save();
+//    }
 
 
     /////////////////////////////////////////////////////////////////

@@ -21,6 +21,7 @@ import java.util.Vector;
 
 public class PracticeGame implements Game {
 
+    private final Server server;
     /////////////////////////////////////////////////////////////////
     // Properties
     /////////////////////////////////////////////////////////////////
@@ -43,16 +44,17 @@ public class PracticeGame implements Game {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public PracticeGame(Player newPlayer1) {
+    public PracticeGame(Server server, Player newPlayer1) {
+        this.server = server;
         // get a new seed
-        seed = Server.getSeed();
+        seed = server.getSeed();
 
         // set some variables
         player1 = newPlayer1;
 
         // Log it with the server
-        Server.gameListSingle().add(this);
-        Logger.info("Added a singleplayer game to the game list. Current total: " + Server.gameListSingle().size());
+        server.gameListSingle().add(this);
+        Logger.info("Added a singleplayer game to the game list. Current total: " + server.gameListSingle().size());
 
         // initialize the server state
         initialize();
@@ -141,18 +143,18 @@ public class PracticeGame implements Game {
     /////////////////////////////////////////////////////////////////
     public void endGame(Castle winner) {
         over = true;
-        Server.gameListSingle().remove(this);
-        Logger.info("Removed a singleplayer game from the game list. Current total: " + Server.gameListSingle().size());
+        server.gameListSingle().remove(this);
+        Logger.info("Removed a singleplayer game from the game list. Current total: " + server.gameListSingle().size());
         if (validGame()) {
             // Update the scores
             if (winner == castle1) {
-                Server.sendText(null, player1.getChatName() + " defeated the Artificial Opponent(" + level + ")");
-                player1.win(Balance.reward(ai.getLevel()));
+                server.sendText(null, player1.getChatName() + " defeated the Artificial Opponent(" + level + ")");
+                player1.winAi(Balance.reward(ai.getLevel()));
             }
 
             if (winner == castle2) {
-                Server.sendText(null, "The Artificial Opponent(" + level + ") defeated " + player1.getChatName());
-                player1.lose();
+                server.sendText(null, "The Artificial Opponent(" + level + ") defeated " + player1.getChatName());
+                player1.loseAi();
             }
         } else
             Log.alert(player1.getName() + " is doing weird things with the AI");

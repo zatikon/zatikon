@@ -30,69 +30,64 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Constants
     /////////////////////////////////////////////////////////////////
-    public static final long GOLD_TIMER = 90000;
 
-
+    private static Server instance = null;
     /////////////////////////////////////////////////////////////////
     // Properties
     /////////////////////////////////////////////////////////////////
-    private static LoginServer loginServer;
-    private static ChatServer chatServer;
-    private static final Vector<Player> players = new Vector<Player>();
-    private static final Vector<Player> logins = new Vector<Player>();
-    private static Lobby lobby;
-    private static LobbyDuel lobbyDuel;
-    private static LobbyMirroredDuel lobbyMirrored;
-    private static LobbyPractice lobbyPractice;
-    private static LobbyCooperative lobbyCooperative;
-    private static LobbyTeam lobbyTeam;
-    private static final Random random = new Random();
-    private static ServerJanitor janitor;
-    private static DatabaseManager dbm;
-    private static final Vector<ServerGame> gameListMulti = new Vector<ServerGame>();
-    private static final Vector<PracticeGame> gameListSingle = new Vector<PracticeGame>();
+    private final LoginServer loginServer;
+    private final ChatServer chatServer;
+    private final Vector<Player> players = new Vector<Player>();
+    private final Vector<Player> logins = new Vector<Player>();
+    private final Lobby lobby;
+    private final LobbyDuel lobbyDuel;
+    private final LobbyMirroredDuel lobbyMirrored;
+    private final LobbyPractice lobbyPractice;
+    private final LobbyCooperative lobbyCooperative;
+    private final LobbyTeam lobbyTeam;
+    private final Random random = new Random();
+    private final ServerJanitor janitor;
+    private final DatabaseManager dbm;
+    private final Vector<ServerGame> gameListMulti = new Vector<ServerGame>();
+    private final Vector<PracticeGame> gameListSingle = new Vector<PracticeGame>();
 
     /////////////////////////////////////////////////////////////////
     // Main module
     /////////////////////////////////////////////////////////////////
+
+    private Server(boolean useTls) {
+        dbm = new DatabaseManager();
+        //TopTen.main();
+
+        Log.system("Booting Zatikon Server ver. " + Client.VERSION);
+        loginServer = new LoginServer(this, Client.LOGIN_PORT, useTls);
+        chatServer = new ChatServer(this, Client.CHAT_PORT, useTls);
+        janitor = new ServerJanitor(this);
+        lobby = new Lobby(this);
+        lobbyDuel = new LobbyDuel(this);
+        lobbyMirrored = new LobbyMirroredDuel(this);
+        lobbyPractice = new LobbyPractice(this);
+        lobbyCooperative = new LobbyCooperative(this);
+        lobbyTeam = new LobbyTeam(this);
+    }
+
     public static void main(String[] args) {
         var succeeded = new File(Constants.LOCAL_DIR).mkdirs();
         boolean useTls = !(Arrays.asList(args).contains(Constants.STANDALONE_ARG));
 
-        try {
-            dbm = new DatabaseManager();
-            //dbm.initialize();
-            //TopTen.main();
-
-        } catch (Exception e) {
-            Log.error("Server.main " + e);
-        }
-
-        Log.system("Booting Zatikon Server ver. " + Client.VERSION);
-        loginServer = new LoginServer(Client.LOGIN_PORT, useTls);
-        chatServer = new ChatServer(Client.CHAT_PORT, useTls);
-        janitor = new ServerJanitor();
-        lobby = new Lobby();
-        lobbyDuel = new LobbyDuel();
-        lobbyMirrored = new LobbyMirroredDuel();
-        lobbyPractice = new LobbyPractice();
-        lobbyCooperative = new LobbyCooperative();
-        lobbyTeam = new LobbyTeam();
-
-        //ratingDumpTemp();
+        instance = new Server(useTls);
     }
 
-    private static void ratingDumpTemp() {
-        System.out.println("Begining ratings dump...");
-        dbm.getScoreDump();
-        System.out.println("Dumping complete.");
-
-    }
+//    private void ratingDumpTemp() {
+//        System.out.println("Beginning ratings dump...");
+//        dbm.getScoreDump();
+//        System.out.println("Dumping complete.");
+//    }
 
     /////////////////////////////////////////////////////////////////
     // Add a player to the logins
     /////////////////////////////////////////////////////////////////
-    public static void addLogin(Player player) {
+    public void addLogin(Player player) {
         logins.add(player);
     }
 
@@ -100,7 +95,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Add a player to the server
     /////////////////////////////////////////////////////////////////
-    public static void add(Player player) {
+    public void add(Player player) {
         // Add the new player
         players.add(player);
 
@@ -117,7 +112,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Remove a player from logins
     /////////////////////////////////////////////////////////////////
-    public static void removeLogin(Player player) {
+    public void removeLogin(Player player) {
         logins.remove(player);
     }
 
@@ -125,7 +120,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Remove a player
     /////////////////////////////////////////////////////////////////
-    public static void remove(Player player) {
+    public void remove(Player player) {
         players.remove(player);
 
         Vector<Player> players = getPlayers();
@@ -140,7 +135,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Add a player to the lobby
     /////////////////////////////////////////////////////////////////
-    public static void addToLobby(Player player) {
+    public void addToLobby(Player player) {
         lobby.add(player);
     }
 
@@ -148,14 +143,14 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Add a player to the Random Duel lobby
     /////////////////////////////////////////////////////////////////
-    public static void addToDuelLobby(Player player) {
+    public void addToDuelLobby(Player player) {
         lobbyDuel.add(player);
     }
 
     /////////////////////////////////////////////////////////////////
     // Add a player to the Mirrored Random lobby
     /////////////////////////////////////////////////////////////////
-    public static void addToMirrDuelLobby(Player player) {
+    public void addToMirrDuelLobby(Player player) {
         lobbyMirrored.add(player);
     }
 
@@ -163,7 +158,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Add a player to the lobby
     /////////////////////////////////////////////////////////////////
-    public static void addToPracticeLobby(Player player) {
+    public void addToPracticeLobby(Player player) {
         lobbyPractice.add(player);
     }
 
@@ -171,7 +166,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Add a player to the lobby
     /////////////////////////////////////////////////////////////////
-    public static void addToCooperativeLobby(Player player) {
+    public void addToCooperativeLobby(Player player) {
         lobbyCooperative.add(player);
     }
 
@@ -179,15 +174,15 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Add a player to the lobby
     /////////////////////////////////////////////////////////////////
-    public static void addToTeamLobby(Player player) {
+    public void addToTeamLobby(Player player) {
         lobbyTeam.add(player);
     }
 
-    public static void addToNextTeamGame(Player player, short team) {
+    public void addToNextTeamGame(Player player, short team) {
         lobbyTeam.addToGame(player, team);
     }
 
-    public static void startTeamGame() {
+    public void startTeamGame() {
         lobbyTeam.startGame();
     }
 
@@ -195,7 +190,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Check for player
     /////////////////////////////////////////////////////////////////
-    public static Player checkForPlayer(String playerName) {
+    public Player checkForPlayer(String playerName) {
         // Check for a player
         Vector<Player> players = getPlayers();
         Iterator<Player> it = players.iterator();
@@ -212,7 +207,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get the player count
     /////////////////////////////////////////////////////////////////
-    public static short getPlayerCount() {
+    public short getPlayerCount() {
         return (byte) players.size();
     }
 
@@ -220,7 +215,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get the chat id
     /////////////////////////////////////////////////////////////////
-    public static int getChatID() {
+    public int getChatID() {
         return random.nextInt(30000);
     }
 
@@ -228,7 +223,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get the players
     /////////////////////////////////////////////////////////////////
-    public static Vector<Player> getPlayers() {
+    public Vector<Player> getPlayers() {
         return players;
     }
 
@@ -236,7 +231,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get the players logging in
     /////////////////////////////////////////////////////////////////
-    public static Player getPlayerChat(int id) {
+    public Player getPlayerChat(int id) {
         // Find a player with the right chat ID
         Vector<Player> players = getPlayers();
         Iterator<Player> it = players.iterator();
@@ -252,7 +247,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get the players logging in
     /////////////////////////////////////////////////////////////////
-    public static Vector<Player> getLogins() {
+    public Vector<Player> getLogins() {
         return logins;
     }
 
@@ -260,7 +255,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Send text to players
     /////////////////////////////////////////////////////////////////
-    public static void sendText(Player sender, String rawMessage) {
+    public void sendText(Player sender, String rawMessage) {
         String message = rawMessage;
 
         // is it an admin announcement?
@@ -287,7 +282,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Send a rating update
     /////////////////////////////////////////////////////////////////
-    public static void sendRating(Player updatePlayer) {
+    public void sendRating(Player updatePlayer) {
         // Find a player with the right chat ID
         Vector<Player> players = getPlayers();
         Iterator<Player> it = players.iterator();
@@ -301,7 +296,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Send a rating update
     /////////////////////////////////////////////////////////////////
-    public static void sendState(Player updatePlayer, short sentState) {
+    public void sendState(Player updatePlayer, short sentState) {
         try {
             short newState = sentState;
             if (newState == Action.CHAT_CHATTING) {
@@ -331,15 +326,15 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get a seed
     /////////////////////////////////////////////////////////////////
-    public static long getSeed() {
+    public long getSeed() {
         return random.nextLong();
     }
 
 
     /////////////////////////////////////////////////////////////////
-    // Randomy
+    // Random
     /////////////////////////////////////////////////////////////////
-    public static Random random() {
+    public Random random() {
         return random;
     }
 
@@ -347,7 +342,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get a random unit
     /////////////////////////////////////////////////////////////////
-    public static short getRandomUnit() {
+    public short getRandomUnit() {
         int tier = getTier();
         while (tier > 8) tier = getTier();
         return Unit.UNITS[tier][random.nextInt(Unit.UNITS[tier].length)];
@@ -357,7 +352,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get a random number
     /////////////////////////////////////////////////////////////////
-    public static int getTier() {
+    public int getTier() {
         int tier = 0;
         while (random.nextInt(3) > 0)
             tier++;
@@ -368,7 +363,7 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get a random unit of a specific tier
     /////////////////////////////////////////////////////////////////
-    public static short getRandomUnit(short tier) {
+    public short getRandomUnit(short tier) {
         return Unit.UNITS[tier][random.nextInt(Unit.UNITS[tier].length)];
     }
 
@@ -376,18 +371,18 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     // Get the database manager
     /////////////////////////////////////////////////////////////////
-    public static DatabaseManager getDB() {
+    public DatabaseManager getDB() {
         return dbm;
     }
 
     /////////////////////////////////////////////////////////
     // Functions for the game list
     /////////////////////////////////////////////////////////
-    public static Vector<ServerGame> gameListMulti() {
+    public Vector<ServerGame> gameListMulti() {
         return gameListMulti;
     }
 
-    public static Vector<PracticeGame> gameListSingle() {
+    public Vector<PracticeGame> gameListSingle() {
         return gameListSingle;
     }
 }

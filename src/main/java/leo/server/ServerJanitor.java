@@ -22,12 +22,14 @@ public class ServerJanitor implements Runnable {
     // Properties
     /////////////////////////////////////////////////////////////////
     private final Thread runner;
+    private final Server server;
 
 
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public ServerJanitor() {
+    public ServerJanitor(Server server) {
+        this.server = server;
         runner = new Thread(this, "ServerJanitorThread");
         runner.start();
     }
@@ -45,7 +47,7 @@ public class ServerJanitor implements Runnable {
         int timer;
         while (true) {
             try {
-                players = Server.getPlayers();
+                players = server.getPlayers();
                 for (int i = 0; i < players.size(); i++) {
                     Player player = (Player) players.elementAt(i);
                     player.getUser().checkIdle();
@@ -64,7 +66,7 @@ public class ServerJanitor implements Runnable {
                 } else {
                     cycle++;
                 }
-                Server.getDB().ping();
+                server.getDB().ping();
                 Thread.sleep(60000);
             } catch (Exception e) {
                 Log.error("Janitor: " + e);

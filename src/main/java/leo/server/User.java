@@ -31,7 +31,7 @@ public class User implements Runnable {
     /////////////////////////////////////////////////////////////////
     private static final String SUBSCRIBE = "http://www.chroniclogic.com/cgi-bin/add_email.pl?email=";
     private static final String REFER = "http://www.chroniclogic.com/cgi-bin/940938_zat_invite.pl?to=";
-
+    private final Server server;
 
     /////////////////////////////////////////////////////////////////
     // Properties
@@ -60,8 +60,9 @@ public class User implements Runnable {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public User(Socket newSocket) {
-        chatID = Server.getChatID();
+    public User(Server server, Socket newSocket) {
+        this.server = server;
+        chatID = server.getChatID();
         socket = newSocket;
         runner = new Thread(this, "UserThread");
         runner.start();
@@ -233,7 +234,7 @@ public class User implements Runnable {
     // Send the players
     /////////////////////////////////////////////////////////////////
     private void sendPlayers() {
-        Vector<Player> players = Server.getPlayers();
+        Vector<Player> players = server.getPlayers();
         Iterator<Player> it = players.iterator();
         while (it.hasNext()) {
             Player tmpPlayer = it.next();
@@ -290,25 +291,25 @@ public class User implements Runnable {
         cancelled = true;
         waiting = false;
         if (game instanceof PracticeGame)
-            Server.sendState(getPlayer(), Action.CHAT_FIGHTING_SINGLE);
+            server.sendState(getPlayer(), Action.CHAT_FIGHTING_SINGLE);
         else if (game instanceof CoopGame)
-            Server.sendState(getPlayer(), Action.CHAT_FIGHTING_COOP);
+            server.sendState(getPlayer(), Action.CHAT_FIGHTING_COOP);
         else if (game instanceof TeamGame)
-            Server.sendState(getPlayer(), Action.CHAT_FIGHTING_2V2);
+            server.sendState(getPlayer(), Action.CHAT_FIGHTING_2V2);
         else if (game instanceof ServerGame) {
             switch (((ServerGame) game).getGameType()) {
                 case Action.GAME_CONSTRUCTED:
-                    Server.sendState(getPlayer(), Action.CHAT_FIGHTING_CONS);
+                    server.sendState(getPlayer(), Action.CHAT_FIGHTING_CONS);
                     break;
                 case Action.GAME_RANDOM:
-                    Server.sendState(getPlayer(), Action.CHAT_FIGHTING_RAND);
+                    server.sendState(getPlayer(), Action.CHAT_FIGHTING_RAND);
                     break;
                 case Action.GAME_MIRRORED_RANDOM:
-                    Server.sendState(getPlayer(), Action.CHAT_FIGHTING_MIRR_RAND);
+                    server.sendState(getPlayer(), Action.CHAT_FIGHTING_MIRR_RAND);
                     break;
             }
         } else
-            Server.sendState(getPlayer(), Action.CHAT_DISABLE);
+            server.sendState(getPlayer(), Action.CHAT_DISABLE);
     }
 
 
@@ -318,7 +319,7 @@ public class User implements Runnable {
     public void endGame() {
         game = null;
         waiting = false;
-        Server.sendState(getPlayer(), Action.CHAT_CHATTING);
+        server.sendState(getPlayer(), Action.CHAT_CHATTING);
     }
 
 
@@ -365,7 +366,7 @@ public class User implements Runnable {
 
             // Are they creating a new account?
             if (login.isNewAccount() == LoginAttempt.EXISTING_OR_NEW) {
-                boolean newbie = Server.getDB().checkPlayer(login.getUsername());
+                boolean newbie = server.getDB().checkPlayer(login.getUsername());
 
                 if (newbie)
                     player = getExistingPlayer(login);
@@ -373,9 +374,9 @@ public class User implements Runnable {
                     player = createNewPlayer(login);
 
                 if (player == null) return;
-                Player existing = Server.checkForPlayer(login.getUsername());
+                Player existing = server.checkForPlayer(login.getUsername());
                 if (existing != null) {
-                    Server.remove(existing);
+                    server.remove(existing);
                     //existing.getUser().close();
                     oldUser = existing.getUser();
                     oldUser.sendAction(Action.QUIT, Action.NOTHING, Action.NOTHING);
@@ -397,9 +398,9 @@ public class User implements Runnable {
                 if (player == null) {
                     return;
                 }
-                Player existing = Server.checkForPlayer(login.getUsername());
+                Player existing = server.checkForPlayer(login.getUsername());
                 if (existing != null) {
-                    Server.remove(existing);
+                    server.remove(existing);
                     //existing.getUser().close();
                     oldUser = existing.getUser();
                     oldUser.sendAction(Action.QUIT, Action.NOTHING, Action.NOTHING);
@@ -417,23 +418,23 @@ public class User implements Runnable {
             if (player == null) return;
 
             // get the fb chat name
-            player.setChatName(Server.getDB().getChatName(player.getName()));
+            player.setChatName(server.getDB().getChatName(player.getName()));
 
             // Set the user object
             player.setUser(this);
 
             // Wait for chat
-            Server.addLogin(player);
+            server.addLogin(player);
             while (chat == null) {
                 Thread.sleep(100);
             }
-            Server.removeLogin(player);
+            server.removeLogin(player);
 
             // Tell them who is on
             sendPlayers();
 
             // Add the player to the server
-            Server.add(player);
+            server.add(player);
 
             if (!validateCastle(player.getStartingCastle())) {
                 Log.alert(player.getName() + " had an invalid castle");
@@ -470,7 +471,7 @@ public class User implements Runnable {
                     startGame(orphan);
                     orphan.resynch();
                 } else {
-                    Server.sendState(getPlayer(), Action.CHAT_CHATTING);
+                    server.sendState(getPlayer(), Action.CHAT_CHATTING);
                 }
             }
 
@@ -478,7 +479,7 @@ public class User implements Runnable {
                 sendAction(Action.NOOB, Action.NOTHING, Action.NOTHING);
             }
 
-            Server.sendText(player, "*** " + player.getChatName() + " has entered the chatroom ***");
+            server.sendText(player, "*** " + player.getChatName() + " has entered the chatroom ***");
             while (active && !retired) {
                 idle = true;
                 short request = dis.readShort();
@@ -507,7 +508,7 @@ public class User implements Runnable {
                         game.interrupt(player);
                     }
 
-                    Server.sendState(getPlayer(), Action.CHAT_DISABLE);
+                    server.sendState(getPlayer(), Action.CHAT_DISABLE);
 
                     Thread.sleep(20000);
                     if (!retired) {
@@ -529,8 +530,8 @@ public class User implements Runnable {
     public void quit() {
         close();
         if (player != null) {
-            Server.sendText(player, "*** " + player.getChatName() + " has left the game ***");
-            Server.remove(player);
+            server.sendText(player, "*** " + player.getChatName() + " has left the game ***");
+            server.remove(player);
             player.save();
         }
     }
@@ -564,12 +565,12 @@ public class User implements Runnable {
 
                 case Action.CHATTING:
                     editing = false;
-                    Server.sendState(getPlayer(), Action.CHAT_CHATTING);
+                    server.sendState(getPlayer(), Action.CHAT_CHATTING);
                     break;
 
                 case Action.EDIT_ARMY:
                     editing = true;
-                    Server.sendState(getPlayer(), Action.CHAT_EDIT);
+                    server.sendState(getPlayer(), Action.CHAT_EDIT);
                     break;
 
                 case Action.TOP_SCORES:
@@ -578,7 +579,7 @@ public class User implements Runnable {
                     dos.writeShort(Action.TOP_SCORES);
                     dos.writeShort(Action.NOTHING);
                     dos.writeShort(Action.NOTHING);
-                    dos.writeUTF(Server.getDB().topScores());
+                    dos.writeUTF(server.getDB().topScores());
                     break;
 
                 case Action.NEED_EMAIL:
@@ -589,7 +590,7 @@ public class User implements Runnable {
                 case Action.NO_REFERRAL:
 
                     // check for referral rewards
-                    int referrals = Server.getDB().getReferrals(player.getName());
+                    int referrals = server.getDB().getReferrals(player.getName());
                     if (referrals > 0) {
                         Log.activity(player.getName() + " cashed in " + referrals + " referrals");
                         player.setGold(player.getGold() + (5000 * referrals));
@@ -635,13 +636,14 @@ public class User implements Runnable {
                     break;
 
                 case Action.REGISTER:
-                    register(dis.readUTF());
+                    // TODO remove registration altogether (or replace with promo mechanism)
+//                    register(dis.readUTF());
                     break;
 
                 case Action.JOIN:
                     if (initializeGame()) {
                         Log.activity("" + player.getName() + " has entered the lobby.");
-                        Server.sendState(getPlayer(), Action.CHAT_WAITING_CONS);
+                        server.sendState(getPlayer(), Action.CHAT_WAITING_CONS);
                         waitingGame = Action.CHAT_WAITING_CONS;
                     }
                     waiting = true;
@@ -660,7 +662,7 @@ public class User implements Runnable {
 
                 case Action.JOIN_DUEL:
                     if (initializeDuelGame()) {
-                        Server.sendState(getPlayer(), Action.CHAT_WAITING_RAND);
+                        server.sendState(getPlayer(), Action.CHAT_WAITING_RAND);
                         Log.activity(player.getName() + " has entered the duel lobby.");
                         waitingGame = Action.CHAT_WAITING_RAND;
                     }
@@ -670,7 +672,7 @@ public class User implements Runnable {
 
                 case Action.JOIN_MIRRORED_DUEL:
                     if (initializeMirrDuelGame()) {
-                        Server.sendState(getPlayer(), Action.CHAT_WAITING_RAND);
+                        server.sendState(getPlayer(), Action.CHAT_WAITING_RAND);
                         Log.activity(player.getName() + " has entered the mirrored duel lobby.");
                         waitingGame = Action.CHAT_WAITING_RAND;
                     }
@@ -689,7 +691,7 @@ public class User implements Runnable {
 
                 case Action.COOPERATIVE:
                     if (initializeCooperativeGame()) {
-                        Server.sendState(getPlayer(), Action.CHAT_WAITING_COOP);
+                        server.sendState(getPlayer(), Action.CHAT_WAITING_COOP);
                         waitingGame = Action.CHAT_WAITING_COOP;
                     }
                     waiting = true;
@@ -699,7 +701,7 @@ public class User implements Runnable {
 
                 case Action.TEAM:
                     if (initializeTeamGame()) {
-                        Server.sendState(getPlayer(), Action.CHAT_WAITING_2V2);
+                        server.sendState(getPlayer(), Action.CHAT_WAITING_2V2);
                         waitingGame = Action.CHAT_WAITING_2V2;
                     }
                     waiting = true;
@@ -707,14 +709,14 @@ public class User implements Runnable {
                     break;
 
                 case Action.SELECT_TEAM:
-                    Server.addToNextTeamGame(getPlayer(), dis.readShort());
+                    server.addToNextTeamGame(getPlayer(), dis.readShort());
                     short check = dis.readShort();
                     if (check != Action.NOTHING)
                         Log.error("Weird things happening with selecting team");
                     break;
 
                 case Action.START_TEAM_GAME:
-                    Server.startTeamGame();
+                    server.startTeamGame();
                     short check1 = dis.readShort();
                     short check2 = dis.readShort();
                     if (check1 != Action.NOTHING && check2 != Action.NOTHING)
@@ -729,7 +731,7 @@ public class User implements Runnable {
                 case Action.REFER_FRIEND:
                     try {
                         String address = dis.readUTF();
-                        if (Server.getDB().insertReferral(player.getName(), address)) {
+                        if (server.getDB().insertReferral(player.getName(), address)) {
                             Log.activity(player.getName() + " referring " + address);
                             URL url = new URL(REFER + address + "&from=" + player.getEmail());
                             url.openConnection();
@@ -1035,7 +1037,7 @@ public class User implements Runnable {
                 *   */
                 player.setPassword(newPassword);
                 player.save();
-                player.setPasswordHashed(Server.getDB().getPasswordHashed(player.getName()));
+                player.setPasswordHashed(server.getDB().getPasswordHashed(player.getName()));
                 dos.writeShort(Action.NEW_PASSWORD);
                 dos.writeShort(Action.NOTHING);
                 dos.writeShort(Action.NOTHING);
@@ -1056,7 +1058,7 @@ public class User implements Runnable {
     /////////////////////////////////////////////////////////////////
     private Player getExistingPlayer(LoginAttempt login) throws Exception {
         try {
-            Player newPlayer = new Player(login.getUsername());
+            Player newPlayer = new Player(server.getDB(), login.getUsername());
             if (!newPlayer.loaded()) {
                 Log.activity("Login username not found: " + login.getUsername());
                 dos.writeInt(LoginResponse.FAIL_NOT_EXIST);
@@ -1090,17 +1092,18 @@ public class User implements Runnable {
     private Player createNewPlayer(LoginAttempt login) throws Exception {
         try {
             // Does the file already exist?
-            if (Server.getDB().playerExists(login.getUsername())) {
+            if (server.getDB().playerExists(login.getUsername())) {
                 dos.writeInt(LoginResponse.FAIL_ACCOUNT_EXISTS);
                 dos.writeInt(0);
                 return null;
             }
 
             // Create the new player object
-            Player newPlayer = new Player(login.getUsername(), login.getPassword(), login.getEmail());
+            Player newPlayer = new Player(server.getDB(), login.getUsername(), login.getPassword(), login.getEmail());
 
             // Save the player object
             newPlayer.save();
+            server.sendRating(newPlayer);
 
             if (login.newsletter()) {
                 // if they want a newsletter, give it to'm
@@ -1131,7 +1134,7 @@ public class User implements Runnable {
     // Initialize the game
     /////////////////////////////////////////////////////////////////
     public boolean initializeGame() {
-        Server.addToLobby(player);
+        server.addToLobby(player);
         return true;
     }
 
@@ -1139,7 +1142,7 @@ public class User implements Runnable {
     // Initialize the mirrored random game
     /////////////////////////////////////////////////////////////////
     public boolean initializeMirrDuelGame() {
-        Server.addToMirrDuelLobby(player);
+        server.addToMirrDuelLobby(player);
         return true;
     }
 
@@ -1148,7 +1151,7 @@ public class User implements Runnable {
     // Initialize the game
     /////////////////////////////////////////////////////////////////
     public boolean initializePracticeGame() {
-        Server.addToPracticeLobby(player);
+        server.addToPracticeLobby(player);
         return true;
     }
 
@@ -1157,7 +1160,7 @@ public class User implements Runnable {
     // Initialize the game
     /////////////////////////////////////////////////////////////////
     public boolean initializeCooperativeGame() {
-        Server.addToCooperativeLobby(player);
+        server.addToCooperativeLobby(player);
         return true;
     }
 
@@ -1166,7 +1169,7 @@ public class User implements Runnable {
     // Initialize the game
     /////////////////////////////////////////////////////////////////
     public boolean initializeTeamGame() {
-        Server.addToTeamLobby(player);
+        server.addToTeamLobby(player);
         return true;
     }
 
@@ -1175,7 +1178,7 @@ public class User implements Runnable {
     // Initialize the game
     /////////////////////////////////////////////////////////////////
     public boolean initializeDuelGame() {
-        Server.addToDuelLobby(player);
+        server.addToDuelLobby(player);
         return true;
     }
 
@@ -1253,7 +1256,7 @@ public class User implements Runnable {
         try {
             cancelled = true;
             waiting = false;
-            Server.sendState(getPlayer(), Action.CHAT_CHATTING);
+            server.sendState(getPlayer(), Action.CHAT_CHATTING);
             //sendAction(Action.CANCEL, Action.NOTHING, Action.NOTHING);
         } catch (Exception e) {
             Log.error("User.cancel");
@@ -1325,7 +1328,7 @@ public class User implements Runnable {
                 if (!wentIdle) {
                     Log.activity("Idle player " + getPlayer().getName());
                     wentIdle = true;
-                    Server.sendState(getPlayer(), Action.IDLE);
+                    server.sendState(getPlayer(), Action.IDLE);
                     //disconnect = false;
                     //close();
                 }
@@ -1334,7 +1337,7 @@ public class User implements Runnable {
             else if (wentIdle) {
                 wentIdle = false;
                 if (!waiting && !editing)
-                    Server.sendState(getPlayer(), Action.CHAT_CHATTING);
+                    server.sendState(getPlayer(), Action.CHAT_CHATTING);
             }
         }
 
@@ -1357,7 +1360,7 @@ public class User implements Runnable {
             wentIdle = false;
             if (game == null)
                 if (!waiting && !editing)
-                    Server.sendState(getPlayer(), Action.CHAT_CHATTING);
+                    server.sendState(getPlayer(), Action.CHAT_CHATTING);
         }
     }
 
@@ -1377,10 +1380,10 @@ public class User implements Runnable {
             sendGold();
 
             // Do the unit
-            short unit = Server.getRandomUnit();
+            short unit = server.getRandomUnit();
   /*Unit checker = Unit.getUnit(unit, new Castle());
   while (!getPlayer().access(checker.accessLevel())) {     // Code to limit purchase to unlocked units
-   unit = Server.getRandomUnit();
+   unit = server.getRandomUnit();
    checker = Unit.getUnit(unit, new Castle());
   }*/
             if (player.getUnits()[unit] < 100)

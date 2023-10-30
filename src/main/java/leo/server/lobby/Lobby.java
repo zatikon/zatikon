@@ -26,12 +26,14 @@ public class Lobby implements Runnable {
     private final Thread runner;
     private final Vector<Player> players = new Vector<Player>();
     private final Stack<Player> removes = new Stack<Player>();
+    private final Server server;
 
 
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public Lobby() {
+    public Lobby(Server server) {
+        this.server = server;
         runner = new Thread(this, "LobbyThread");
         runner.start();
     }
@@ -42,7 +44,7 @@ public class Lobby implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void add(Player newPlayer) {
         players.add(newPlayer);
-        Server.sendText(newPlayer, "*** " + newPlayer.getChatName() + " is looking for a constructed game ***");
+        server.sendText(newPlayer, "*** " + newPlayer.getChatName() + " is looking for a constructed game ***");
     }
 
 
@@ -73,20 +75,20 @@ public class Lobby implements Runnable {
                     if (player2 != null) {
                         // If player 1's rating is lower...
                         if (player1.getRating() < player2.getRating()) {
-                            ServerGame newGame = new ServerGame(player1, player2, ServerGame.MATCH, true, false, false);
+                            ServerGame newGame = new ServerGame(server, player1, player2, ServerGame.MATCH, true, false, false);
                         } else if (player2.getRating() < player1.getRating()) {
-                            ServerGame newGame = new ServerGame(player2, player1, ServerGame.MATCH, true, false, false);
+                            ServerGame newGame = new ServerGame(server, player2, player1, ServerGame.MATCH, true, false, false);
                         } else if (player1.getRating() == player2.getRating()) {
-                            if (Server.random().nextInt(2) == 0) {
-                                ServerGame newGame = new ServerGame(player1, player2, ServerGame.MATCH, true, false, false);
+                            if (server.random().nextInt(2) == 0) {
+                                ServerGame newGame = new ServerGame(server, player1, player2, ServerGame.MATCH, true, false, false);
                             } else {
-                                ServerGame newGame = new ServerGame(player2, player1, ServerGame.MATCH, true, false, false);
+                                ServerGame newGame = new ServerGame(server, player2, player1, ServerGame.MATCH, true, false, false);
                             }
                         }
 
                         players.remove(player1);
                         players.remove(player2);
-                        Server.sendText(null, "*** Constructed game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
+                        server.sendText(null, "*** Constructed game started between " + player1.getChatName() + " and " + player2.getChatName() + " ***");
 
                         player1.getUser().sendText(Action.CHAT_WHISPER, player2, "Hi, I'm your opponent in a constructed game.");
                         player2.getUser().sendText(Action.CHAT_WHISPER, player1, "Hi, I'm your opponent in a constructed game.");

@@ -39,7 +39,7 @@ public class Cheat {
 //            }
 
             player.setGold(newGold);
-            player.save(db);
+            player.save();
         }
     }
 }
