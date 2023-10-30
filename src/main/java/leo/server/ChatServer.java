@@ -23,13 +23,15 @@ public class ChatServer implements Runnable {
     private final int port;
     private final Thread runner;
     private final boolean useTls;
+    private final Server server;
     private ServerSocket serverSocket;
 
 
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public ChatServer(int newPort, boolean useTls) {
+    public ChatServer(Server server, int newPort, boolean useTls) {
+        this.server = server;
         this.port = newPort;
         this.useTls = useTls;
         runner = new Thread(this, "ChatServerThread");
@@ -58,7 +60,7 @@ public class ChatServer implements Runnable {
             try {
                 Socket socket = serverSocket.accept();
                 Log.system("Chat login received at: " + socket.getInetAddress());
-                ChatUser user = new ChatUser(socket);
+                ChatUser user = new ChatUser(server, socket);
                 Thread.sleep(10);
             } catch (Exception e) {
             }

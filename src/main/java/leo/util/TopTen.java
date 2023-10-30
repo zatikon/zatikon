@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////
 package leo.util;
 
+import leo.server.DatabaseManager;
 import leo.server.Player;
 import org.tinylog.Logger;
 
@@ -31,6 +32,7 @@ public class TopTen {
     private static int count = 0;
     private static int lastRating = -1;
 
+    private static DatabaseManager db;
 
     /////////////////////////////////////////////////////////////////
     // Main module
@@ -38,6 +40,8 @@ public class TopTen {
     public static void main() {
         long t1, t2, dt;
         Date time;
+
+        db = new DatabaseManager();
 
         while (active) {
             try {
@@ -203,7 +207,7 @@ public class TopTen {
 			Player newPlayer = (Player) fois.readObject();
 			*/
 
-            Player newPlayer = new Player(name);
+            Player newPlayer = new Player(db, name);
 
             // All ok
             return newPlayer;

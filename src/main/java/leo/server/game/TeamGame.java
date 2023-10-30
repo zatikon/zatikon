@@ -23,6 +23,7 @@ public class TeamGame implements Game {
     /////////////////////////////////////////////////////////////////
     private static final int MIN_TURNS = 4;
     private static final int MIN_ACTIONS = 4;
+    private final Server server;
 
 
     /////////////////////////////////////////////////////////////////
@@ -54,9 +55,10 @@ public class TeamGame implements Game {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public TeamGame(Player newPlayer1, Player newPlayer2, Player newPlayer3, Player newPlayer4) {
+    public TeamGame(Server server, Player newPlayer1, Player newPlayer2, Player newPlayer3, Player newPlayer4) {
+        this.server = server;
         // get a new seed
-        seed = Server.getSeed();
+        seed = server.getSeed();
 
         // set some variables
         player1 = newPlayer1;
@@ -269,35 +271,35 @@ public class TeamGame implements Game {
         if (validGame()) {
             if (winner == whiteCastle) {
                 // do some updates
-                if (player1.win(player2, false))
+                if (player1.win(server, player2, false))
                     player1.wipeStamp();
-                player1.win(player4, false);
-                if (player2.lose(player1, false))
+                player1.win(server, player4, false);
+                if (player2.lose(server, player1, false))
                     player2.wipeStamp();
-                player2.lose(player3, false);
-                if (player3.win(player2, false))
+                player2.lose(server, player3, false);
+                if (player3.win(server, player2, false))
                     player3.wipeStamp();
-                player3.win(player4, false);
-                if (player4.lose(player1, false))
+                player3.win(server, player4, false);
+                if (player4.lose(server, player1, false))
                     player4.wipeStamp();
-                player4.lose(player3, false);
+                player4.lose(server, player3, false);
                 Log.game(player1.getName() + " & " + player3.getName() + " defeated " + player2.getName() + " & " + player4.getName());
             }
 
             if (winner == redCastle) {
                 // do some updates
-                if (player1.lose(player2, false))
+                if (player1.lose(server, player2, false))
                     player1.wipeStamp();
-                player1.lose(player4, false);
-                if (player2.win(player1, false))
+                player1.lose(server, player4, false);
+                if (player2.win(server, player1, false))
                     player2.wipeStamp();
-                player2.win(player3, false);
-                if (player3.lose(player2, false))
+                player2.win(server, player3, false);
+                if (player3.lose(server, player2, false))
                     player3.wipeStamp();
-                player3.lose(player4, false);
-                if (player4.win(player1, false))
+                player3.lose(server, player4, false);
+                if (player4.win(server, player1, false))
                     player4.wipeStamp();
-                player4.win(player3, false);
+                player4.win(server, player3, false);
                 Log.game(player2.getName() + " & " + player4.getName() + " defeated " + player1.getName() + " & " + player3.getName());
             }
 

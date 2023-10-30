@@ -33,12 +33,14 @@ public class LobbyPractice implements Runnable {
     private final Vector<Player> players = new Vector<Player>();
     private final Stack<Player> removes = new Stack<Player>();
     private final int tutorial_level = 1;
+    private final Server server;
 
 
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public LobbyPractice() {
+    public LobbyPractice(Server server) {
+        this.server = server;
         runner = new Thread(this, "LobbyPracticeThread");
         runner.start();
     }
@@ -77,9 +79,9 @@ public class LobbyPractice implements Runnable {
                     Player player = players.elementAt(0);
                     PracticeGame pg;
                     TutorialGame tg;
-                    if (player.getLevel() > tutorial_level || BuildConfig.skipTutorial) pg = new PracticeGame(player);
-                    else tg = new TutorialGame(player);
-                    Server.sendText(player, "*** " + player.getChatName() + " is facing against the Artificial Opponent(" + player.getLevel() + ") ***");
+                    if (player.getLevel() > tutorial_level || BuildConfig.skipTutorial) pg = new PracticeGame(server, player);
+                    else tg = new TutorialGame(server, player);
+                    server.sendText(player, "*** " + player.getChatName() + " is facing against the Artificial Opponent(" + player.getLevel() + ") ***");
                     players.remove(player);
                 }
 

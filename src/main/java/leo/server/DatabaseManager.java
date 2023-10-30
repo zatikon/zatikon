@@ -248,7 +248,7 @@ public class DatabaseManager {
             ResultSet rs = statement.getResultSet();
             while (rs.next()) {
                 temp = rs.getString("username");
-                tempPlayer = new Player(temp);
+                tempPlayer = new Player(this, temp);
                 temp += ": " + rs.getString("rating");
                 temp += ", WinsVsHigher: " + tempPlayer.getWins();
                 temp += ", WinsVsLower: " + tempPlayer.getWinsToLower();

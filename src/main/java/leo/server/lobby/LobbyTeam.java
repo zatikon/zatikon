@@ -27,6 +27,7 @@ public class LobbyTeam implements Runnable {
     private final Thread runner;
     private final Stack<Player> players = new Stack<Player>();
     private final Stack<Player> removes = new Stack<Player>();
+    private final Server server;
     private Player T1P1 = null;
     private Player T1P2 = null;    // Players who have selected a team
     private Player T2P1 = null;
@@ -38,7 +39,8 @@ public class LobbyTeam implements Runnable {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public LobbyTeam() {
+    public LobbyTeam(Server server) {
+        this.server = server;
         runner = new Thread(this, "LobbyTeamThread");
         runner.start();
     }
@@ -49,7 +51,7 @@ public class LobbyTeam implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void add(Player newPlayer) {
         players.add(newPlayer);
-        Server.sendText(newPlayer, "*** " + newPlayer.getChatName() + " is looking for a team game ***");
+        server.sendText(newPlayer, "*** " + newPlayer.getChatName() + " is looking for a team game ***");
         sendSetupToPlayer(newPlayer);
     }
 
@@ -174,7 +176,7 @@ public class LobbyTeam implements Runnable {
             players.remove(T2P2);
 
             // Create the game
-            TeamGame tg = new TeamGame(T1P1, T2P1, T1P2, T2P2);
+            TeamGame tg = new TeamGame(server, T1P1, T2P1, T1P2, T2P2);
             T1P1.getUser().sendText(Action.CHAT_WHISPER, T1P2, "Hi, I'm your ally in a team game.");
             T1P2.getUser().sendText(Action.CHAT_WHISPER, T1P1, "Hi, I'm your ally in a team game.");
             T2P1.getUser().sendText(Action.CHAT_WHISPER, T2P2, "Hi, I'm your ally in a team game.");

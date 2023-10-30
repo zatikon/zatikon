@@ -40,6 +40,8 @@ public class Constants {
 
     public static final String READY_PID_FILE = Paths.get(LOCAL_DIR, SERVER_READY_PID_FILE_BASENAME).toString();
 
+    public static final long GOLD_TIMER = 90000;
+
     /////////////////////////////////////////////////////////////////
     // Constants
     /////////////////////////////////////////////////////////////////
