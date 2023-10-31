@@ -984,28 +984,29 @@ public class User implements Runnable {
     // Attempt to register
     /////////////////////////////////////////////////////////////////
     private void register(String rawkey) throws Exception {
-        String key = stripGarbage(rawkey);
+//        String key = stripGarbage(rawkey);
 
-        try {
-            short gameId = Server.getDB().register(player.getName(), key, player.getEmail());
-            if (gameId != Unit.FREE) {
-                Log.activity(player.getName() + " registered " + Unit.GAME_NAME[gameId]);
-                player.register(Server.getDB().refund(key), gameId);
-                sendGold();
-                sendRegistration(gameId);
-
-                dos.writeShort(Action.ACCEPT_KEY);
-                dos.writeShort(gameId);
-                dos.writeShort(Action.NOTHING);
-            } else {
-                dos.writeShort(Action.REJECT_KEY);
-                dos.writeShort(Action.NOTHING);
-                dos.writeShort(Action.NOTHING);
-            }
-        } catch (Exception e) {
-            Log.error("User.register");
-            throw e;
-        }
+//        try {
+//            short gameId = Server.getDB().register(player.getName(), key, player.getEmail());
+//            if (gameId != Unit.FREE) {
+//                Log.activity(player.getName() + " registered " + Unit.GAME_NAME[gameId]);
+//                player.register(Server.getDB().refund(key), gameId);
+//                sendGold();
+//                sendRegistration(gameId);
+//
+//                dos.writeShort(Action.ACCEPT_KEY);
+//                dos.writeShort(gameId);
+//                dos.writeShort(Action.NOTHING);
+//            } else {
+        // todo for now we don't need registration, but later on it could be useful for a new feature
+        dos.writeShort(Action.REJECT_KEY);
+        dos.writeShort(Action.NOTHING);
+        dos.writeShort(Action.NOTHING);
+//            }
+//        } catch (Exception e) {
+//            Log.error("User.register");
+//            throw e;
+//        }
     }
 
 

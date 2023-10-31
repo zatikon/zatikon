@@ -14,10 +14,8 @@ package leo.server;
 
 import leo.shared.Constants;
 import leo.shared.Log;
-import leo.shared.Unit;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.LinkedList;
@@ -29,41 +27,12 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     // Constants
     /////////////////////////////////////////////////////////////////
-    private static final String WEBSCRIPT = "http://www.chroniclogic.com/cgi-bin/zat_noncl_reg.pl?keycode=";
-    private static final String NONCL = "FFFF";
     private static final String DB_DRIVER = "org.sqlite.JDBC";
 
     private static final String DB_PATH = Optional
             .ofNullable(System.getProperty("server.db.path"))
             .orElse(Constants.LOCAL_DIR + File.separator + "zatikon.db");
     private static final String DB_ADDRESS = "jdbc:sqlite://" + Path.of(DB_PATH).toAbsolutePath();
-
-    /////////////////////////////////////////////////////////////////
-    // Pubcons
-    /////////////////////////////////////////////////////////////////
-    public static final int NONE = -1;
-    public static final int CRUSADES = 9;
-    public static final int LEGIONS = 10;
-    public static final int INQUISITION = 11;
-
-
-    /////////////////////////////////////////////////////////////////
-    // Get the keycode field
-    /////////////////////////////////////////////////////////////////
-    private static String getKeycodeColumn(int gameId) {
-        switch (gameId) {
-            case CRUSADES:
-                return "keycode";
-
-            case LEGIONS:
-                return "keycodeLegions";
-
-            case INQUISITION:
-                return "keycodeInquisition";
-
-        }
-        return "error";
-    }
 
 
     /////////////////////////////////////////////////////////////////
@@ -86,31 +55,28 @@ public class DatabaseManager {
 
     private void prepare() {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("CREATE TABLE if not exists `players` (\n" +
-                                                                              "  `username` varchar(20) NOT NULL default '',\n" +
-                                                                              "  `password` varchar(64) NOT NULL default '',\n" +
-                                                                              "  `salt` blob NOT NULL default '',\n" +
-                                                                              "  `rating` int(11) NOT NULL default '0',\n" +
-                                                                              "  `data` blob NOT NULL,\n" +
-                                                                              "  `keycode` varchar(64) default NULL,\n" +
-                                                                              "  `email` varchar NOT NULL,\n" +
-                                                                              "  `keycodeLegions` varchar(64) default NULL,\n" +
-                                                                              "  `keycodeInquisition` varchar(64) default NULL,\n" +
-                                                                              "  `joined` varchar,\n" +
-                                                                              "  PRIMARY KEY  (`username`)\n" +
-                                                                              ")");
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+                    CREATE TABLE if not exists `players` (
+                      `username` varchar(20) NOT NULL default '',
+                      `password` varchar(64) NOT NULL default '',
+                      `salt` blob NOT NULL default '',
+                      `rating` int(11) NOT NULL default '0',
+                      `data` blob NOT NULL,
+                      `keycode` varchar(64) default NULL,
+                      `email` varchar NOT NULL,
+                      `keycodeLegions` varchar(64) default NULL,
+                      `keycodeInquisition` varchar(64) default NULL,
+                      `joined` varchar,
+                      PRIMARY KEY  (`username`)
+                    )""");
 
 
             preparedStatement.execute();
 
-//            preparedStatement = connection.prepareStatement("create table if not exists `referrals` (email varchar, username varchar, registered int, primary key (username))");
-
             connection.createStatement().execute("create table if not exists `referrals` (email varchar, username varchar, registered int, primary key (username))");
 
-//            preparedStatement.execute();
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }
@@ -162,7 +128,7 @@ public class DatabaseManager {
 
             //connection.close();
         } catch (Exception e) {
-            Log.error("DatabaseManager.insertRefferal " + e);
+            Log.error("DatabaseManager.insertReferral " + e);
             return false;
         }
         return true;
@@ -204,40 +170,15 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     // Get the player data
     /////////////////////////////////////////////////////////////////
-    public boolean refund(String keycode) throws Exception {
-        boolean result = false;
-        try {
-            // open a connection
-            //Connection connection = initialize();
-
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT keycode FROM refunds WHERE keycode = '" + keycode + "'");
-            ResultSet rs = statement.getResultSet();
-
-            result = rs.next();
-
-            rs.close();
-
-            //connection.close();
-        } catch (Exception e) {
-            Log.error("DatabaseManager.refund");
-            throw e;
-        }
-        return result;
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Get the player data
-    /////////////////////////////////////////////////////////////////
     public boolean playerExists(String name) throws Exception {
-        boolean result = false;
+        boolean result;
         try {
             // open a connection
             //Connection connection = initialize();
 
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT `username` FROM `players` WHERE `username` = '" + name + "'");
+            var statement = connection.prepareStatement("SELECT `username` FROM `players` WHERE `username` = ?");
+            statement.setString(1, name);
+            statement.execute();
             ResultSet rs = statement.getResultSet();
 
             result = rs.next();
@@ -257,7 +198,7 @@ public class DatabaseManager {
     // Get the top scores
     /////////////////////////////////////////////////////////////////
     public String topScores() throws Exception {
-        String scores = "";
+        StringBuilder scores = new StringBuilder();
 
         try {
             // open a connection
@@ -269,15 +210,15 @@ public class DatabaseManager {
             statement.execute(q);
             ResultSet rs = statement.getResultSet();
 
-            scores = scores + "<center><b>Top 20 Players</b></center>";
-            scores = scores + "<ol>";
+            scores.append("<center><b>Top 20 Players</b></center>");
+            scores.append("<ol>");
             while (rs.next()) {
-                scores = scores + "<li>";
-                scores = scores + rs.getString("username");
+                scores.append("<li>");
+                scores.append(rs.getString("username"));
                 //scores = scores + ": " + rs.getString("rating");
-                scores = scores + "</li>";
+                scores.append("</li>");
             }
-            scores = scores + "</ol>";
+            scores.append("</ol>");
 
             rs.close();
 
@@ -286,7 +227,7 @@ public class DatabaseManager {
             Log.error("DatabaseManager.topScores");
             throw e;
         }
-        return scores;
+        return scores.toString();
     }
 
 
@@ -297,7 +238,7 @@ public class DatabaseManager {
         try {
             FileWriter fstream = new FileWriter("StatDump.txt");
             PrintWriter out = new PrintWriter(fstream);
-            String temp = "USERNAME: RATING, Wins, Wins to Lower, Losses to Higher, Losses\n\n";
+            String temp; // = "USERNAME: RATING, Wins, Wins to Lower, Losses to Higher, Losses\n\n";
             //out.println(temp);
             Player tempPlayer;
             Statement statement = connection.createStatement();
@@ -326,9 +267,9 @@ public class DatabaseManager {
 
     public int getRating(String userName) {
         try {
-            Statement statement = connection.createStatement();
-            String q = "SELECT `rating` FROM `players` WHERE `username` = '" + userName + "'";
-            statement.execute(q);
+            PreparedStatement statement = connection.prepareStatement("SELECT `rating` FROM `players` WHERE `username` = ?");
+            statement.setString(1, userName);
+            statement.execute();
             ResultSet rs = statement.getResultSet();
             String temp = "";
             while (rs.next()) {
@@ -337,7 +278,7 @@ public class DatabaseManager {
             }
             return Integer.parseInt(temp);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
             return -1;
         }
     }
@@ -409,13 +350,14 @@ public class DatabaseManager {
     // Check for player
     /////////////////////////////////////////////////////////////////
     public boolean checkPlayer(String name) {
-        boolean result = false;
+        boolean result;
 
         try { // open a connection
             //Connection connection = initialize();
 
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT username FROM players WHERE username = '" + name + "'");
+            PreparedStatement statement = connection.prepareStatement("SELECT username FROM players WHERE username = ?");
+            statement.setString(1, name);
+            statement.execute();
             ResultSet rs = statement.getResultSet();
 
             result = rs.next();
@@ -439,8 +381,9 @@ public class DatabaseManager {
         try { // open a connection
             //Connection connection = initialize();
 
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT password FROM players WHERE username = '" + name + "'");
+            PreparedStatement statement = connection.prepareStatement("SELECT password FROM players WHERE username = ?");
+            statement.setString(1, name);
+            statement.execute();
             ResultSet rs = statement.getResultSet();
 
             while (rs.next()) {
@@ -502,8 +445,9 @@ public class DatabaseManager {
             //Connection connection = initialize();
 
             // count
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT email FROM referrals WHERE username = '" + name + "' AND registered = 1");
+            PreparedStatement statement = connection.prepareStatement("SELECT email FROM referrals WHERE username = ? AND registered = 1");
+            statement.setString(1, name);
+            statement.execute();
             ResultSet rs = statement.getResultSet();
 
             while (rs.next()) {
@@ -513,8 +457,8 @@ public class DatabaseManager {
 
             // delete
             if (count > 0) {
-                Statement st = connection.createStatement();
-                st.execute("DELETE FROM referrals WHERE username = '" + name + "' AND registered = 1");
+                PreparedStatement st = connection.prepareStatement("DELETE FROM referrals WHERE username = ? AND registered = 1");
+                st.execute();
             }
 
             //connection.close();
@@ -535,8 +479,9 @@ public class DatabaseManager {
         try { // open a connection
             //Connection connection = initialize();
 
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT email FROM players WHERE username = '" + name + "'");
+            PreparedStatement statement = connection.prepareStatement("SELECT email FROM players WHERE username = ?");
+            statement.setString(1, name);
+            statement.execute();
             ResultSet rs = statement.getResultSet();
 
             while (rs.next()) {
@@ -578,233 +523,6 @@ public class DatabaseManager {
         return rank;
     }
 
- /*public int getRank(Player owner)
- { int rank = 0;
-  try
-  { 
-   // open a connection
-   //Connection connection = initialize();
-   Server.sendRating(owner);
-   Statement statement = connection.createStatement();
-   statement.execute("SELECT rating FROM players WHERE username = '" + owner.getName() + "'");
-   ResultSet prs = statement.getResultSet();
-   int rating = -1;
-   while(prs.next())
-   { 
-      rating = prs.getInt("rating");
-   }
-   statement = connection.createStatement();
-   //statement.execute("select count(*) + 1 as rank from players where rating > " + rating + " and keycode is not null");
-   statement.execute("select count(*) + 1 as rank from players where rating > " + rating);
-   ResultSet rs = statement.getResultSet();
-   
-   while(rs.next())
-   { 
-    rank = rs.getInt("rank");
-   }
-   rs.close();
-   //connection.close();
-  } catch (Exception e)
-  {
-   Log.error("DatabaseManager.getRank " + e);
-  }
-  return rank;
- }*/
-
-    /////////////////////////////////////////////////////////////////
-    // Get the player data
-    /////////////////////////////////////////////////////////////////
-    public boolean getRegistration(String name, int gameId) throws Exception {
-        String keycodeColumn = getKeycodeColumn(gameId);
-        boolean result = false;
-
-        try { // open a connection
-            //Connection connection = initialize();
-
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT " + keycodeColumn + " FROM players WHERE username = '" + name + "'");
-            ResultSet rs = statement.getResultSet();
-
-            while (rs.next()) {
-                String keycode = rs.getString(keycodeColumn);
-                result = keycode != null;
-            }
-            rs.close();
-
-            //connection.close();
-        } catch (Exception e) {
-            Log.error("DatabaseManager.getRegistration");
-            throw e;
-        }
-        return result;
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Attempt to register
-    /////////////////////////////////////////////////////////////////
-    public short register(String name, String key, String email) throws Exception {
-        try {
-            String orderTable;
-            if (key.startsWith(NONCL)) {
-                noncl(key);
-                orderTable = "noncl_sales_orders";
-            } else
-                orderTable = "sales_orders";
-
-            int gameId = checkKeySale(key, orderTable);
-
-            // check if the key exists in the sales db
-            if (gameId == NONE) {
-                Log.alert(name + " attempted to register invalid key: " + key);
-                return Unit.FREE;
-            }
-
-            // make sure the key isn't in use
-            if (checkKeyUse(key, gameId)) {
-                Log.alert(name + " attempted register activated key: " + key);
-                return Unit.FREE;
-            }
-
-            // save the changes
-            saveRegistration(name, key, email, orderTable, gameId);
-            Log.activity(name + " has registered using key: " + key);
-
-            // all done
-            switch (gameId) {
-                case NONE:
-                    return Unit.FREE;
-
-                case CRUSADES:
-                    return Unit.CRUSADES;
-
-                case LEGIONS:
-                    return Unit.LEGIONS;
-
-                case INQUISITION:
-                    return Unit.INQUISITION;
-            }
-            return Unit.FREE;
-
-        } catch (Exception e) {
-            Log.error("DatabaseManager.register");
-            throw e;
-        }
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Check to make sure the key has been sold
-    /////////////////////////////////////////////////////////////////
-    private void saveRegistration(String name, String key, String email, String orderTable, int gameId) throws Exception {
-        try {
-            String keycodeColumn = getKeycodeColumn(gameId);
-
-            // open a connection
-            //Connection connection = initialize();
-
-            // the player database
-            PreparedStatement ps = connection.prepareStatement("UPDATE players SET " + keycodeColumn + " = ? WHERE username = '" + name + "'");
-            ps.setString(1, key);
-            ps.execute();
-            ps.close();
-
-            // sales.orders
-            PreparedStatement ps2 = connection.prepareStatement("UPDATE " + orderTable + " SET activated = ? WHERE keycode = '" + key + "'");
-            ps2.setInt(1, 1);
-            ps2.execute();
-            ps2.close();
-
-            // referrals
-            PreparedStatement ps3 = connection.prepareStatement("UPDATE referrals SET registered = ? WHERE email = '" + email + "'");
-            ps3.setInt(1, 1);
-            ps3.execute();
-            ps3.close();
-
-            //connection.close();
-        } catch (Exception e) {
-            Log.error("DatabaseManager.saveRegistration");
-            throw e;
-        }
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Check to make sure the key exists
-    /////////////////////////////////////////////////////////////////
-    private int checkKeySale(String key, String orderTable) throws Exception {
-        int result = NONE;
-        try { // open a connection
-            //Connection connection = initialize();
-
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT keycode, game_id FROM " + orderTable + " WHERE keycode = '" + key + "' AND activated = 0");
-            ResultSet rs = statement.getResultSet();
-
-            while (rs.next()) {
-                result = rs.getInt("game_id");
-            }
-
-            rs.close();
-            //connection.close();
-        } catch (Exception e) {
-            Log.error("DatabaseManager.checkKeySale");
-            throw e;
-        }
-        return result;
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Make sure the key isn't used by someone else
-    /////////////////////////////////////////////////////////////////
-    private boolean checkKeyUse(String key, int gameId) throws Exception {
-        // get the keycode field
-        String keycodeField = getKeycodeColumn(gameId);
-
-        boolean result = false;
-        try { // open a connection
-            //Connection connection = initialize();
-
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT " + keycodeField + " FROM players WHERE " + keycodeField + " = '" + key + "'");
-            ResultSet rs = statement.getResultSet();
-
-            result = rs.next();
-
-            rs.close();
-            //connection.close();
-        } catch (Exception e) {
-            Log.error("DatabaseManager.checkKeyUse");
-            throw e;
-        }
-        return result;
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    // valid email
-    /////////////////////////////////////////////////////////////////
-    public boolean validEmail(String address) {
-        String lowered = address.toLowerCase();
-        return lowered.matches(".+@.+\\.[a-z]{2,4}");
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Run the noncl script
-    /////////////////////////////////////////////////////////////////
-    private void noncl(String keycode) {
-        try {
-            URL url = new URL(WEBSCRIPT + keycode);
-            url.openConnection();
-            Object nothing = url.getContent();
-        } catch (Exception e) {
-            Log.error("DatabaseManager.noncl " + e);
-        }
-    }
-
-
     /////////////////////////////////////////////////////////////////
     // Initialize the connection
     /////////////////////////////////////////////////////////////////
@@ -815,16 +533,6 @@ public class DatabaseManager {
             Connection conn = DriverManager.getConnection(DB_ADDRESS);
             conn.setCatalog("zatikon");
             return conn;
-   /*
-   Properties properties = new Properties();
-   properties.put("user", DB_USER);
-   properties.put("password",DB_PASSWORD);
-   
-   return DriverManager.getConnection
-   (DB_ADDRESS, properties);
-*/
-            //return DriverManager.getConnection
-            // (DB_ADDRESS, DB_USER, DB_PASSWORD);
 
         } catch (Exception e) {
             Log.error("DatabaseManager.initialize " + e);
