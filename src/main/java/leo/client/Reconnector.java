@@ -53,7 +53,7 @@ public class Reconnector implements Runnable {
                     Client.getName().toLowerCase(),
                     Client.getPassword(),
                     LoginAttempt.EXISTING_ACCOUNT,
-                    Client.VERSION);
+                    Client.PROTOCOL_VERSION);
             ClientNetManager clientNetManager = new ClientNetManager(Client.shouldUseTls());
             LoginResponse lr = clientNetManager.connect(la);
 

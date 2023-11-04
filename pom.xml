@@ -6,12 +6,11 @@
 
     <groupId>com.chroniclogic</groupId>
     <artifactId>zatikon</artifactId>
-    <version>${project.version}</version>
+    <version>1.2.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <project.version>1.2.0-SNAPSHOT</project.version>
     </properties>
 
     <dependencies>
@@ -40,6 +39,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources-filtered</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
