@@ -53,10 +53,14 @@ public class SurrenderButton extends LeoComponent {
         if (pressed) return false;
         pressed = true;
         Client.getNetManager().sendAction(Action.SURRENDER, (byte) 0, (byte) 0);
-        Client.getGameData().getMyCastle().getObserver().endGame(Client.getGameData().getEnemyCastle());
+        var whoWins = isTutorialGame() ? Client.getGameData().getMyCastle() : Client.getGameData().getEnemyCastle();
+        Client.getGameData().getMyCastle().getObserver().endGame(whoWins);
         return true;
     }
 
+    private boolean isTutorialGame() {
+        return Client.getGameData().getEnemyRating() == 1;
+    }
 
     //////////////////////////////////////////////////////////////////
     // Get the message
@@ -64,6 +68,8 @@ public class SurrenderButton extends LeoComponent {
     public String getMessage() {
         if (confirming)
             return "You sure?";
+        else if (isTutorialGame())
+            return "Skip tutorial";
         else
             return "Surrender";
 

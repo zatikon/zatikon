@@ -204,6 +204,10 @@ public class TutorialGame implements Game {
         endGame(castle2);
     }
 
+    public void skipTutorial() {
+        endGame(castle1);
+    }
+
 
     /////////////////////////////////////////////////////////////////
     // Resynch me
@@ -402,7 +406,7 @@ public class TutorialGame implements Game {
                 break;
 
             case Action.SURRENDER:
-                disconnect(player);
+                skipTutorial();
                 break;
         }
 
