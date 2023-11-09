@@ -16,3 +16,8 @@ ssl/
 
 # generated files
 dependency-reduced-pom.xml
+
+# Eclipse IDE
+bin/
+.settings/
+.project
