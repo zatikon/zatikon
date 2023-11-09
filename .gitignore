@@ -3,6 +3,7 @@ target/
 
 # project files
 *.iml
+.idea
 
 # SQLite DBs
 *.db

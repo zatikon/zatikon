@@ -1,3 +1,18 @@
+# Upcoming
+
+- versioning scheme improved; protocol version now separated from game version
+- parameterized SQL queries now done so correctly 
+
+# 1.1.2
+
+- games against AI made easier
+- build process improved
+
+# 1.1.1
+
+- fixed a bug causing every single-player game to be tutorial
+- cheat tool now gets you out of the tutorial
+
 # 1.1.0
 Released the source code of the game under AGPL 3.0, making it a FOSS project! Builds are available on GitHub as JAR files, and as Flatpak through Flathub.
 
