@@ -12,6 +12,7 @@ import leo.shared.Action;
 import leo.shared.Constants;
 import leo.shared.TargetType;
 import leo.shared.Unit;
+import org.tinylog.Logger;
 
 import java.awt.*;
 
@@ -121,7 +122,7 @@ public class ActionButton extends LeoComponent {
             return true;
 
         } catch (Exception e) {
-            System.out.println("ActionButton.clickAt(): " + e);
+            Logger.error("ActionButton.clickAt(): " + e);
             return true;
         }
     }

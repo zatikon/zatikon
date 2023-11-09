@@ -11,6 +11,7 @@ package leo.client;
 import leo.shared.Constants;
 import leo.shared.LoginAttempt;
 import leo.shared.LoginResponse;
+import org.tinylog.Logger;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -136,7 +137,7 @@ public class ClientLoginDialog extends Dialog
     // Action performed
     /////////////////////////////////////////////////////////////////
     public void actionPerformed(ActionEvent e) {
-        System.err.println("ACTION!");
+        Logger.trace("ACTION!");
 
         if (e.getSource() == userField) {
             passwordField.requestFocus();
@@ -187,12 +188,12 @@ public class ClientLoginDialog extends Dialog
             loginType = LoginAttempt.EXISTING_OR_NEW;
         }
 
-        System.err.println("Connecting to server");
+        Logger.info("Connecting to server");
         ClientStatusDialog status = new ClientStatusDialog("Connecting to server");
 
         // Attempt a connection to the server
         try {
-            System.err.println("Attempting login");
+            Logger.info("Attempting login");
             status.setText("Attempting to contact server...");
             LoginAttempt loginAttempt =
                     new LoginAttempt(username.toLowerCase(), password, "fb", loginType, Client.PROTOCOL_VERSION, false);
@@ -241,14 +242,14 @@ public class ClientLoginDialog extends Dialog
             return;
         }
 
-        System.err.println("Done with failure checks");
+        Logger.debug("Done with failure checks");
 
         if (loginResponse.getResponse() == LoginResponse.LOGIN_SUCCESSFUL) {
             // Enclosed in a try in case the server goes down while
             // the player is fetching their characters
             try {
                 this.dispose();
-                runner = new Thread(this);
+                runner = new Thread(this, "ClientLoginDialogThread");
                 runner.start();
             } catch (Exception e) {
             }
@@ -261,15 +262,15 @@ public class ClientLoginDialog extends Dialog
     // Run the sucker
     /////////////////////////////////////////////////////////////////
     public void run() {
-        System.err.println("Starting client setup");
+        Logger.debug("Starting client setup");
         Client.setName(username);
         Client.setPassword(password);
         Client.setNetManager(clientNetManager);
         try {
             Client.startChat(loginResponse.getChatID());
         } catch (Exception e) {
-            System.out.println("ClientLoginDialog: " + e);
-            System.out.println("loginResponse.getChatID(): " + loginResponse.getChatID());
+            Logger.error("ClientLoginDialog: " + e);
+            Logger.error("loginResponse.getChatID(): " + loginResponse.getChatID());
         }
         GameFrame gameFrame = new GameFrame();
         gameFrame.startGameMode();

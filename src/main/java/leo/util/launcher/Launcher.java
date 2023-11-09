@@ -6,6 +6,8 @@
 ///////////////////////////////////////////////////////////////////////
 package leo.util.launcher;
 
+import org.tinylog.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,19 +37,19 @@ public class Launcher {
         Launcher launcher = new Launcher();
 
         try {
-            System.out.println("Check install");
+            Logger.info("Check install");
 
             launcher.checkInstall();
 
-            System.out.println("Check new");
+            Logger.info("Check new");
 
             launcher.checkNew();
 
-            System.out.println("Run");
+            Logger.info("Run");
 
             launcher.run();
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
             System.exit(0);
         }
     }
@@ -132,7 +134,7 @@ public class Launcher {
             //urls[0] = getClass().getResource(PATCHER);
             urls[0] = new URL("file:" + PATCHER);
 
-            System.out.println(urls[0]);
+            Logger.debug(urls[0]);
 
             // Load the jar
             URLClassLoader loader = new URLClassLoader(urls);

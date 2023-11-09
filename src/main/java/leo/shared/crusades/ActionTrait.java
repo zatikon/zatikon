@@ -12,6 +12,7 @@ import leo.shared.Action;
 import leo.shared.Strings;
 import leo.shared.TargetType;
 import leo.shared.Unit;
+import org.tinylog.Logger;
 
 import java.util.Vector;
 
@@ -59,7 +60,7 @@ public class ActionTrait implements Action {
     // Perform the action on the client
     /////////////////////////////////////////////////////////////////
     public String perform(short target) {
-        System.out.println("ActionTrait being called for: " + owner.getName());
+        Logger.warn("ActionTrait being called for: " + owner.getName());
         return Strings.INVALID_ACTION;
     }
 

@@ -9,6 +9,7 @@ package leo.client;
 // imports
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -113,7 +114,7 @@ public class GameFrame extends Frame implements MouseListener, MouseMotionListen
         try {
             Client.getGameData().screenRoster();
         } catch (Exception e) {
-            System.out.println("GameFrame.startGameMode() " + e);
+            Logger.error("GameFrame.startGameMode() " + e);
         }
     }
 
@@ -177,7 +178,7 @@ public class GameFrame extends Frame implements MouseListener, MouseMotionListen
             Client.setComputing(false);
 
         } catch (Exception ex) {
-            System.out.println("GameFrame.mousePressed() " + ex);
+            Logger.error("GameFrame.mousePressed() " + ex);
             Client.setComputing(false);
         }
     }

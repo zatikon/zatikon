@@ -10,6 +10,7 @@ package leo.client;
 
 import leo.shared.Action;
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.awt.*;
 
@@ -49,7 +50,7 @@ public class TeamButton extends LeoComponent {
             }
             return true;
         } catch (Exception e) {
-            System.out.println("TeamButton.clickAt(): " + e);
+            Logger.error("TeamButton.clickAt(): " + e);
             Client.shutdown();
         }
         return false;

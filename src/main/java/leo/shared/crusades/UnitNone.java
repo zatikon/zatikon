@@ -9,6 +9,7 @@ package leo.shared.crusades;
 // imports
 
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.util.Vector;
 
@@ -50,7 +51,7 @@ public class UnitNone extends Unit {
     // Deployed event
     /////////////////////////////////////////////////////////////////
     public void entered() {
-        System.out.println(Strings.UNIT_NONE_2);
+        Logger.error(Strings.UNIT_NONE_2);
         die(false, this);
     }
 

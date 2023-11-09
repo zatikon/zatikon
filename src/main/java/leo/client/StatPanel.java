@@ -11,6 +11,7 @@ package leo.client;
 
 import leo.shared.Constants;
 import leo.shared.Unit;
+import org.tinylog.Logger;
 
 import java.awt.*;
 
@@ -198,7 +199,7 @@ public class StatPanel extends LeoComponent {
                 g.setColor(Color.black);
             }
         } catch (Exception e) {
-            System.out.println("StatPanel.draw(): " + e);
+            Logger.error("StatPanel.draw(): " + e);
         }
 
     }

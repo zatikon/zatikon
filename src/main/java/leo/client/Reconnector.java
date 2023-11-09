@@ -26,7 +26,7 @@ public class Reconnector implements Runnable {
     /////////////////////////////////////////////////////////////////
     public Reconnector() {
         if (Client.shuttingDown()) return;
-        runner = new Thread(this);
+        runner = new Thread(this, "ReconnectorThread");
         runner.start();
     }
 

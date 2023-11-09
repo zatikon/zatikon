@@ -10,6 +10,7 @@ package leo.client;
 //import netscape.javascript.*;
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import javax.swing.*;
 import javax.swing.text.Style;
@@ -96,7 +97,7 @@ public class ChatPanel extends JPanel implements ActionListener, MouseListener {
 
             chatOutput.setCaretPosition(doc.getLength());
         } catch (Exception e) {
-            System.out.println("ChatPanel.showText(): " + e);
+            Logger.error("ChatPanel.showText(): " + e);
         }
     }
 
@@ -112,7 +113,7 @@ public class ChatPanel extends JPanel implements ActionListener, MouseListener {
             chatOutput.setCaretPosition(doc.getLength());
             chatInput.setEnabled(false);
         } catch (Exception e) {
-            System.out.println("ChatPanel.disable(): " + e);
+            Logger.error("ChatPanel.disable(): " + e);
         }
     }
 

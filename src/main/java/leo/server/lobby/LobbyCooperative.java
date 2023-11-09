@@ -32,7 +32,7 @@ public class LobbyCooperative implements Runnable {
     // Constructor
     /////////////////////////////////////////////////////////////////
     public LobbyCooperative() {
-        runner = new Thread(this);
+        runner = new Thread(this, "LobbyCooperativeThread");
         runner.start();
     }
 

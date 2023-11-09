@@ -9,6 +9,7 @@ package leo.client;
 // imports
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.io.*;
 
@@ -43,10 +44,10 @@ public class Settings {
                 soundstate = dis.readUTF();
                 fis.close();
             } else {
-                System.out.println("No settings file");
+                Logger.info("No settings file");
             }
         } catch (Exception e) {
-            System.out.println("Settings(): " + e);
+            Logger.error("Settings(): " + e);
         }
     }
 
@@ -105,7 +106,7 @@ public class Settings {
             fos.close();
 
         } catch (Exception e) {
-            System.out.println("Settings.save(): " + e);
+            Logger.error("Settings.save(): " + e);
         }
     }
 }

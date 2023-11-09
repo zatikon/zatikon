@@ -12,6 +12,7 @@ import leo.shared.Action;
 import leo.shared.Castle;
 import leo.shared.Constants;
 import leo.shared.Unit;
+import org.tinylog.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -141,7 +142,7 @@ public class Client {
         web = false;
         try {
             web = (System.getProperty("jnlp.web").length() > 0);
-            System.out.println(System.getProperty("jnlp.web"));
+            Logger.info("jnlp.web: " + System.getProperty("jnlp.web"));
 
         } catch (Exception e) { //System.out.println(e);
         }
@@ -174,10 +175,10 @@ public class Client {
             // TODO check if the web thingies are useful
             web = true;
             login = new ClientLoginDialog();
-            System.err.println("Attempting autologin");
+            Logger.info("Attempting autologin");
             login.autoLogin(server, user, pwd);
         } else {
-            System.err.println("Attempting normal login");
+            Logger.info("Attempting normal login");
             login = new ClientLoginDialog();
             login.setVisible(true);
         }

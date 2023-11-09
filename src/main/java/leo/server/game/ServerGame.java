@@ -14,6 +14,7 @@ package leo.server.game;
 import leo.server.*;
 import leo.server.observers.ServerObserver;
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -637,7 +638,7 @@ public class ServerGame implements Game {
                         }
                     }
                 } else {
-                    System.out.println("Cannot re-draw army");
+                    Logger.warn("Cannot re-draw army");
                 }
                 break;
 

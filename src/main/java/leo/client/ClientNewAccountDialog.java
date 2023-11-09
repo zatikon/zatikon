@@ -274,7 +274,7 @@ public class ClientNewAccountDialog extends JDialog
 
         if (loginResponse.getResponse() == LoginResponse.CREATE_SUCCESSFUL) {
             this.dispose();
-            runner = new Thread(this);
+            runner = new Thread(this, "ClientNewAccountDialogThread");
             runner.start();
         }
 

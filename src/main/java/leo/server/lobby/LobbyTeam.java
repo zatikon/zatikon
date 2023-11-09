@@ -39,7 +39,7 @@ public class LobbyTeam implements Runnable {
     // Constructor
     /////////////////////////////////////////////////////////////////
     public LobbyTeam() {
-        runner = new Thread(this);
+        runner = new Thread(this, "LobbyTeamThread");
         runner.start();
     }
 

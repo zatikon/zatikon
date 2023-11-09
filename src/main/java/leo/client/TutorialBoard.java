@@ -16,6 +16,7 @@ package leo.client;
 
 import leo.shared.Action;
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.awt.*;
 
@@ -312,7 +313,7 @@ public class TutorialBoard extends LeoContainer {
             browsing = false;
         } else if (!closed & !browsing) {
             if (index >= 0 && index <= 38) message = index;
-            else System.out.println("Invalid tutorial message!");
+            else Logger.error("Invalid tutorial message!");
         }
         if (index > last) {
             last = msgMax[index];

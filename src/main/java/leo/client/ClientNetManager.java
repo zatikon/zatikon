@@ -12,6 +12,7 @@ package leo.client;
 
 import leo.shared.*;
 import leo.shared.network.SocketProvider;
+import org.tinylog.Logger;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -54,7 +55,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void start() { //System.out.println("Started net loop.");
         active = true;
-        runner = new Thread(this);
+        runner = new Thread(this, "ClientNetManagerThread");
         runner.start();
     }
 
@@ -84,14 +85,14 @@ public class ClientNetManager implements Runnable {
             dos.writeBoolean(loginAttempt.newsletter());
 
             // Get the response
-            System.err.println("Waiting for login response");
+            Logger.debug("Waiting for login response");
             LoginResponse response = new LoginResponse(dis.readInt(), dis.readInt());
-            System.err.println("Got login response");
+            Logger.debug("Got login response");
 
             return response;
 
         } catch (Exception e) {
-            System.out.println("connect: " + e);
+            Logger.error("connect: " + e);
             throw e;
         }
     }
@@ -105,7 +106,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(Action.JOIN);
 
         } catch (Exception e) {
-            System.out.println("req game: " + e);
+            Logger.error("req game: " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -119,7 +120,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(Action.JOIN_DUEL);
 
         } catch (Exception e) {
-            System.out.println("req duel " + e);
+            Logger.error("req duel " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -132,7 +133,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(Action.JOIN_MIRRORED_DUEL);
 
         } catch (Exception e) {
-            System.out.println("req duel " + e);
+            Logger.error("req duel " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -146,7 +147,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(Action.PRACTICE);
 
         } catch (Exception e) {
-            System.out.println("req practice " + e);
+            Logger.error("req practice " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -160,7 +161,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(Action.COOPERATIVE);
 
         } catch (Exception e) {
-            System.out.println("req coop" + e);
+            Logger.error("req coop" + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -180,7 +181,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(Action.GET_ARMY);
 
         } catch (Exception e) {
-            System.out.println("get army units " + e);
+            Logger.error("get army units " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -207,7 +208,7 @@ public class ClientNetManager implements Runnable {
             //System.out.println("Main net loop ended.");
 
         } catch (Exception e) { //kill();
-            System.out.println("ClientNetManager.run: " + e);
+            Logger.error("ClientNetManager.run: " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -225,7 +226,7 @@ public class ClientNetManager implements Runnable {
             if (action < 30 && Client.getGameData().playing()) {
                 Unit unit = Client.getGameData().getBattleField().getUnitAt(actor);
                 if (unit == null) {
-                    System.out.println("process called on a null actor");
+                    Logger.error("process called on a null actor");
                     return;
                 }
                 Client.getGameData().getTextBoard().add(unit.performAction(action, target));
@@ -537,7 +538,7 @@ public class ClientNetManager implements Runnable {
                     break;
             }
         } catch (Exception e) {
-            System.out.println("process: " + action + " " + actor + " " + target + " " + e);
+            Logger.error("process: " + action + " " + actor + " " + target + " " + e);
             throw e;
         }
     }
@@ -552,7 +553,7 @@ public class ClientNetManager implements Runnable {
             dos.writeUTF(oldPassword);
             dos.writeUTF(newPassword);
         } catch (Exception e) {
-            System.out.println("sendNewPassword: " + e);
+            Logger.error("sendNewPassword: " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -566,7 +567,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(Action.NEED_EMAIL);
             dos.writeUTF(email);
         } catch (Exception e) {
-            System.out.println("sendEmail: " + e);
+            Logger.error("sendEmail: " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -580,7 +581,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(Action.REFER_FRIEND);
             dos.writeUTF(email);
         } catch (Exception e) {
-            System.out.println("referFriend " + e);
+            Logger.error("referFriend " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -610,7 +611,7 @@ public class ClientNetManager implements Runnable {
                 // );
             }
         } catch (Exception e) {
-            System.out.println("getCastleArchive: " + e);
+            Logger.error("getCastleArchive: " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -635,7 +636,7 @@ public class ClientNetManager implements Runnable {
             }
 
         } catch (Exception e) {
-            System.out.println("ClientNetManager.getOpponent: " + e);
+            Logger.error("ClientNetManager.getOpponent: " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -650,7 +651,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(actor);
             dos.writeShort(target);
         } catch (Exception e) {
-            System.out.println("ClientNetManager.sendAction: " + e);
+            Logger.error("ClientNetManager.sendAction: " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -663,7 +664,7 @@ public class ClientNetManager implements Runnable {
         try {
             dos.writeShort(action);
         } catch (Exception e) {
-            System.out.println("ClientNetManager.sendAction: " + e);
+            Logger.error("ClientNetManager.sendAction: " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -684,7 +685,7 @@ public class ClientNetManager implements Runnable {
             }
             dos.writeShort(Action.END_ARMY);
         } catch (Exception e) {
-            System.out.println("sendCastle " + e);
+            Logger.error("sendCastle " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -700,7 +701,7 @@ public class ClientNetManager implements Runnable {
             dos.writeUTF(name);
 
         } catch (Exception e) {
-            System.out.println("saveCastleArchive " + e);
+            Logger.error("saveCastleArchive " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -714,7 +715,7 @@ public class ClientNetManager implements Runnable {
             dos.writeShort(sendMe);
 
         } catch (Exception e) {
-            System.out.println("sendByte " + e);
+            Logger.error("sendByte " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -729,7 +730,7 @@ public class ClientNetManager implements Runnable {
             dos.writeUTF(key);
 
         } catch (Exception e) {
-            System.out.println("register " + e);
+            Logger.error("register " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -751,7 +752,7 @@ public class ClientNetManager implements Runnable {
             if (socket != null)
                 socket.close();
         } catch (Exception e) {
-            System.out.println("ClientNetManager.kill: " + e);
+            Logger.error("ClientNetManager.kill: " + e);
         } finally {
             socket = null;
             dis = null;

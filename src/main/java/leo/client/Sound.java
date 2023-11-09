@@ -9,6 +9,7 @@ package leo.client;
 // imports
 
 import leo.shared.Log;
+import org.tinylog.Logger;
 
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
@@ -62,7 +63,7 @@ public class Sound implements LineListener, Runnable {
 
             playcount = 0;
         } catch (Exception e) {
-            System.out.println("Sound(): " + e);
+            Logger.error("Sound(): " + e);
         }
     }
 
@@ -77,14 +78,14 @@ public class Sound implements LineListener, Runnable {
             //	if (clip.isOpen()) clip.close();
             //}
             if (playcount < GameMedia.MAX_SOUND_INDIVIDUAL && Client.getImages().belowMaxSounds()) {
-                Thread runner = new Thread(this);
+                Thread runner = new Thread(this, "SoundPlayThread");
                 runner.start();
                 ++playcount;
                 Client.getImages().soundStarted();
             }
 
         } catch (Exception e) {
-            System.out.println("Sound.play(): " + e);
+            Logger.error("Sound.play(): " + e);
         }
     }
 
@@ -111,7 +112,7 @@ public class Sound implements LineListener, Runnable {
             --playcount;
             Client.getImages().soundFinished();
         } catch (Exception e) {
-            System.out.println("Sound.run(): " + e);
+            Logger.error("Sound.run(): " + e);
         }
 
     }

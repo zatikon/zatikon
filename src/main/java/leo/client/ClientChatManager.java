@@ -12,6 +12,7 @@ package leo.client;
 
 import leo.shared.Action;
 import leo.shared.network.SocketProvider;
+import org.tinylog.Logger;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -106,7 +107,7 @@ public class ClientChatManager implements Runnable {
     public ClientChatManager(int newChatID, boolean useTls) {
         this.chatID = newChatID;
         this.useTls = useTls;
-        this.runner = new Thread(this);
+        this.runner = new Thread(this, "ClientChatManagerThread");
         runner.start();
     }
 
@@ -233,7 +234,7 @@ public class ClientChatManager implements Runnable {
                     break;
 
                 default:
-                    System.out.println("Invalid chat action: " + action);
+                    Logger.warn("Invalid chat action: " + action);
             }
         } catch (Exception e) {
             throw e;
@@ -492,7 +493,7 @@ public class ClientChatManager implements Runnable {
             alive = false;
             socket.close();
         } catch (Exception e) {
-            System.out.println("ClientChatManager.kill(): " + e);
+            Logger.error("ClientChatManager.kill(): " + e);
         }
     }
 

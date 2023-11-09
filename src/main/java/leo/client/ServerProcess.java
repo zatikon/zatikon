@@ -2,6 +2,7 @@ package leo.client;
 
 import leo.server.Server;
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,10 +43,10 @@ public class ServerProcess {
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(
-                process::destroy
+                process::destroy, "ServerProcessDestroyThread"
         ));
 
-        System.err.println("Server process started");
+        Logger.info("Server process started");
     }
 
     public static ServerProcess getInstance() {

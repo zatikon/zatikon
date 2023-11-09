@@ -7,6 +7,7 @@
 package leo.util;
 
 import leo.server.Player;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -64,7 +65,7 @@ public class TopTen {
                 // compare times
                 dt = t2 - t1;
 
-                System.out.println("Top 10 calculated, taking " + dt + " milliseconds.");
+                Logger.info("Top 10 calculated, taking " + dt + " milliseconds.");
 
                 Thread.sleep((1000 * 60 * 60));
                 //Thread.sleep((1000));
@@ -102,7 +103,7 @@ public class TopTen {
             save();
 
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
             //active = false;
         }
     }
@@ -155,7 +156,7 @@ public class TopTen {
             writer.close();
 
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
         }
     }
 

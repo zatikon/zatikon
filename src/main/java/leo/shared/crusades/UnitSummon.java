@@ -12,6 +12,7 @@ package leo.shared.crusades;
 
 import leo.shared.Event;
 import leo.shared.Unit;
+import org.tinylog.Logger;
 
 
 public class UnitSummon extends Unit {
@@ -51,14 +52,14 @@ public class UnitSummon extends Unit {
      }
     }*/
         if (parent == null) {
-            System.out.println("Invalid summon death: no parent");
+            Logger.error("Invalid summon death: no parent");
             return;
         }
 
         EventSummoner esum = parent.getSummonManager();
 
         if (esum == null) {
-            System.out.println("Invalid summon death: no event summoner");
+            Logger.error("Invalid summon death: no event summoner");
             return;
         }
 

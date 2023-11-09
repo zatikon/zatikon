@@ -39,7 +39,7 @@ public class LobbyPractice implements Runnable {
     // Constructor
     /////////////////////////////////////////////////////////////////
     public LobbyPractice() {
-        runner = new Thread(this);
+        runner = new Thread(this, "LobbyPracticeThread");
         runner.start();
     }
 

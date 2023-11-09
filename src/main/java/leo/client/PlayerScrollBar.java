@@ -9,6 +9,7 @@ package leo.client;
 // imports
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.awt.*;
 
@@ -126,7 +127,7 @@ public class PlayerScrollBar extends LeoComponent {
             }
             g.drawImage(Client.getImages().getImage(Constants.IMG_SCROLL_BAR), getScreenX() + X, getScreenY() + location, getWidth(), getHeight(), mainFrame);
         } catch (Exception e) {
-            System.out.println("PlayerScrollBar.draw(): " + e);
+            Logger.error("PlayerScrollBar.draw(): " + e);
         }
     }
 }

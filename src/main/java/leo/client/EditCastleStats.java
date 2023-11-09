@@ -10,6 +10,7 @@ package leo.client;
 
 import leo.shared.Constants;
 import leo.shared.Unit;
+import org.tinylog.Logger;
 
 import java.awt.*;
 
@@ -200,7 +201,7 @@ public class EditCastleStats extends LeoComponent {
                     getScreenY() + ((EditCastlePanel.MARGIN + Client.FONT_HEIGHT) * lines));
             lines++;
         } catch (Exception e) {
-            System.out.println("EditCastleStats.draw(): " + e);
+            Logger.error("EditCastleStats.draw(): " + e);
         }
 
     }
