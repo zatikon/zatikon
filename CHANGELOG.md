@@ -1,7 +1,8 @@
 # Upcoming
 
 - versioning scheme improved; protocol version now separated from game version
-- parameterized SQL queries now done so correctly 
+- parameterized SQL queries now done so correctly
+- browser-starting code improved
 
 # 1.1.2
 
