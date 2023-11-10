@@ -112,7 +112,7 @@ public class ActionDemon implements Action {
 
         if (!owner.deployed()) return false;
 
-        if (owner.getBattleField().getUnitAt(target).getID() != Unit.IMP) return false;
+        if (owner.getBattleField().getUnitAt(target).getID() != UnitType.IMP) return false;
 
         // If no target, all is well
         if (getTargetType() == TargetType.NONE) return true;

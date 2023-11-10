@@ -36,13 +36,13 @@ public class ActionMark implements Action {
         owner = newOwner; // this too
         targetType = TargetType.UNIT_AREA;
         // Bounty Hunter's range is 4, this is a quickfix to make the Conspirator's range 5 (4 after patch)
-        if (owner.getID() == Unit.CONSPIRATOR) {
+        if (owner.getID() == UnitType.CONSPIRATOR) {
             range = 4;
         } else {
             range = 4;
         }
         //Check if owner is Bounty Hunter or Conspirator
-        if (owner.getID() == Unit.CONSPIRATOR) {
+        if (owner.getID() == UnitType.CONSPIRATOR) {
             detail = Strings.ACTION_MARK_6;
         } else {
             detail = Strings.ACTION_MARK_1;
@@ -98,10 +98,10 @@ public class ActionMark implements Action {
         if (!owner.getBattleField().getUnitAt(target).getOrganic(owner.getBattleField().getUnitAt(target)))
             return false;
 
-        if (owner.getID() == Unit.CONSPIRATOR) {
+        if (owner.getID() == UnitType.CONSPIRATOR) {
             // Won't let you target summons or doppelganger twin because skill doesn't activate on them because of false death,
             //   so it would be pointless to target them
-            if (owner.getBattleField().getUnitAt(target) == null || owner.getBattleField().getUnitAt(target).getID() == Unit.NONE)
+            if (owner.getBattleField().getUnitAt(target) == null || owner.getBattleField().getUnitAt(target).getID() == UnitType.NONE)
                 return false;
         }
 
@@ -123,12 +123,12 @@ public class ActionMark implements Action {
     /////////////////////////////////////////////////////////////////
     public Vector<Short> getTargets() {
         Vector<Short> targs = owner.getBattleField().getTargets(owner, getTargetType(), getRange(), false, true, false, TargetType.ENEMY, owner.getCastle());
-        if (owner.getID() == Unit.CONSPIRATOR) {
+        if (owner.getID() == UnitType.CONSPIRATOR) {
             Vector<Unit> units = owner.getCastle().getBattleField().getUnits();
             Iterator<Unit> it = units.iterator();
             while (it.hasNext()) {
                 Unit victim = it.next();
-                if (victim.getID() == Unit.NONE) // Conspirator won't target summons or doppelganger twin since wouldn't have effect anyways
+                if (victim.getID() == UnitType.NONE) // Conspirator won't target summons or doppelganger twin since wouldn't have effect anyways
                     targs.remove((Short) victim.getLocation());
             }
         }
@@ -141,12 +141,12 @@ public class ActionMark implements Action {
     /////////////////////////////////////////////////////////////////
     public Vector<Short> getClientTargets() {
         Vector<Short> targs = owner.getBattleField().getTargets(owner, (byte) (getTargetType() - 6), getRange(), false, true, false, TargetType.ENEMY, owner.getCastle());
-        if (owner.getID() == Unit.CONSPIRATOR) {
+        if (owner.getID() == UnitType.CONSPIRATOR) {
             Vector<Unit> units = owner.getCastle().getBattleField().getUnits();
             Iterator<Unit> it = units.iterator();
             while (it.hasNext()) {
                 Unit victim = it.next();
-                if (victim.getID() == Unit.NONE) // Conspirator won't target summons or doppelganger twin since wouldn't have effect anyways
+                if (victim.getID() == UnitType.NONE) // Conspirator won't target summons or doppelganger twin since wouldn't have effect anyways
                     targs.remove((Short) victim.getLocation());
             }
         }

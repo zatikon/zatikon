@@ -66,7 +66,7 @@ public class ActionDuplicate implements Action {
         // Get the new unit
         Unit newForm = Unit.getUnit(victim.getID(), owner.getCastle());
         newForm.add(new ActionUnduplicate(newForm));
-        newForm.setID(Unit.MIMIC);
+        newForm.setID(UnitType.MIMIC);
         owner.die(false, owner);
 
         // Put the new unit in the old unit's place
@@ -149,7 +149,7 @@ public class ActionDuplicate implements Action {
         for (int i = 0; i < targets.size(); i++) {
             Short byter = targets.elementAt(i);
             Unit unit = owner.getBattleField().getUnitAt(byter.byteValue());
-            if (unit != null && (unit.getCastle() == getOwner().getCastle() || unit.getID() == Unit.MIMIC || unit.getID() == Unit.NONE))
+            if (unit != null && (unit.getCastle() == getOwner().getCastle() || unit.getID() == UnitType.MIMIC || unit.getID() == UnitType.NONE))
                 removes.add(byter);
         }
 

@@ -47,7 +47,7 @@ public class UnitDiabolist extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.DIABOLIST;
+        id = UnitType.DIABOLIST;
         category = Unit.BLACK_MAGIC_USERS;
         name = Strings.UNIT_DIABOLIST_1;
         actions = new Vector<Action>();

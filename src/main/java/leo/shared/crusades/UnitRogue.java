@@ -32,7 +32,7 @@ public class UnitRogue extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.ROGUE;
+        id = UnitType.ROGUE;
         category = Unit.SCOUTS;
         name = Strings.UNIT_ROGUE_1;
         actions = new Vector<Action>();

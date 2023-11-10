@@ -35,7 +35,7 @@ public class UnitNecromancer extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.NECROMANCER;
+        id = UnitType.NECROMANCER;
         category = Unit.BLACK_MAGIC_USERS;
         name = Strings.UNIT_NECROMANCER_1;
         actions = new Vector<Action>();

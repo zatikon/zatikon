@@ -31,7 +31,7 @@ public class UnitPaladin extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.PALADIN;
+        id = UnitType.PALADIN;
         category = Unit.CLERGY;
         name = Strings.UNIT_PALADIN_1;
         actions = new Vector<Action>();

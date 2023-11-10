@@ -66,7 +66,7 @@ public class EventVolatileNature implements Event, Action {
                     result = victim.damage(owner, damage);
                     if (victim != owner) {
                         owner.getCastle().getObserver().attack(owner, victim, result, Action.ATTACK_NONE);
-                        if (victim.getID() != Unit.NONE)
+                        if (victim.getID() != UnitType.NONE)
                             owner.getCastle().getObserver().death(victim);
                     }
                     // store the damage dealt into the total (used for lifegain)

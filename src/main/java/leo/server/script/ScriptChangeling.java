@@ -10,11 +10,7 @@ package leo.server.script;
 
 import leo.server.AI;
 import leo.server.game.Game;
-import leo.shared.Log;
-import leo.shared.BattleField;
-import leo.shared.Castle;
-import leo.shared.Script;
-import leo.shared.Unit;
+import leo.shared.*;
 
 import java.util.Iterator;
 import java.util.Vector;
@@ -140,7 +136,7 @@ public class ScriptChangeling implements Script {
 
         if (unit.getMove().getRemaining() < 1) return false;
 
-        if (unit.getID() == Unit.GATE_GUARD && unit.getLocation() == castle.getLocation()) return false;
+        if (unit.getID() == UnitType.GATE_GUARD && unit.getLocation() == castle.getLocation()) return false;
 
         // Get the move targets
         Vector<Short> moves = unit.getMove().getTargets();

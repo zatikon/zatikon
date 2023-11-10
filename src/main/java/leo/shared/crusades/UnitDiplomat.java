@@ -32,7 +32,7 @@ public class UnitDiplomat extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = armistice ? Unit.DIPLOMAT : Unit.DIPLOMAT_USED;
+        id = armistice ? UnitType.DIPLOMAT : UnitType.DIPLOMAT_USED;
         category = Unit.COMMANDERS;
         name = Strings.UNIT_DIPLOMAT_1;
         actions = new Vector<Action>();

@@ -33,7 +33,7 @@ public class UnitPossessed extends Unit {
         eventPriority = 2;
 
         // Initialize
-        id = Unit.POSSESSED;
+        id = UnitType.POSSESSED;
         category = Unit.CULTISTS;
         name = Strings.UNIT_POSSESSED_1;
         actions = new Vector<Action>();

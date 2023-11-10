@@ -19,7 +19,7 @@ public class Castle {
     // Properties
     /////////////////////////////////////////////////////////////////
     private short team = Unit.TEAM_1;
-    private short[] units = new short[Unit.UNIT_COUNT * 2];
+    private short[] units = new short[UnitType.UNIT_COUNT * 2];
     private final Vector<UndeployedUnit> barracks = new Vector<UndeployedUnit>();
     private final Vector<Unit> graveyard = new Vector<Unit>();
     private short commandsMax = Constants.MAX_COMMANDS;
@@ -67,10 +67,10 @@ public class Castle {
         remove(unit);
 
         // Cover the special case of the explode relic so we can tell players who exploded
-        if (unit.getID() == Unit.RELIC_EXPLODE) {
+        if (unit.getID() == UnitType.RELIC_EXPLODE) {
             whoExploded = unit.preDetonate(location);
         } else {
-            if (unit.getID() == Unit.RELIC_GIFT_UNIT) // So command relic can be added back into castle
+            if (unit.getID() == UnitType.RELIC_GIFT_UNIT) // So command relic can be added back into castle
                 unit.setTeam(newTeam);
             unit.preDeploy(location);
         }
@@ -247,7 +247,7 @@ public class Castle {
     // Add a unit
     /////////////////////////////////////////////////////////////////
     public void add(Unit newUnit) {
-        if (newUnit.getID() == Unit.NONE) return;
+        if (newUnit.getID() == UnitType.NONE) return;
         lastUnit = newUnit;
         UndeployedUnit undy = getUnitByID(newUnit.getID());
         if (undy == null) {
@@ -258,7 +258,7 @@ public class Castle {
         value += newUnit.getCastleCost();
         short id = newUnit.getID();
         if (id < 0)
-            units[(0 - id) + Unit.UNIT_COUNT]++;
+            units[(0 - id) + UnitType.UNIT_COUNT]++;
         else
             units[id]++;
     }
@@ -268,13 +268,13 @@ public class Castle {
     // Add a unit
     /////////////////////////////////////////////////////////////////
     public void add(int i, Unit newUnit) {
-        if (newUnit.getID() == Unit.NONE) return;
+        if (newUnit.getID() == UnitType.NONE) return;
         lastUnit = newUnit;
         barracks.add(i, new UndeployedUnit(newUnit));
         value += newUnit.getCastleCost();
         short id = newUnit.getID();
         if (id < 0)
-            units[(0 - id) + Unit.UNIT_COUNT]++;
+            units[(0 - id) + UnitType.UNIT_COUNT]++;
         else
             units[id]++;
     }
@@ -324,7 +324,7 @@ public class Castle {
 
         short id = oldUnit.getID();
         if (id < 0)
-            units[(0 - id) + Unit.UNIT_COUNT]--;
+            units[(0 - id) + UnitType.UNIT_COUNT]--;
         else
             units[id]--;
     }
@@ -344,7 +344,7 @@ public class Castle {
     public void clear() {
         barracks.clear();
         value = 0;
-        units = new short[Unit.UNIT_COUNT * 2];
+        units = new short[UnitType.UNIT_COUNT * 2];
     }
 
 

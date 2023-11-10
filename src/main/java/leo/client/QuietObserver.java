@@ -124,7 +124,7 @@ public class QuietObserver implements Observer {
     // Castle addition
     /////////////////////////////////////////////////////////////////
     public void castleAddition(Unit newUnit) {
-        if (newUnit.getID() == Unit.NONE) return;
+        if (newUnit.getID() == UnitType.NONE) return;
         Client.getGameData().getEnemyCastle().clear();
         if (newUnit.getTeam() == Unit.TEAM_2) {
             Client.getGameData().getMyCastle().removeLast();

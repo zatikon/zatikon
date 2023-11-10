@@ -27,7 +27,7 @@ public class UnitArcher extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.ARCHER;
+        id = UnitType.ARCHER;
         category = Unit.ARCHERS;
         name = Strings.UNIT_ARCHER_1;
         actions = new Vector<Action>();

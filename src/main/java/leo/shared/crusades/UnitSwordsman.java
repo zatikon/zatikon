@@ -33,7 +33,7 @@ public class UnitSwordsman extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.SWORDSMAN;
+        id = UnitType.SWORDSMAN;
         category = Unit.SOLDIERS;
         name = Strings.UNIT_SWORDSMAN_1;
         actions = new Vector<Action>();

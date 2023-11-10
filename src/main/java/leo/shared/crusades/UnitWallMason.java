@@ -28,7 +28,7 @@ public class UnitWallMason extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.WALL_MASON;
+        id = UnitType.WALL_MASON;
         name = Strings.UNIT_WALL_MASON_1;
         actions = new Vector<Action>();
         damage = 0;

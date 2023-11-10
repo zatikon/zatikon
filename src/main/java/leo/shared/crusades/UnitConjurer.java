@@ -30,7 +30,7 @@ public class UnitConjurer extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.CONJURER;
+        id = UnitType.CONJURER;
         category = Unit.WHITE_MAGIC_USERS;
         name = Strings.UNIT_CONJURER_1;
         actions = new Vector<Action>();

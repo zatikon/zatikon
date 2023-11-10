@@ -30,7 +30,7 @@ public class RelicParry extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.RELIC_PARRY;
+        id = UnitType.RELIC_PARRY;
         category = Unit.RELICS;
         name = Strings.RELIC_PARRY_1;
         actions = new Vector<Action>();
@@ -85,7 +85,7 @@ public class RelicParry extends Unit {
     public boolean canTarget(Unit target) {
         if (target.getCastle() == castle) {
             return target.getOrganic(this) && target.targetable(this) &&
-                    ((target.getAttack() != null && target.getBaseDamage() > 0) || target.getID() == Unit.CHANNELER) && !target.boss();
+                    ((target.getAttack() != null && target.getBaseDamage() > 0) || target.getID() == UnitType.CHANNELER) && !target.boss();
         }
         return false;
     }

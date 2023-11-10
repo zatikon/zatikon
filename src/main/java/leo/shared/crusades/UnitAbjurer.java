@@ -28,7 +28,7 @@ public class UnitAbjurer extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.ABJURER;
+        id = UnitType.ABJURER;
         category = Unit.WHITE_MAGIC_USERS;
         name = Strings.UNIT_ABJURER_1;
         actions = new Vector<Action>();

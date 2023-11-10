@@ -31,7 +31,7 @@ public class UnitDuelist extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.DUELIST;
+        id = UnitType.DUELIST;
         category = Unit.SOLDIERS;
         name = Strings.UNIT_DUELIST_1;
         actions = new Vector<Action>();

@@ -34,7 +34,7 @@ public class UnitHeretic extends Unit {
         eventPriority = 3;
 
         // Initialize
-        id = Unit.HERETIC;
+        id = UnitType.HERETIC;
         category = Unit.CULTISTS;
         name = Strings.UNIT_HERETIC_1;
         actions = new Vector<Action>();

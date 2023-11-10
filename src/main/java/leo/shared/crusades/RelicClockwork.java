@@ -31,7 +31,7 @@ public class RelicClockwork extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.RELIC_CLOCKWORK;
+        id = UnitType.RELIC_CLOCKWORK;
         category = Unit.RELICS;
         name = Strings.RELIC_CLOCKWORK_1;
         actions = new Vector<Action>();

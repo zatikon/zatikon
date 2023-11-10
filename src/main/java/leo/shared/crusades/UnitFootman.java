@@ -27,7 +27,7 @@ public class UnitFootman extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.FOOTMAN;
+        id = UnitType.FOOTMAN;
         category = Unit.SOLDIERS;
         name = Strings.UNIT_FOOTMAN_1;
         actions = new Vector<Action>();

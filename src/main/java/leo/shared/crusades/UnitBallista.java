@@ -27,7 +27,7 @@ public class UnitBallista extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.BALLISTA;
+        id = UnitType.BALLISTA;
         category = Unit.SIEGE;
         name = Strings.UNIT_BALLISTA_1;
         actions = new Vector<Action>();

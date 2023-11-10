@@ -30,7 +30,7 @@ public class UnitFanatic extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.FANATIC;
+        id = UnitType.FANATIC;
         category = Unit.CULTISTS;
         name = Strings.UNIT_FANATIC_1;
         actions = new Vector<Action>();

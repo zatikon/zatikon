@@ -27,7 +27,7 @@ public class UnitEnchanter extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.ENCHANTER;
+        id = UnitType.ENCHANTER;
         category = Unit.WHITE_MAGIC_USERS;
         name = Strings.UNIT_ENCHANTER_1;
         actions = new Vector<Action>();

@@ -48,7 +48,7 @@ public class EventSacrifice implements Event, Action {
         if (!corpse.targetable(owner)) return Event.NONE;
         if (corpse.getCastle() != owner.getCastle()) return Event.NONE;
         if (murderer != null && murderer.getCastle() == corpse.getCastle()) return Event.NONE;
-        if (corpse.getID() == Unit.NONE) return Event.NONE;
+        if (corpse.getID() == UnitType.NONE) return Event.NONE;
         if (BattleField.getDistance(corpse.getLocation(), owner.getLocation()) > 2) return Event.NONE;
 
         // yank it from the graveyard. if it's not there, no risen

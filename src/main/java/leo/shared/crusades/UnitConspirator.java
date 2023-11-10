@@ -31,7 +31,7 @@ public class UnitConspirator extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.CONSPIRATOR;
+        id = UnitType.CONSPIRATOR;
         category = Unit.COMMANDERS;
         name = Strings.UNIT_CONSPIRATOR_1;
         actions = new Vector<Action>();

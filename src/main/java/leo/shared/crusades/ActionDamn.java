@@ -127,7 +127,7 @@ public class ActionDamn implements Action {
         Vector<Short> targets = getTargets();
         for (int i = 0; i < targets.size(); i++) {
             Short location = targets.elementAt(i);
-            if ((location.byteValue() == target || (owner.getBattleField().getUnitAt(target).getID() == Unit.IMP && owner.getBattleField().getUnitAt(target).getOrganic(owner))) && summonOverride(owner.getBattleField().getUnitAt(target)))
+            if ((location.byteValue() == target || (owner.getBattleField().getUnitAt(target).getID() == UnitType.IMP && owner.getBattleField().getUnitAt(target).getOrganic(owner))) && summonOverride(owner.getBattleField().getUnitAt(target)))
                 return true;
         }
 

@@ -30,7 +30,7 @@ public class UnitShaman extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.SHAMAN;
+        id = UnitType.SHAMAN;
         category = Unit.NATURE;
         name = Strings.UNIT_SHAMAN_1;
         actions = new Vector<Action>();

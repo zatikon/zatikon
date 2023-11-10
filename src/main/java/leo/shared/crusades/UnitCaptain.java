@@ -31,7 +31,7 @@ public class UnitCaptain extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.CAPTAIN;
+        id = UnitType.CAPTAIN;
         category = Unit.COMMANDERS;
         name = Strings.UNIT_CAPTAIN_1;
         actions = new Vector<Action>();

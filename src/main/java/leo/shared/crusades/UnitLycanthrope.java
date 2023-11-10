@@ -29,7 +29,7 @@ public class UnitLycanthrope extends Unit implements Lycan {
         castle = newCastle;
 
         // Initialize
-        id = Unit.LYCANTHROPE;
+        id = UnitType.LYCANTHROPE;
         category = Unit.SHAPESHIFTERS;
         name = Strings.UNIT_LYCANTHROPE_1;
         actions = new Vector<Action>();
@@ -67,7 +67,7 @@ public class UnitLycanthrope extends Unit implements Lycan {
         castle = newCastle;
 
         // Initialize
-        id = Unit.LYCANTHROPE;
+        id = UnitType.LYCANTHROPE;
         name = Strings.UNIT_LYCANTHROPE_1;
         actions = new Vector<Action>();
         damage = 4;

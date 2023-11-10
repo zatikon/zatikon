@@ -20,8 +20,6 @@ import java.awt.datatransfer.Transferable;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class Client {
@@ -53,7 +51,7 @@ public class Client {
     private static boolean web;
     private static boolean active = false;
     private static final long serialVersionUID = 1L;
-    private static final short[] units = new short[Unit.UNIT_COUNT];
+    private static final short[] units = new short[UnitType.UNIT_COUNT];
 
 
     /////////////////////////////////////////////////////////////////

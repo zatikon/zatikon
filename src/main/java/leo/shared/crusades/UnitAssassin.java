@@ -28,7 +28,7 @@ public class UnitAssassin extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.ASSASSIN;
+        id = UnitType.ASSASSIN;
         category = Unit.SCOUTS;
         name = Strings.UNIT_ASSASSIN_1;
         actions = new Vector<Action>();

@@ -32,7 +32,7 @@ public class UnitWarElephant extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.WAR_ELEPHANT;
+        id = UnitType.WAR_ELEPHANT;
         category = Unit.HORSEMEN;
         name = Strings.UNIT_WAR_ELEPHANT_1;
         actions = new Vector<Action>();

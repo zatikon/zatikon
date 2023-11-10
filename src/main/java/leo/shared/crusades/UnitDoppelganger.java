@@ -21,7 +21,7 @@ public class UnitDoppelganger extends Unit {
     private final ActionTrait trait;
     private final Action actionTwin;
     private UnitDoppelganger twin = null;
-    private short oldId = Unit.DOPPELGANGER;
+    private short oldId = UnitType.DOPPELGANGER;
 
 
     /////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ public class UnitDoppelganger extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.DOPPELGANGER;
+        id = UnitType.DOPPELGANGER;
         category = Unit.SHAPESHIFTERS;
         name = Strings.UNIT_DOPPELGANGER_1;
         actions = new Vector<Action>();
@@ -77,7 +77,7 @@ public class UnitDoppelganger extends Unit {
 
     public void setTwin(UnitDoppelganger newTwin) {
         oldId = id;
-        if (!isSkinwalking()) id = Unit.NONE;
+        if (!isSkinwalking()) id = UnitType.NONE;
         twin = newTwin;
         actions.add(0, trait);
         appearance = Constants.IMG_DOPPELGANGER;
@@ -113,7 +113,7 @@ public class UnitDoppelganger extends Unit {
     // Deployed event
     /////////////////////////////////////////////////////////////////
     public void entered() {
-        if (id == Unit.NONE) die(false, this);
+        if (id == UnitType.NONE) die(false, this);
     }
 
 
@@ -121,7 +121,7 @@ public class UnitDoppelganger extends Unit {
     // force a false death
     /////////////////////////////////////////////////////////////////
     public void die(boolean death, Unit source) {
-        if (id == Unit.NONE) {
+        if (id == UnitType.NONE) {
             super.die(false, source);
         } else {
             super.die(death, source);

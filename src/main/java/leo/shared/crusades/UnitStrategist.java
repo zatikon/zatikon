@@ -31,7 +31,7 @@ public class UnitStrategist extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.STRATEGIST;
+        id = UnitType.STRATEGIST;
         category = Unit.COMMANDERS;
         name = Strings.UNIT_STRATEGIST_1;
         actions = new Vector<Action>();

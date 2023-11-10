@@ -30,7 +30,7 @@ public class UnitAlchemist extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.ALCHEMIST;
+        id = UnitType.ALCHEMIST;
         category = Unit.WHITE_MAGIC_USERS;
         name = Strings.UNIT_ALCHEMIST_1;
         actions = new Vector<Action>();

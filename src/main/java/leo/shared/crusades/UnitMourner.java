@@ -30,7 +30,7 @@ public class UnitMourner extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.MOURNER;
+        id = UnitType.MOURNER;
         category = Unit.CULTISTS;
         name = Strings.UNIT_MOURNER_1;
         actions = new Vector<Action>();

@@ -31,7 +31,7 @@ public class UnitSkinwalker extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.SKINWALKER;
+        id = UnitType.SKINWALKER;
         category = Unit.SHAPESHIFTERS;
         name = Strings.UNIT_SKINWALKER_1;
         actions = new Vector<Action>();
