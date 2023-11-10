@@ -27,7 +27,7 @@ public class UnitToad extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.TOAD;
+        id = UnitType.TOAD.value();
         name = Strings.UNIT_TOAD_1;
         actions = new Vector<Action>();
         damage = 0;

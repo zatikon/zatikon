@@ -31,7 +31,7 @@ public class UnitBountyHunter extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.BOUNTY_HUNTER;
+        id = UnitType.BOUNTY_HUNTER.value();
         category = Unit.SCOUTS;
         name = Strings.UNIT_BOUNTY_HUNTER_1;
         actions = new Vector<Action>();

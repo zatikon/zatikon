@@ -29,7 +29,7 @@ public class UnitAbbey extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.ABBEY;
+        id = UnitType.ABBEY.value();
         category = Unit.STRUCTURES;
         name = Strings.UNIT_ABBEY_1;
         actions = new Vector<Action>();

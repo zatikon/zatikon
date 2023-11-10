@@ -27,7 +27,7 @@ public class UnitGeneral extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.GENERAL;
+        id = UnitType.GENERAL.value();
         category = Unit.COMMANDERS;
         name = Strings.UNIT_GENERAL_1;
         actions = new Vector<Action>();

@@ -28,7 +28,7 @@ public class UnitWarlock extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.WARLOCK;
+        id = UnitType.WARLOCK.value();
         category = Unit.BLACK_MAGIC_USERS;
         name = Strings.UNIT_WARLOCK_1;
         actions = new Vector<Action>();
@@ -50,7 +50,7 @@ public class UnitWarlock extends Unit {
         actions.add(attack);
 
         // Good stuff
-        fireball = new ActionFireball(this, (byte) 0, (byte) 1, TargetType.ANY_AREA, (byte) 4, (byte) 4, UnitType.WARLOCK);
+        fireball = new ActionFireball(this, (byte) 0, (byte) 1, TargetType.ANY_AREA, (byte) 4, (byte) 4, UnitType.WARLOCK.value());
         actions.add(fireball);
         actions.add(new ActionLightning(this, (byte) 0, (byte) 1, TargetType.ANY_LINE_JUMP, (byte) 6));
 

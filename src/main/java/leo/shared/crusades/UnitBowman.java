@@ -30,7 +30,7 @@ public class UnitBowman extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.BOWMAN;
+        id = UnitType.BOWMAN.value();
         category = Unit.ARCHERS;
         name = Strings.UNIT_BOWMAN_1;
         actions = new Vector<Action>();

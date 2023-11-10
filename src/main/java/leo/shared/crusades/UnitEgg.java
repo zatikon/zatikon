@@ -30,7 +30,7 @@ public class UnitEgg extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.EGG;
+        id = UnitType.EGG.value();
         name = Strings.UNIT_EGG_2;
         actions = new Vector<Action>();
         damage = 0;
@@ -61,7 +61,7 @@ public class UnitEgg extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.EGG;
+        id = UnitType.EGG.value();
         name = Strings.UNIT_EGG_2;
         actions = new Vector<Action>();
         damage = 0;

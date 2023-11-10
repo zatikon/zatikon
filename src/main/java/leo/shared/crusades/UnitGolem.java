@@ -30,7 +30,7 @@ public class UnitGolem extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.GOLEM;
+        id = UnitType.GOLEM.value();
         category = Unit.SIEGE;
         name = Strings.UNIT_GOLEM_1;
         actions = new Vector<Action>();

@@ -28,7 +28,7 @@ public class UnitBarracks extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.BARRACKS;
+        id = UnitType.BARRACKS.value();
         category = Unit.STRUCTURES;
         name = Strings.UNIT_BARRACKS_1;
         actions = new Vector<Action>();

@@ -30,7 +30,7 @@ public class UnitArtificer extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.ARTIFICER;
+        id = UnitType.ARTIFICER.value();
         category = Unit.WHITE_MAGIC_USERS;
         name = Strings.UNIT_ARTIFICER_1;
         actions = new Vector<Action>();

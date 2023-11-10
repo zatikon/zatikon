@@ -1,162 +1,190 @@
 package leo.shared;
 
-public class UnitType {
-    //////////////////////////
+import java.util.TreeMap;
+
+public enum UnitType {
     // Units
-    //////////////////////////
-    public static final short IMP = UnitEnum.IMP.value();
-    public static final short DEMON = UnitEnum.DEMON.value();
-    public static final short SKELETON = UnitEnum.SKELETON.value();
-    public static final short ZOMBIE = UnitEnum.ZOMBIE.value();
-    public static final short SOLDIER = UnitEnum.SOLDIER.value();
-    public static final short WILL_O_THE_WISPS = UnitEnum.WILL_O_THE_WISPS.value();
-    public static final short SERPENT = UnitEnum.SERPENT.value();
-    public static final short BEAR = UnitEnum.BEAR.value();
-    public static final short PORTAL = UnitEnum.PORTAL.value();
-    public static final short GATE = UnitEnum.GATE.value();
-    public static final short ARCHDEMON = UnitEnum.ARCHDEMON.value();
+    IMP(-1),
+    DEMON(-2),
+    SKELETON(-3),
+    ZOMBIE(-4),
+    SOLDIER(-5),
+    WILL_O_THE_WISPS(-6),
+    SERPENT(-7),
+    BEAR(-8),
+    PORTAL(-9),
+    GATE(-10),
+    ARCHDEMON(-11),
+
     // Powerups
-    public static final short POWERUP = UnitEnum.POWERUP.value();
-    public static final short POWERUP_TOXIC = UnitEnum.POWERUP_TOXIC.value();
-    public static final short POWERUP_EVASIVE = UnitEnum.POWERUP_EVASIVE.value();
-    public static final short POWERUP_RESILIENT = UnitEnum.POWERUP_RESILIENT.value();
-    public static final short POWERUP_LONGSHANK = UnitEnum.POWERUP_LONGSHANK.value();
-    public static final short POWERUP_MIGHTY = UnitEnum.POWERUP_MIGHTY.value();
-    public static final short POWERUP_CLOCKWORK = UnitEnum.POWERUP_CLOCKWORK.value();
-    public static final short POWERUP_VAMPIRIC = UnitEnum.POWERUP_VAMPIRIC.value();
-    public static final short POWERUP_CUNNING = UnitEnum.POWERUP_CUNNING.value();
-    public static final short POWERUP_EPIC = UnitEnum.POWERUP_EPIC.value();
-    public static final short POWERUP_ARCANE = UnitEnum.POWERUP_ARCANE.value();
-    public static final short POWERUP_ASCENDANT = UnitEnum.POWERUP_ASCENDANT.value();
-    public static final short POWERUP_GUARDIAN = UnitEnum.POWERUP_GUARDIAN.value();
-    public static final short POWERUP_VIGILANT = UnitEnum.POWERUP_VIGILANT.value();
-    public static final short POWERUP_ZEALOUS = UnitEnum.POWERUP_ZEALOUS.value();
-    public static final short POWERUP_RAMPAGING = UnitEnum.POWERUP_RAMPAGING.value();
-    public static final short POWERUP_RUTHLESS = UnitEnum.POWERUP_RUTHLESS.value();
-    public static final short POWERUP_ENRAGED = UnitEnum.POWERUP_ENRAGED.value();
-    public static final short FOOTMAN = UnitEnum.FOOTMAN.value();
-    public static final short BOWMAN = UnitEnum.BOWMAN.value();
-    public static final short CAVALRY = UnitEnum.CAVALRY.value();
-    public static final short ARCHER = UnitEnum.ARCHER.value();
-    public static final short PIKEMAN = UnitEnum.PIKEMAN.value();
-    public static final short KNIGHT = UnitEnum.KNIGHT.value();
-    public static final short RANGER = UnitEnum.RANGER.value();
-    public static final short WOLF = UnitEnum.WOLF.value();
-    public static final short SUMMONER = UnitEnum.SUMMONER.value();
+    POWERUP(-20),
+    POWERUP_TOXIC(-20),
+    POWERUP_EVASIVE(-21),
+    POWERUP_RESILIENT(-22),
+    POWERUP_LONGSHANK(-23),
+    POWERUP_MIGHTY(-24),
+    POWERUP_CLOCKWORK(-25),
+    POWERUP_VAMPIRIC(-26),
+    POWERUP_CUNNING(-27),
+    POWERUP_EPIC(-28),
+    POWERUP_ARCANE(-29),
+    POWERUP_ASCENDANT(-30),
+    POWERUP_GUARDIAN(-31),
+    POWERUP_VIGILANT(-32),
+    POWERUP_ZEALOUS(-33),
+    POWERUP_RAMPAGING(-34),
+    POWERUP_RUTHLESS(-35),
+    POWERUP_ENRAGED(-36),
+    // # = 17
+
+    FOOTMAN(0),
+    BOWMAN(1),
+    CAVALRY(2),
+    ARCHER(3),
+    PIKEMAN(4),
+    KNIGHT(5),
+    RANGER(6),
+    WOLF(7),
+    SUMMONER(8),
     // 9
     // 10
-    public static final short PRIEST = UnitEnum.PRIEST.value();
-    public static final short ENCHANTER = UnitEnum.ENCHANTER.value();
-    public static final short TEMPLAR = UnitEnum.TEMPLAR.value();
-    public static final short WARRIOR = UnitEnum.WARRIOR.value();
-    public static final short RIDER = UnitEnum.RIDER.value();
-    public static final short HEALER = UnitEnum.HEALER.value();
-    public static final short WIZARD = UnitEnum.WIZARD.value();
-    public static final short SCOUT = UnitEnum.SCOUT.value();
-    public static final short ASSASSIN = UnitEnum.ASSASSIN.value();
-    public static final short TACTICIAN = UnitEnum.TACTICIAN.value();
-    public static final short GENERAL = UnitEnum.GENERAL.value();
-    public static final short WALL = UnitEnum.WALL.value();
-    public static final short MASON = UnitEnum.MASON.value();
-    public static final short CATAPULT = UnitEnum.CATAPULT.value();
-    public static final short BALLISTA = UnitEnum.BALLISTA.value();
-    public static final short NECROMANCER = UnitEnum.NECROMANCER.value();
-    public static final short LICH = UnitEnum.LICH.value();
+    PRIEST(11),
+    ENCHANTER(12),
+    TEMPLAR(13),
+    WARRIOR(14),
+    RIDER(15),
+    HEALER(16),
+    WIZARD(17),
+    SCOUT(18),
+    ASSASSIN(19),
+    TACTICIAN(20),
+    GENERAL(21),
+    WALL(22),
+    MASON(23),
+    CATAPULT(24),
+    BALLISTA(25),
+    NECROMANCER(26),
+    LICH(27),
     // 28
     // 29
-    public static final short SERGEANT = UnitEnum.SERGEANT.value();
-    public static final short ABJURER = UnitEnum.ABJURER.value();
-    public static final short SEAL = UnitEnum.SEAL.value();
-    public static final short WARLOCK = UnitEnum.WARLOCK.value();
-    public static final short CROSSBOWMAN = UnitEnum.CROSSBOWMAN.value();
-    public static final short DRAGON = UnitEnum.DRAGON.value();
-    public static final short DRACOLICH = UnitEnum.DRACOLICH.value();
-    public static final short HYDRA = UnitEnum.HYDRA.value();
-    public static final short TOWER = UnitEnum.TOWER.value();
-    public static final short COMMAND_POST = UnitEnum.COMMAND_POST.value();
-    public static final short BARRACKS = UnitEnum.BARRACKS.value();
+    SERGEANT(30),
+    ABJURER(31),
+    SEAL(32),
+    WARLOCK(33),
+    CROSSBOWMAN(34),
+    DRAGON(35),
+    DRACOLICH(36),
+    HYDRA(37),
+    TOWER(38),
+    COMMAND_POST(39),
+    BARRACKS(40),
     // 41
-    public static final short DRUID = UnitEnum.DRUID.value();
-    public static final short CHANNELER = UnitEnum.CHANNELER.value();
-    public static final short LYCANTHROPE = UnitEnum.LYCANTHROPE.value();
-    public static final short WEREWOLF = UnitEnum.WEREWOLF.value();
-    public static final short LYCANWOLF = UnitEnum.LYCANWOLF.value();
-    public static final short MOUNTED_ARCHER = UnitEnum.MOUNTED_ARCHER.value();
-    public static final short GEOMANCER = UnitEnum.GEOMANCER.value();
-    public static final short ROCK = UnitEnum.ROCK.value();
-    public static final short SWORDSMAN = UnitEnum.SWORDSMAN.value();
-    public static final short WITCH = UnitEnum.WITCH.value();
-    public static final short TOAD = UnitEnum.TOAD.value();
-    public static final short SHIELD_MAIDEN = UnitEnum.SHIELD_MAIDEN.value();
-    public static final short MAGUS = UnitEnum.MAGUS.value();
-    public static final short SPIRIT = UnitEnum.SPIRIT.value();
+    DRUID(42),
+    CHANNELER(43),
+    LYCANTHROPE(44),
+    WEREWOLF(45),
+    LYCANWOLF(46),
+    MOUNTED_ARCHER(47),
+    GEOMANCER(48),
+    ROCK(49),
+    SWORDSMAN(50),
+    WITCH(51),
+    TOAD(52),
+    SHIELD_MAIDEN(53),
+    MAGUS(54),
+    SPIRIT(55),
     // 56
-    public static final short GOLEM = UnitEnum.GOLEM.value();
-    public static final short ARMORY = UnitEnum.ARMORY.value();
+    GOLEM(57),
+    ARMORY(58),
     // 59
-    public static final short FIRE_ARCHER = UnitEnum.FIRE_ARCHER.value();
-    public static final short MIMIC = UnitEnum.MIMIC.value();
-    public static final short PALADIN = UnitEnum.PALADIN.value();
-    public static final short SHAMAN = UnitEnum.SHAMAN.value();
-    public static final short MARTYR = UnitEnum.MARTYR.value();
-    public static final short ROGUE = UnitEnum.ROGUE.value();
-    public static final short DIABOLIST = UnitEnum.DIABOLIST.value();
-    public static final short GHOST = UnitEnum.GHOST.value();
-    public static final short GATE_GUARD = UnitEnum.GATE_GUARD.value();
-    public static final short FEATHERED_SERPENT = UnitEnum.FEATHERED_SERPENT.value();
-    public static final short BERSERKER = UnitEnum.BERSERKER.value();
-    public static final short ARTIFICER = UnitEnum.ARTIFICER.value();
-    public static final short CHANGELING = UnitEnum.CHANGELING.value();
-    public static final short DOPPELGANGER = UnitEnum.DOPPELGANGER.value();
-    public static final short SKINWALKER = UnitEnum.SKINWALKER.value();
-    public static final short ACOLYTE = UnitEnum.ACOLYTE.value();
-    public static final short AXEMAN = UnitEnum.AXEMAN.value();
-    public static final short MOURNER = UnitEnum.MOURNER.value();
-    public static final short HERETIC = UnitEnum.HERETIC.value();
-    public static final short WAR_ELEPHANT = UnitEnum.WAR_ELEPHANT.value();
-    public static final short FANATIC = UnitEnum.FANATIC.value();
-    public static final short DISMOUNTED_KNIGHT = UnitEnum.DISMOUNTED_KNIGHT.value();
+    FIRE_ARCHER(60),
+    MIMIC(61),
+    PALADIN(62),
+    SHAMAN(63),
+    MARTYR(64),
+    ROGUE(65),
+    DIABOLIST(66),
+    GHOST(67),
+    GATE_GUARD(68),
+    FEATHERED_SERPENT(69),
+    BERSERKER(70),
+    ARTIFICER(71),
+    CHANGELING(72),
+    DOPPELGANGER(73),
+    SKINWALKER(74),
+    ACOLYTE(75),
+    AXEMAN(76),
+    MOURNER(77),
+    HERETIC(78),
+    WAR_ELEPHANT(79),
+    FANATIC(80),
+    DISMOUNTED_KNIGHT(81),
     // 82
-    public static final short QUARTERMASTER = UnitEnum.QUARTERMASTER.value();
-    public static final short WALL_MASON = UnitEnum.WALL_MASON.value();
-    public static final short CONFESSOR = UnitEnum.CONFESSOR.value();
-    public static final short STRATEGIST = UnitEnum.STRATEGIST.value();
-    public static final short POSSESSED = UnitEnum.POSSESSED.value();
-    public static final short BARBARIAN = UnitEnum.BARBARIAN.value();
-    public static final short ALCHEMIST = UnitEnum.ALCHEMIST.value();
-    public static final short BOUNTY_HUNTER = UnitEnum.BOUNTY_HUNTER.value();
-    public static final short SHIELD_BEARER = UnitEnum.SHIELD_BEARER.value();
-    public static final short CHIEFTAIN = UnitEnum.CHIEFTAIN.value();
-    public static final short LANCER = UnitEnum.LANCER.value();
-    public static final short ARCHANGEL = UnitEnum.ARCHANGEL.value();
-    public static final short CONJURER = UnitEnum.CONJURER.value();
+    QUARTERMASTER(83),
+    WALL_MASON(84),
+    CONFESSOR(85),
+    STRATEGIST(86),
+    POSSESSED(87),
+    BARBARIAN(88),
+    ALCHEMIST(89),
+    BOUNTY_HUNTER(90),
+    SHIELD_BEARER(91),
+    CHIEFTAIN(92),
+    LANCER(93),
+    ARCHANGEL(94),
+    CONJURER(95),
     // 96
     // 97
-    public static final short DIPLOMAT = UnitEnum.DIPLOMAT.value();
-    public static final short DIPLOMAT_USED = UnitEnum.DIPLOMAT_USED.value();
-    public static final short LONGBOWMAN = UnitEnum.LONGBOWMAN.value();
-    public static final short SYCOPHANT = UnitEnum.SYCOPHANT.value();
-    public static final short WYVERN = UnitEnum.WYVERN.value();
-    public static final short EGG = UnitEnum.EGG.value();
-    public static final short CAPTAIN = UnitEnum.CAPTAIN.value();
-    public static final short ABBEY = UnitEnum.ABBEY.value();
-    public static final short SUPPLICANT = UnitEnum.SUPPLICANT.value();
-    public static final short DUELIST = UnitEnum.DUELIST.value();
-    public static final short MILITIA = UnitEnum.MILITIA.value();
-    public static final short CONSPIRATOR = UnitEnum.CONSPIRATOR.value();
-    public static final short RELIC_CLOCKWORK = UnitEnum.RELIC_CLOCKWORK.value();
-    public static final short RELIC_BANISH = UnitEnum.RELIC_BANISH.value();
-    public static final short RELIC_VAMPIRE = UnitEnum.RELIC_VAMPIRE.value();
-    public static final short RELIC_EVASIVE = UnitEnum.RELIC_EVASIVE.value();
-    public static final short RELIC_STUN = UnitEnum.RELIC_STUN.value();
-    public static final short RELIC_FLIGHT = UnitEnum.RELIC_FLIGHT.value();
-    public static final short RELIC_HEAL_MOVE = UnitEnum.RELIC_HEAL_MOVE.value();
-    public static final short RELIC_GIFT_UNIT = UnitEnum.RELIC_GIFT_UNIT.value();
-    public static final short RELIC_RESET = UnitEnum.RELIC_RESET.value();
-    public static final short RELIC_SPELL_BLOCK = UnitEnum.RELIC_SPELL_BLOCK.value();
-    public static final short RELIC_PARRY = UnitEnum.RELIC_PARRY.value();
-    public static final short RELIC_EXPLODE = UnitEnum.RELIC_EXPLODE.value();
+    DIPLOMAT(98),
+    DIPLOMAT_USED(99),
+    LONGBOWMAN(100),
+    SYCOPHANT(101),
+    WYVERN(102),
+    EGG(103),
+    CAPTAIN(104),
+    ABBEY(105),
+    SUPPLICANT(106),
+    DUELIST(107),
+    MILITIA(108),
+    CONSPIRATOR(109),
+    RELIC_CLOCKWORK(110),
+    RELIC_BANISH(111),
+    RELIC_VAMPIRE(112),
+    RELIC_EVASIVE(113),
+    RELIC_STUN(114),
+    RELIC_FLIGHT(115),
+    RELIC_HEAL_MOVE(116),
+    RELIC_GIFT_UNIT(117),
+    RELIC_RESET(118),
+    RELIC_SPELL_BLOCK(119),
+    RELIC_PARRY(120),
+    RELIC_EXPLODE(121),
     // 122
-    public static final short NONE = UnitEnum.NONE.value();
-    public static final short UNIT_COUNT = UnitEnum.UNIT_COUNT.value();
+    NONE(123),
+    UNIT_COUNT(124);
+
+    private final short unitId;
+    private static final TreeMap<Short, UnitType> shortToEnum = new TreeMap<>();
+
+    public static UnitType idToUnit(short unitId) {
+        if (shortToEnum.isEmpty()) {
+            for (var e: UnitType.values()) {
+                shortToEnum.put(e.value(), e);
+            }
+        }
+        return shortToEnum.get(unitId);
+    }
+
+    UnitType(int unitId) {
+        assert unitId >= Short.MIN_VALUE;
+        assert unitId <= Short.MAX_VALUE;
+
+        this.unitId = (short) unitId;
+    }
+
+    public short value() {
+        return this.unitId;
+    }
+    
+    
 }

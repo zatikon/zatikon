@@ -30,7 +30,7 @@ public class UnitTower extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.TOWER;
+        id = UnitType.TOWER.value();
         category = Unit.STRUCTURES;
         name = Strings.UNIT_TOWER_1;
         actions = new Vector<Action>();

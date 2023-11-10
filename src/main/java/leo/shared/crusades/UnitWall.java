@@ -27,7 +27,7 @@ public class UnitWall extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.WALL;
+        id = UnitType.WALL.value();
         name = Strings.UNIT_WALL_1;
         actions = new Vector<Action>();
         damage = 0;

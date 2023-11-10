@@ -47,7 +47,7 @@ public class EventRebirth implements Event, Action {
         if (charges < 1) return Event.NONE;
         if (!corpse.getOrganic(owner)) return Event.NONE;
         if (!corpse.targetable(owner)) return Event.NONE;
-        if (corpse.getID() == UnitType.NONE) return Event.NONE;
+        if (corpse.getID() == UnitType.NONE.value()) return Event.NONE;
         if (corpse.getCastle() != owner.getCastle()) return Event.NONE;
 
         // yank it from the graveyard. if it's not there, no rebirth

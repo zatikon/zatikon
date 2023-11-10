@@ -777,34 +777,34 @@ public class ServerGame implements Game {
         int commanderWeight = 0;
 
         // add the general
-        castle.add(Unit.getUnit(UnitType.GENERAL, castle));
-        castle.add(Unit.getUnit(UnitType.GATE_GUARD, castle));
+        castle.add(Unit.getUnit(UnitType.GENERAL.value(), castle));
+        castle.add(Unit.getUnit(UnitType.GATE_GUARD.value(), castle));
 
         int commanders = 1;
         while (castle.getValue() < DUEL_SIZE) {
-            Unit unit = Unit.getUnit(((byte) random.nextInt(UnitType.UNIT_COUNT)), castle);
+            Unit unit = Unit.getUnit(((byte) random.nextInt(UnitType.UNIT_COUNT.value())), castle);
 
             if (random.nextInt(TACTICIAN_ODDS + commanderWeight) == 0) {
-                unit = Unit.getUnit(UnitType.TACTICIAN, castle);
+                unit = Unit.getUnit(UnitType.TACTICIAN.value(), castle);
                 commanderWeight += COMMANDER_INC;
             }
 
             // only one gateguard
-            if (unit != null && unit.getID() == UnitType.GATE_GUARD) {
+            if (unit != null && unit.getID() == UnitType.GATE_GUARD.value()) {
                 unit = null;
             }
 
             // make sure they're not flooded with commanders
             if (unit != null && (
-                    unit.getID() == UnitType.GENERAL ||
-                            unit.getID() == UnitType.TACTICIAN ||
-                            unit.getID() == UnitType.COMMAND_POST ||
-                            unit.getID() == UnitType.SERGEANT
+                    unit.getID() == UnitType.GENERAL.value() ||
+                            unit.getID() == UnitType.TACTICIAN.value() ||
+                            unit.getID() == UnitType.COMMAND_POST.value() ||
+                            unit.getID() == UnitType.SERGEANT.value()
             )) {
                 if (commanders >= 3) unit = null;
             }
 
-            if (unit != null && (unit.getID() == UnitType.RELIC_GIFT_UNIT))
+            if (unit != null && (unit.getID() == UnitType.RELIC_GIFT_UNIT.value()))
                 unit = null;
 
             // Weight the smaller units
@@ -812,11 +812,11 @@ public class ServerGame implements Game {
                 if (player.access(unit.accessLevel()) && DUEL_SIZE - castle.getValue() >= unit.getCastleCost())
                     castle.add(unit);
 
-                switch (unit.getID()) {
-                    case UnitType.TACTICIAN:
-                    case UnitType.GENERAL:
-                    case UnitType.COMMAND_POST:
-                    case UnitType.SERGEANT:
+                switch (unit.getEnum()) {
+                    case TACTICIAN:
+                    case GENERAL:
+                    case COMMAND_POST:
+                    case SERGEANT:
                         commanders++;
                         break;
                 }
@@ -833,34 +833,34 @@ public class ServerGame implements Game {
         int commanderWeight = 0;
 
         // add the general
-        castle.add(Unit.getUnit(UnitType.GENERAL, castle));
-        castle.add(Unit.getUnit(UnitType.GATE_GUARD, castle));
+        castle.add(Unit.getUnit(UnitType.GENERAL.value(), castle));
+        castle.add(Unit.getUnit(UnitType.GATE_GUARD.value(), castle));
 
         int commanders = 1;
         while (castle.getValue() < DUEL_SIZE) {
-            Unit unit = Unit.getUnit(((byte) random.nextInt(UnitType.UNIT_COUNT)), castle);
+            Unit unit = Unit.getUnit(((byte) random.nextInt(UnitType.UNIT_COUNT.value())), castle);
 
             if (random.nextInt(TACTICIAN_ODDS + commanderWeight) == 0) {
-                unit = Unit.getUnit(UnitType.TACTICIAN, castle);
+                unit = Unit.getUnit(UnitType.TACTICIAN.value(), castle);
                 commanderWeight += COMMANDER_INC;
             }
 
             // only one gateguard
-            if (unit != null && unit.getID() == UnitType.GATE_GUARD) {
+            if (unit != null && unit.getID() == UnitType.GATE_GUARD.value()) {
                 unit = null;
             }
 
             // make sure they're not flooded with commanders
             if (unit != null && (
-                    unit.getID() == UnitType.GENERAL ||
-                            unit.getID() == UnitType.TACTICIAN ||
-                            unit.getID() == UnitType.COMMAND_POST ||
-                            unit.getID() == UnitType.SERGEANT
+                    unit.getID() == UnitType.GENERAL.value() ||
+                            unit.getID() == UnitType.TACTICIAN.value() ||
+                            unit.getID() == UnitType.COMMAND_POST.value() ||
+                            unit.getID() == UnitType.SERGEANT.value()
             )) {
                 if (commanders >= 3) unit = null;
             }
 
-            if (unit != null && (unit.getID() == UnitType.RELIC_GIFT_UNIT))
+            if (unit != null && (unit.getID() == UnitType.RELIC_GIFT_UNIT.value()))
                 unit = null;
 
             // Weight the smaller units
@@ -868,11 +868,11 @@ public class ServerGame implements Game {
                 if (player.access(unit.accessLevel()) && DUEL_SIZE - castle.getValue() >= unit.getCastleCost())
                     castle.add(unit);
 
-                switch (unit.getID()) {
-                    case UnitType.TACTICIAN:
-                    case UnitType.GENERAL:
-                    case UnitType.COMMAND_POST:
-                    case UnitType.SERGEANT:
+                switch (unit.getEnum()) {
+                    case TACTICIAN:
+                    case GENERAL:
+                    case COMMAND_POST:
+                    case SERGEANT:
                         commanders++;
                         break;
                 }

@@ -27,7 +27,7 @@ public class UnitGateGuard extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.GATE_GUARD;
+        id = UnitType.GATE_GUARD.value();
         category = Unit.SOLDIERS;
         name = Strings.UNIT_GATE_GUARD_1;
         actions = new Vector<Action>();

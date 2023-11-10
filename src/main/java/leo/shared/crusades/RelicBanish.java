@@ -30,7 +30,7 @@ public class RelicBanish extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.RELIC_BANISH;
+        id = UnitType.RELIC_BANISH.value();
         category = Unit.STRUCTURES;
         name = Strings.RELIC_BANISH_1;
         actions = new Vector<Action>();

@@ -33,10 +33,10 @@ public class UnitSummon extends Unit {
     // Deployed event, in case of reset (summons can't be reset)
     /////////////////////////////////////////////////////////////////
     public void entered() {
-        if (id == UnitType.NONE)
+        if (id == UnitType.NONE.value())
             die(false, this);
         else
-            id = UnitType.NONE;
+            id = UnitType.NONE.value();
     }
 
     // When banished or reset, die and return to owner

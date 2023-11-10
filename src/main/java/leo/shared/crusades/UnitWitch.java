@@ -32,7 +32,7 @@ public class UnitWitch extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.WITCH;
+        id = UnitType.WITCH.value();
         category = Unit.BLACK_MAGIC_USERS;
         name = Strings.UNIT_WITCH_1;
         actions = new Vector<Action>();

@@ -30,7 +30,7 @@ public class UnitLancer extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.LANCER;
+        id = UnitType.LANCER.value();
         category = Unit.HORSEMEN;
         name = Strings.UNIT_LANCER_1;
         actions = new Vector<Action>();

@@ -32,7 +32,7 @@ public class UnitCrossbowman extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.CROSSBOWMAN;
+        id = UnitType.CROSSBOWMAN.value();
         category = Unit.ARCHERS;
         name = Strings.UNIT_CROSSBOWMAN_1;
         actions = new Vector<Action>();

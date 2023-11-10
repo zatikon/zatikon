@@ -28,7 +28,7 @@ public class UnitAcolyte extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.ACOLYTE;
+        id = UnitType.ACOLYTE.value();
         category = Unit.CLERGY;
         name = Strings.UNIT_ACOLYTE_1;
         actions = new Vector<Action>();

@@ -85,7 +85,7 @@ public class ActionBanish implements Action {
         if (!summoned) {
             if (target != victim.getCastle().getLocation())
                 owner.getCastle().getObserver().unitEffect(victim, Action.EFFECT_BANISH);
-            if (owner.getID() == UnitType.SHAMAN)
+            if (owner.getID() == UnitType.SHAMAN.value())
                 owner.getCastle().getObserver().abilityUsed(owner.getLocation(), target, Constants.IMG_MASK);
             else
                 owner.getCastle().getObserver().abilityUsed(owner.getLocation(), target, Constants.IMG_POOF);

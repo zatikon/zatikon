@@ -31,7 +31,7 @@ public class UnitLongbowman extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.LONGBOWMAN;
+        id = UnitType.LONGBOWMAN.value();
         category = Unit.ARCHERS;
         name = Strings.UNIT_LONGBOWMAN_1;
         actions = new Vector<Action>();

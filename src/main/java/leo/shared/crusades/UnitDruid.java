@@ -35,7 +35,7 @@ public class UnitDruid extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.DRUID;
+        id = UnitType.DRUID.value();
         category = Unit.NATURE;
         name = Strings.UNIT_DRUID_1;
         actions = new Vector<Action>();

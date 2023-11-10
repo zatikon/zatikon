@@ -27,7 +27,7 @@ public class UnitScout extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.SCOUT;
+        id = UnitType.SCOUT.value();
         category = Unit.SCOUTS;
         name = Strings.UNIT_SCOUT_1;
         actions = new Vector<Action>();

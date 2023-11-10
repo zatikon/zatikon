@@ -30,7 +30,7 @@ public class UnitMason extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.MASON;
+        id = UnitType.MASON.value();
         category = Unit.SIEGE;
         name = Strings.UNIT_MASON_1;
         actions = new Vector<Action>();

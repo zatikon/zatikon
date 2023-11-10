@@ -30,7 +30,7 @@ public class UnitDracolich extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.DRACOLICH;
+        id = UnitType.DRACOLICH.value();
         category = Unit.WYRMS;
         name = Strings.UNIT_DRACOLICH_1;
         actions = new Vector<Action>();

@@ -29,7 +29,7 @@ public class UnitRock extends Unit {
         captive = newCaptive;
 
         // Initialize
-        id = UnitType.ROCK;
+        id = UnitType.ROCK.value();
         name = Strings.UNIT_ROCK_1;
         actions = new Vector<Action>();
         damage = 0;
@@ -46,7 +46,7 @@ public class UnitRock extends Unit {
         appearance = Constants.IMG_ROCK;
 
         add(new ActionInorganic(this));
-        if (captive != null && captive.getID() != UnitType.NONE) {
+        if (captive != null && captive.getID() != UnitType.NONE.value()) {
             ActionTrait captiveTrait = new ActionTrait(this, Strings.UNIT_ROCK_2, Strings.UNIT_ROCK_3 + captive.getName(), "", Strings.UNIT_ROCK_4);
             captiveTrait.setDetail(Strings.UNIT_ROCK_4);
             captiveTrait.setHiddenUnit(captive);

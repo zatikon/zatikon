@@ -107,9 +107,9 @@ public class ActionFireball implements Action {
         owner.getCastle().getObserver().fireball(loc, target, Constants.IMG_EXPLOSION_1, victims, damages, type);
 
         // describe
-        if (type == UnitType.DRAGON)
+        if (type == UnitType.DRAGON.value())
             return "" + owner.getName() + Strings.ACTION_FIREBALL_1;
-        else if (type == UnitType.FIRE_ARCHER)
+        else if (type == UnitType.FIRE_ARCHER.value())
             return "" + owner.getName() + Strings.ACTION_FIREBALL_2;
         else
             return "" + owner.getName() + Strings.ACTION_FIREBALL_3;

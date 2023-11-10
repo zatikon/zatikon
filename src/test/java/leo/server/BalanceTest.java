@@ -22,10 +22,10 @@ class BalanceTest {
     @Test
     void affordableUnits() {
         // TODO this is still very very grindy. recheck
-        assertTrue(Balance.getUnitBuyPrice(UnitType.SCOUT) < rewardSum(2));
-        assertTrue(Balance.getUnitBuyPrice(UnitType.PRIEST) < rewardSum(5));
-        assertTrue(Balance.getUnitBuyPrice(UnitType.ABJURER) < rewardSum(8));
-        assertTrue(Balance.getUnitBuyPrice(UnitType.DRAGON) < rewardSum(12));
-        assertTrue(Balance.getUnitBuyPrice(UnitType.WYVERN) < rewardSum(15));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.SCOUT.value()) < rewardSum(2));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.PRIEST.value()) < rewardSum(5));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.ABJURER.value()) < rewardSum(8));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.DRAGON.value()) < rewardSum(12));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.WYVERN.value()) < rewardSum(15));
     }
 }

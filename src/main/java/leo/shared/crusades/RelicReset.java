@@ -31,7 +31,7 @@ public class RelicReset extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.RELIC_RESET;
+        id = UnitType.RELIC_RESET.value();
         category = Unit.RELICS;
         name = Strings.RELIC_RESET_1;
         actions = new Vector<Action>();

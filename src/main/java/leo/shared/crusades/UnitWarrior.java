@@ -27,7 +27,7 @@ public class UnitWarrior extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.WARRIOR;
+        id = UnitType.WARRIOR.value();
         category = Unit.SOLDIERS;
         name = Strings.UNIT_WARRIOR_1;
         actions = new Vector<Action>();

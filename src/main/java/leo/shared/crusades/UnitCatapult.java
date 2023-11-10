@@ -27,7 +27,7 @@ public class UnitCatapult extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.CATAPULT;
+        id = UnitType.CATAPULT.value();
         category = Unit.SIEGE;
         name = Strings.UNIT_CATAPULT_1;
         actions = new Vector<Action>();

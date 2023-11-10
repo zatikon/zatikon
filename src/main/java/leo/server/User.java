@@ -942,7 +942,7 @@ public class User implements Runnable {
             Log.alert("Overvalue castle");
             return false;
         }
-        for (int i = 0; i < UnitType.UNIT_COUNT; i++) {
+        for (int i = 0; i < UnitType.UNIT_COUNT.value(); i++) {
             if (player.getUnits()[i] - castle.getUnits()[i] < 0) {
                 Log.alert("Nonexistant unit");
                 return false;

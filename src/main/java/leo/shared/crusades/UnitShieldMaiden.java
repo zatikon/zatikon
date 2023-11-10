@@ -31,7 +31,7 @@ public class UnitShieldMaiden extends Unit {
         eventPriority = 4;
 
         // Initialize
-        id = UnitType.SHIELD_MAIDEN;
+        id = UnitType.SHIELD_MAIDEN.value();
         category = Unit.CLERGY;
         name = Strings.UNIT_SHIELD_MAIDEN_1;
         actions = new Vector<Action>();

@@ -30,7 +30,7 @@ public class RelicSpellBlock extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.RELIC_SPELL_BLOCK;
+        id = UnitType.RELIC_SPELL_BLOCK.value();
         category = Unit.RELICS;
         name = Strings.RELIC_SPELL_BLOCK_1;
         actions = new Vector<Action>();

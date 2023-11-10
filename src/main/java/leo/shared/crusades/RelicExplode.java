@@ -30,7 +30,7 @@ public class RelicExplode extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.RELIC_EXPLODE;
+        id = UnitType.RELIC_EXPLODE.value();
         category = Unit.RELICS;
         name = Strings.RELIC_EXPLODE_1;
         actions = new Vector<Action>();

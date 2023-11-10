@@ -31,7 +31,7 @@ public class UnitFireArcher extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.FIRE_ARCHER;
+        id = UnitType.FIRE_ARCHER.value();
         category = Unit.ARCHERS;
         name = Strings.UNIT_FIRE_ARCHER_1;
         actions = new Vector<Action>();
@@ -52,7 +52,7 @@ public class UnitFireArcher extends Unit {
         actions.add(move);
 
         // Good stuff
-        fireball = new ActionFireball(this, (byte) 0, (byte) 1, TargetType.ANY_AREA, (byte) 3, (byte) 3, UnitType.FIRE_ARCHER);
+        fireball = new ActionFireball(this, (byte) 0, (byte) 1, TargetType.ANY_AREA, (byte) 3, (byte) 3, UnitType.FIRE_ARCHER.value());
         actions.add(fireball);
 
     }

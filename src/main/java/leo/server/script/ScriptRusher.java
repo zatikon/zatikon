@@ -100,7 +100,7 @@ public class ScriptRusher implements Script {
 
         if (unit.getMove().getRemaining() < 1) return false;
 
-        if (unit.getID() == UnitType.GATE_GUARD && unit.getLocation() == castle.getLocation()) return false;
+        if (unit.getID() == UnitType.GATE_GUARD.value() && unit.getLocation() == castle.getLocation()) return false;
 
         // Get the move targets
         Vector<Short> moves = unit.getMove().getTargets();
@@ -110,7 +110,7 @@ public class ScriptRusher implements Script {
 
         // Set the target
         short targetLocation = enemyCastle.getLocation();
-        if (unit.getID() == UnitType.GATE_GUARD) targetLocation = castle.getLocation();
+        if (unit.getID() == UnitType.GATE_GUARD.value()) targetLocation = castle.getLocation();
 
         // Whats the closest possible range
         int closest = AI.getClosestRange(moves, targetLocation);

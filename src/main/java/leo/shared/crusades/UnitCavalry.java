@@ -27,7 +27,7 @@ public class UnitCavalry extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.CAVALRY;
+        id = UnitType.CAVALRY.value();
         category = Unit.HORSEMEN;
         name = Strings.UNIT_CALVARY_1;
         actions = new Vector<Action>();

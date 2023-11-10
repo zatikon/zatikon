@@ -49,7 +49,7 @@ public class ActionArmistice implements Action {
         owner.getCastle().startArmistice();
 
         // set the ID so the ability can't be replaced
-        if (owner.getID() == UnitType.DIPLOMAT) owner.setID(UnitType.DIPLOMAT_USED);
+        if (owner.getID() == UnitType.DIPLOMAT.value()) owner.setID(UnitType.DIPLOMAT_USED.value());
 
         Vector<Unit> units = owner.getCastle().getBattleField().getUnits();
         Iterator<Unit> it = units.iterator();
