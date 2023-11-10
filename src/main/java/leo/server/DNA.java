@@ -113,6 +113,8 @@ public class DNA {
     /////////////////////////////////////////////////////////////////
     public DNA(Random newRandom, int level) {
         random = newRandom;
+
+        // first, set uniform changes across all the units and relics
         for (int i = 0; i < UNITS.length; i++) {
             total += 1;
             weights[i] = 1;
@@ -130,18 +132,21 @@ public class DNA {
         /////////////////////////////////////////
         int picks = 0;
 
+        // pick 0-3 units which will get extra 10 weight
         picks = random.nextInt(4);
         for (int i = 0; i < picks; i++) {
             total += 10;
             weights[random.nextInt(UNITS.length)] += 10;
         }
 
+        // pick 0-3 units which will get extra 25 weight
         picks = random.nextInt(4);
         for (int i = 0; i < picks; i++) {
             total += 25;
             weights[random.nextInt(UNITS.length)] += 25;
         }
 
+        // pick 0-3 units which will get 50 extra weight
         picks = random.nextInt(4);
         for (int i = 0; i < picks; i++) {
             total += 50;
@@ -163,6 +168,8 @@ public class DNA {
         /////////////////////////////////////////
         // RELICS
         /////////////////////////////////////////
+
+        // pick 0-3 relics which will get 20 extra weight
         picks = random.nextInt(4);
         for (int i = 0; i < picks; i++) {
             relicTotal += 20;
