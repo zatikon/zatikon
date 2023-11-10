@@ -34,7 +34,7 @@ public class UnitTemplar extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.TEMPLAR;
+        id = UnitType.TEMPLAR;
         category = Unit.CLERGY;
         name = Strings.UNIT_TEMPLAR_1;
         actions = new Vector<Action>();

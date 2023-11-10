@@ -32,7 +32,7 @@ public class UnitSergeant extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.SERGEANT;
+        id = UnitType.SERGEANT;
         category = Unit.COMMANDERS;
         name = Strings.UNIT_SERGEANT_1;
         actions = new Vector<Action>();

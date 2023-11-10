@@ -31,7 +31,7 @@ public class RelicEvasive extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.RELIC_EVASIVE;
+        id = UnitType.RELIC_EVASIVE;
         category = Unit.RELICS;
         name = Strings.RELIC_EVASIVE_1;
         actions = new Vector<Action>();

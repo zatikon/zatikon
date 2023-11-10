@@ -30,7 +30,7 @@ public class UnitSupplicant extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.SUPPLICANT;
+        id = UnitType.SUPPLICANT;
         category = Unit.CULTISTS;
         name = Strings.UNIT_SUPPLICANT_1;
         actions = new Vector<Action>();

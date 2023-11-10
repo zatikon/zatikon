@@ -158,7 +158,7 @@ public class ActionWallWalk implements Action {
         while (it.hasNext()) {
             Short byter = it.next();
             Unit unit = owner.getBattleField().getUnitAt(byter.byteValue());
-            if (unit != null && unit.getID() != Unit.WALL) removes.add(byter);
+            if (unit != null && unit.getID() != UnitType.WALL) removes.add(byter);
         }
 
         while (removes.size() > 0)

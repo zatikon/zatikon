@@ -27,7 +27,7 @@ public class UnitTactician extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.TACTICIAN;
+        id = UnitType.TACTICIAN;
         category = Unit.COMMANDERS;
         name = Strings.UNIT_TACTICIAN_1;
         actions = new Vector<Action>();

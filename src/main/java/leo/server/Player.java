@@ -31,7 +31,7 @@ public class Player {
     //private int accessLevel = Unit.FREE;
     private boolean admin = false;
     private boolean accessLoaded = false;
-    private final short[] units = new short[Unit.UNIT_COUNT];
+    private final short[] units = new short[UnitType.UNIT_COUNT];
     private String name;
     private String password;
     private String passwordHashed;
@@ -502,18 +502,18 @@ public class Player {
     // Create starting army
     /////////////////////////////////////////////////////////////////
     private void createStartingArmy() {
-        for (short i = 0; i < Unit.UNIT_COUNT; i++) {
+        for (short i = 0; i < UnitType.UNIT_COUNT; i++) {
             units[i] += Unit.startingCount(i);
         }
 
         // build the starting army
-        startingCastle.add(Unit.getUnit(Unit.GENERAL, startingCastle));
-        startingCastle.add(Unit.getUnit(Unit.KNIGHT, startingCastle));
-        startingCastle.add(Unit.getUnit(Unit.WARRIOR, startingCastle));
-        startingCastle.add(Unit.getUnit(Unit.RANGER, startingCastle));
-        startingCastle.add(Unit.getUnit(Unit.ARCHER, startingCastle));
-        startingCastle.add(Unit.getUnit(Unit.PIKEMAN, startingCastle));
-        startingCastle.add(Unit.getUnit(Unit.PIKEMAN, startingCastle));
+        startingCastle.add(Unit.getUnit(UnitType.GENERAL, startingCastle));
+        startingCastle.add(Unit.getUnit(UnitType.KNIGHT, startingCastle));
+        startingCastle.add(Unit.getUnit(UnitType.WARRIOR, startingCastle));
+        startingCastle.add(Unit.getUnit(UnitType.RANGER, startingCastle));
+        startingCastle.add(Unit.getUnit(UnitType.ARCHER, startingCastle));
+        startingCastle.add(Unit.getUnit(UnitType.PIKEMAN, startingCastle));
+        startingCastle.add(Unit.getUnit(UnitType.PIKEMAN, startingCastle));
     }
 
 

@@ -27,7 +27,7 @@ public class UnitGeomancer extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.GEOMANCER;
+        id = UnitType.GEOMANCER;
         category = Unit.NATURE;
         name = Strings.UNIT_GEOMANCER_1;
         actions = new Vector<Action>();

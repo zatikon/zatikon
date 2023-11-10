@@ -27,7 +27,7 @@ public class UnitLich extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.LICH;
+        id = UnitType.LICH;
         name = Strings.UNIT_LICH_1;
         actions = new Vector<Action>();
         damage = 5;

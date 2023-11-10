@@ -30,7 +30,7 @@ public class UnitBerserker extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.BERSERKER;
+        id = UnitType.BERSERKER;
         category = Unit.NATURE;
         name = Strings.UNIT_BERSERKER_1;
         actions = new Vector<Action>();

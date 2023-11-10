@@ -27,7 +27,7 @@ public class UnitRider extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.RIDER;
+        id = UnitType.RIDER;
         category = Unit.HORSEMEN;
         name = Strings.UNIT_RIDER_1;
         actions = new Vector<Action>();

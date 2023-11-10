@@ -33,7 +33,7 @@ public class UnitHydra extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.HYDRA;
+        id = UnitType.HYDRA;
         category = Unit.WYRMS;
         name = Strings.UNIT_HYDRA_1;
         actions = new Vector<Action>();

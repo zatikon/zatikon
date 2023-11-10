@@ -27,7 +27,7 @@ public class UnitGhost extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.POSSESSED;
+        id = UnitType.POSSESSED;
         name = Strings.UNIT_GHOST_1;
         actions = new Vector<Action>();
         damage = 3;

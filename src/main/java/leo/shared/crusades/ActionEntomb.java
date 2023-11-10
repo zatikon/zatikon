@@ -69,7 +69,7 @@ public class ActionEntomb implements Action {
         // do it
         old.die(false, owner);
 
-        if (old.getID() == Unit.NONE) {
+        if (old.getID() == UnitType.NONE) {
             old.setName(Strings.ACTION_ENTOMB_3);
         }
 

@@ -31,7 +31,7 @@ public class UnitChanneler extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.CHANNELER;
+        id = UnitType.CHANNELER;
         category = Unit.NATURE;
         name = Strings.UNIT_CHANNELER_1;
         actions = new Vector<Action>();

@@ -84,7 +84,7 @@ public class ClientObserver implements Observer {
                 break;
 
             case Action.EFFECT_BANISH:
-                if (target.getID() != Unit.NONE) {
+                if (target.getID() != UnitType.NONE) {
                     Client.getGameData().insert(new AnimationBanish(target, target.getLocation(), target.getCastle().getLocation()));
                 }
                 break;
@@ -402,7 +402,7 @@ public class ClientObserver implements Observer {
     // Castle addition
     /////////////////////////////////////////////////////////////////
     public void castleAddition(Unit newUnit) {
-        if (newUnit.getID() == Unit.NONE) return;
+        if (newUnit.getID() == UnitType.NONE) return;
         Client.getGameData().getEnemyCastle().clear();
         if (newUnit.getTeam() == Unit.TEAM_2) {
             Client.getGameData().getMyCastle().removeLast();
@@ -440,17 +440,17 @@ public class ClientObserver implements Observer {
     /////////////////////////////////////////////////////////////////
     public void fireball(short source, short destination, int image, Vector<Unit> victims, Vector<Short> damages, short type) {
         switch (type) {
-            case Unit.FIRE_ARCHER:
+            case UnitType.FIRE_ARCHER:
                 Client.getImages().playSound(Constants.SOUND_BOW);
                 Client.getGameData().add(new AnimationFireball(source, destination, damages, Constants.IMG_ARROW, victims, Constants.STEP_SPEED * 3));
                 break;
 
-            case Unit.WARLOCK:
+            case UnitType.WARLOCK:
                 Client.getImages().playSound(Constants.SOUND_FIREBALL);
                 Client.getGameData().add(new AnimationFireball(source, destination, damages, Constants.IMG_FIREBALL, victims, Constants.STEP_SPEED * 2));
                 break;
 
-            case Unit.DRAGON:
+            case UnitType.DRAGON:
                 Client.getImages().playSound(Constants.SOUND_GROWL);
                 Client.getGameData().add(new AnimationFireball(source, destination, damages, Constants.IMG_FIREBALL, victims, Constants.STEP_SPEED * 2));
                 break;
@@ -484,7 +484,7 @@ public class ClientObserver implements Observer {
     // Something dies
     /////////////////////////////////////////////////////////////////
     public void death(Unit victim) {
-        if (victim.getID() == Unit.WALL_MASON) victim.setAppearance(Constants.IMG_WALL);
+        if (victim.getID() == UnitType.WALL_MASON) victim.setAppearance(Constants.IMG_WALL);
         Client.getGameData().insert(new AnimationDeath(victim));
     }
 

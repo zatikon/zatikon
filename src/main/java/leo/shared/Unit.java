@@ -52,128 +52,128 @@ public class Unit {
             {
 
                     // tier 1
-                    {Unit.FOOTMAN,
-                            Unit.BOWMAN,
-                            Unit.PIKEMAN,
-                            Unit.TACTICIAN,
-                            Unit.CAVALRY,
-                            Unit.SCOUT,
-                            Unit.ARCHER,
-                            Unit.CATAPULT,
-                            Unit.BALLISTA,
-                            Unit.GENERAL,
-                            Unit.MILITIA,
-                            Unit.CONSPIRATOR},
+                    {UnitType.FOOTMAN,
+                            UnitType.BOWMAN,
+                            UnitType.PIKEMAN,
+                            UnitType.TACTICIAN,
+                            UnitType.CAVALRY,
+                            UnitType.SCOUT,
+                            UnitType.ARCHER,
+                            UnitType.CATAPULT,
+                            UnitType.BALLISTA,
+                            UnitType.GENERAL,
+                            UnitType.MILITIA,
+                            UnitType.CONSPIRATOR},
 
                     // tier 2
-                    {Unit.RIDER,
-                            Unit.ASSASSIN,
-                            Unit.FANATIC,
-                            Unit.WARRIOR,
-                            Unit.KNIGHT,
-                            Unit.RANGER,
-                            Unit.MASON,
-                            Unit.CROSSBOWMAN,
-                            Unit.GATE_GUARD,
-                            Unit.RELIC_GIFT_UNIT
+                    {UnitType.RIDER,
+                            UnitType.ASSASSIN,
+                            UnitType.FANATIC,
+                            UnitType.WARRIOR,
+                            UnitType.KNIGHT,
+                            UnitType.RANGER,
+                            UnitType.MASON,
+                            UnitType.CROSSBOWMAN,
+                            UnitType.GATE_GUARD,
+                            UnitType.RELIC_GIFT_UNIT
                     },
 
                     // tier 3
-                    {Unit.SWORDSMAN,
-                            Unit.BERSERKER,
-                            Unit.COMMAND_POST,
-                            Unit.BARRACKS,
-                            Unit.TOWER,
-                            Unit.ROGUE,
-                            Unit.ACOLYTE,
-                            Unit.AXEMAN,
-                            Unit.BARBARIAN,
-                            Unit.RELIC_BANISH},
+                    {UnitType.SWORDSMAN,
+                            UnitType.BERSERKER,
+                            UnitType.COMMAND_POST,
+                            UnitType.BARRACKS,
+                            UnitType.TOWER,
+                            UnitType.ROGUE,
+                            UnitType.ACOLYTE,
+                            UnitType.AXEMAN,
+                            UnitType.BARBARIAN,
+                            UnitType.RELIC_BANISH},
 
                     // tier 4
-                    {Unit.MOUNTED_ARCHER,
-                            Unit.SERGEANT,
-                            Unit.FIRE_ARCHER,
-                            Unit.ARMORY,
-                            Unit.MARTYR,
-                            Unit.TEMPLAR,
-                            Unit.MOURNER,
-                            Unit.QUARTERMASTER,
-                            Unit.SHIELD_BEARER,
-                            Unit.ABBEY,
-                            Unit.RELIC_RESET,
-                            Unit.RELIC_EXPLODE
+                    {UnitType.MOUNTED_ARCHER,
+                            UnitType.SERGEANT,
+                            UnitType.FIRE_ARCHER,
+                            UnitType.ARMORY,
+                            UnitType.MARTYR,
+                            UnitType.TEMPLAR,
+                            UnitType.MOURNER,
+                            UnitType.QUARTERMASTER,
+                            UnitType.SHIELD_BEARER,
+                            UnitType.ABBEY,
+                            UnitType.RELIC_RESET,
+                            UnitType.RELIC_EXPLODE
                     },
 
                     // tier 5
-                    {Unit.PRIEST,
-                            Unit.HEALER,
-                            Unit.DRUID,
-                            Unit.PALADIN,
-                            Unit.GOLEM,
-                            Unit.SHIELD_MAIDEN,
-                            Unit.HERETIC,
-                            Unit.CONFESSOR,
-                            Unit.LANCER,
-                            Unit.SYCOPHANT
+                    {UnitType.PRIEST,
+                            UnitType.HEALER,
+                            UnitType.DRUID,
+                            UnitType.PALADIN,
+                            UnitType.GOLEM,
+                            UnitType.SHIELD_MAIDEN,
+                            UnitType.HERETIC,
+                            UnitType.CONFESSOR,
+                            UnitType.LANCER,
+                            UnitType.SYCOPHANT
                     },
 
                     // tier 6
-                    {Unit.SHAMAN,
-                            Unit.WAR_ELEPHANT,
-                            Unit.LYCANTHROPE,
-                            Unit.CHANNELER,
-                            Unit.SUMMONER,
-                            Unit.ABJURER,
-                            Unit.GEOMANCER,
-                            Unit.STRATEGIST,
-                            Unit.DIPLOMAT,
-                            Unit.LONGBOWMAN,
-                            Unit.SUPPLICANT,
-                            Unit.RELIC_EVASIVE,
-                            Unit.RELIC_FLIGHT,
-                            Unit.RELIC_HEAL_MOVE,
+                    {UnitType.SHAMAN,
+                            UnitType.WAR_ELEPHANT,
+                            UnitType.LYCANTHROPE,
+                            UnitType.CHANNELER,
+                            UnitType.SUMMONER,
+                            UnitType.ABJURER,
+                            UnitType.GEOMANCER,
+                            UnitType.STRATEGIST,
+                            UnitType.DIPLOMAT,
+                            UnitType.LONGBOWMAN,
+                            UnitType.SUPPLICANT,
+                            UnitType.RELIC_EVASIVE,
+                            UnitType.RELIC_FLIGHT,
+                            UnitType.RELIC_HEAL_MOVE,
                     },
 
                     // tier 7
                     {
-                            Unit.BOUNTY_HUNTER,
-                            Unit.CONSPIRATOR,
-                            Unit.WARLOCK,
-                            Unit.WIZARD,
-                            Unit.ENCHANTER,
-                            Unit.NECROMANCER,
-                            Unit.WITCH,
-                            Unit.MAGUS,
-                            Unit.CONJURER,
-                            Unit.CHIEFTAIN,
-                            Unit.CAPTAIN,
-                            Unit.RELIC_CLOCKWORK,
-                            Unit.RELIC_VAMPIRE,
-                            Unit.RELIC_STUN,
-                            Unit.RELIC_SPELL_BLOCK,
-                            Unit.RELIC_PARRY,
-                            Unit.DUELIST
+                            UnitType.BOUNTY_HUNTER,
+                            UnitType.CONSPIRATOR,
+                            UnitType.WARLOCK,
+                            UnitType.WIZARD,
+                            UnitType.ENCHANTER,
+                            UnitType.NECROMANCER,
+                            UnitType.WITCH,
+                            UnitType.MAGUS,
+                            UnitType.CONJURER,
+                            UnitType.CHIEFTAIN,
+                            UnitType.CAPTAIN,
+                            UnitType.RELIC_CLOCKWORK,
+                            UnitType.RELIC_VAMPIRE,
+                            UnitType.RELIC_STUN,
+                            UnitType.RELIC_SPELL_BLOCK,
+                            UnitType.RELIC_PARRY,
+                            UnitType.DUELIST
                     },
 
                     // tier 8
-                    {Unit.DIABOLIST,
-                            Unit.ARTIFICER,
-                            Unit.MIMIC,
-                            Unit.DOPPELGANGER,
-                            Unit.SKINWALKER,
-                            Unit.CHANGELING,
-                            Unit.POSSESSED,
-                            Unit.ALCHEMIST
+                    {UnitType.DIABOLIST,
+                            UnitType.ARTIFICER,
+                            UnitType.MIMIC,
+                            UnitType.DOPPELGANGER,
+                            UnitType.SKINWALKER,
+                            UnitType.CHANGELING,
+                            UnitType.POSSESSED,
+                            UnitType.ALCHEMIST
                     },
 
                     // tier 9
-                    {Unit.DRACOLICH,
-                            Unit.DRAGON,
-                            Unit.FEATHERED_SERPENT,
-                            Unit.HYDRA,
-                            Unit.ARCHANGEL,
-                            Unit.WYVERN
+                    {UnitType.DRACOLICH,
+                            UnitType.DRAGON,
+                            UnitType.FEATHERED_SERPENT,
+                            UnitType.HYDRA,
+                            UnitType.ARCHANGEL,
+                            UnitType.WYVERN
                     },
             };
     //////////////////////////
@@ -215,167 +215,7 @@ public class Unit {
     public static final int CLASS_COUNT = 15;
 
 
-    //////////////////////////
-    // Units
-    //////////////////////////
-    public static final short IMP = -1;
-    public static final short DEMON = -2;
-    public static final short SKELETON = -3;
-    public static final short ZOMBIE = -4;
-    public static final short SOLDIER = -5;
-    public static final short WILL_O_THE_WISPS = -6;
-    public static final short SERPENT = -7;
-    public static final short BEAR = -8;
-    public static final short PORTAL = -9;
-    public static final short GATE = -10;
-    public static final short ARCHDEMON = -11;
-
-    // Powerups
-    public static final short POWERUP = -20;
-    public static final short POWERUP_TOXIC = -20;
-    public static final short POWERUP_EVASIVE = -21;
-    public static final short POWERUP_RESILIENT = -22;
-    public static final short POWERUP_LONGSHANK = -23;
-    public static final short POWERUP_MIGHTY = -24;
-    public static final short POWERUP_CLOCKWORK = -25;
-    public static final short POWERUP_VAMPIRIC = -26;
-    public static final short POWERUP_CUNNING = -27;
-    public static final short POWERUP_EPIC = -28;
-    public static final short POWERUP_ARCANE = -29;
-    public static final short POWERUP_ASCENDANT = -30;
-    public static final short POWERUP_GUARDIAN = -31;
-    public static final short POWERUP_VIGILANT = -32;
-    public static final short POWERUP_ZEALOUS = -33;
-    public static final short POWERUP_RAMPAGING = -34;
-    public static final short POWERUP_RUTHLESS = -35;
-    public static final short POWERUP_ENRAGED = -36;
     // # = 17
-
-    public static final short FOOTMAN = 0;
-    public static final short BOWMAN = 1;
-    public static final short CAVALRY = 2;
-    public static final short ARCHER = 3;
-    public static final short PIKEMAN = 4;
-    public static final short KNIGHT = 5;
-    public static final short RANGER = 6;
-    public static final short WOLF = 7;
-    public static final short SUMMONER = 8;
-    // 9
-    // 10
-    public static final short PRIEST = 11;
-    public static final short ENCHANTER = 12;
-    public static final short TEMPLAR = 13;
-    public static final short WARRIOR = 14;
-    public static final short RIDER = 15;
-    public static final short HEALER = 16;
-    public static final short WIZARD = 17;
-    public static final short SCOUT = 18;
-    public static final short ASSASSIN = 19;
-    public static final short TACTICIAN = 20;
-    public static final short GENERAL = 21;
-    public static final short WALL = 22;
-    public static final short MASON = 23;
-    public static final short CATAPULT = 24;
-    public static final short BALLISTA = 25;
-    public static final short NECROMANCER = 26;
-    public static final short LICH = 27;
-    // 28
-    // 29
-    public static final short SERGEANT = 30;
-    public static final short ABJURER = 31;
-    public static final short SEAL = 32;
-    public static final short WARLOCK = 33;
-    public static final short CROSSBOWMAN = 34;
-    public static final short DRAGON = 35;
-    public static final short DRACOLICH = 36;
-    public static final short HYDRA = 37;
-    public static final short TOWER = 38;
-    public static final short COMMAND_POST = 39;
-    public static final short BARRACKS = 40;
-    // 41
-    public static final short DRUID = 42;
-    public static final short CHANNELER = 43;
-    public static final short LYCANTHROPE = 44;
-    public static final short WEREWOLF = 45;
-    public static final short LYCANWOLF = 46;
-    public static final short MOUNTED_ARCHER = 47;
-    public static final short GEOMANCER = 48;
-    public static final short ROCK = 49;
-    public static final short SWORDSMAN = 50;
-    public static final short WITCH = 51;
-    public static final short TOAD = 52;
-    public static final short SHIELD_MAIDEN = 53;
-    public static final short MAGUS = 54;
-    public static final short SPIRIT = 55;
-    // 56
-    public static final short GOLEM = 57;
-    public static final short ARMORY = 58;
-    // 59
-    public static final short FIRE_ARCHER = 60;
-    public static final short MIMIC = 61;
-    public static final short PALADIN = 62;
-    public static final short SHAMAN = 63;
-    public static final short MARTYR = 64;
-    public static final short ROGUE = 65;
-    public static final short DIABOLIST = 66;
-    public static final short GHOST = 67;
-    public static final short GATE_GUARD = 68;
-    public static final short FEATHERED_SERPENT = 69;
-    public static final short BERSERKER = 70;
-    public static final short ARTIFICER = 71;
-    public static final short CHANGELING = 72;
-    public static final short DOPPELGANGER = 73;
-    public static final short SKINWALKER = 74;
-    public static final short ACOLYTE = 75;
-    public static final short AXEMAN = 76;
-    public static final short MOURNER = 77;
-    public static final short HERETIC = 78;
-    public static final short WAR_ELEPHANT = 79;
-    public static final short FANATIC = 80;
-    public static final short DISMOUNTED_KNIGHT = 81;
-    // 82
-    public static final short QUARTERMASTER = 83;
-    public static final short WALL_MASON = 84;
-    public static final short CONFESSOR = 85;
-    public static final short STRATEGIST = 86;
-    public static final short POSSESSED = 87;
-    public static final short BARBARIAN = 88;
-    public static final short ALCHEMIST = 89;
-    public static final short BOUNTY_HUNTER = 90;
-    public static final short SHIELD_BEARER = 91;
-    public static final short CHIEFTAIN = 92;
-    public static final short LANCER = 93;
-    public static final short ARCHANGEL = 94;
-    public static final short CONJURER = 95;
-    // 96
-    // 97
-    public static final short DIPLOMAT = 98;
-    public static final short DIPLOMAT_USED = 99;
-    public static final short LONGBOWMAN = 100;
-    public static final short SYCOPHANT = 101;
-    public static final short WYVERN = 102;
-    public static final short EGG = 103;
-    public static final short CAPTAIN = 104;
-    public static final short ABBEY = 105;
-    public static final short SUPPLICANT = 106;
-    public static final short DUELIST = 107;
-    public static final short MILITIA = 108;
-    public static final short CONSPIRATOR = 109;
-    public static final short RELIC_CLOCKWORK = 110;
-    public static final short RELIC_BANISH = 111;
-    public static final short RELIC_VAMPIRE = 112;
-    public static final short RELIC_EVASIVE = 113;
-    public static final short RELIC_STUN = 114;
-    public static final short RELIC_FLIGHT = 115;
-    public static final short RELIC_HEAL_MOVE = 116;
-    public static final short RELIC_GIFT_UNIT = 117;
-    public static final short RELIC_RESET = 118;
-    public static final short RELIC_SPELL_BLOCK = 119;
-    public static final short RELIC_PARRY = 120;
-    public static final short RELIC_EXPLODE = 121;
-    // 122
-    public static final short NONE = 123;
-    public static final short UNIT_COUNT = 124;
 
 
     //////////////////////////
@@ -384,51 +224,51 @@ public class Unit {
     public static int startingCount(short id) {
         switch (id) {
             // Tier 1
-            case Unit.FOOTMAN:
+            case UnitType.FOOTMAN:
                 return 2;
 
-            case Unit.BOWMAN:
+            case UnitType.BOWMAN:
                 return 2;
 
-            case Unit.CAVALRY:
+            case UnitType.CAVALRY:
                 return 2;
 
-            case Unit.PIKEMAN:
+            case UnitType.PIKEMAN:
                 return 2;
 
-            case Unit.SCOUT:
+            case UnitType.SCOUT:
                 return 2;
 
-            case Unit.TACTICIAN:
+            case UnitType.TACTICIAN:
                 return 2;
 
             // Tier 2
-            case Unit.ARCHER:
+            case UnitType.ARCHER:
                 return 1;
 
-            case Unit.GENERAL:
+            case UnitType.GENERAL:
                 return 1;
 
-            case Unit.ASSASSIN:
+            case UnitType.ASSASSIN:
                 return 1;
 
-            case Unit.RIDER:
+            case UnitType.RIDER:
                 return 1;
 
-            case Unit.CATAPULT:
+            case UnitType.CATAPULT:
                 return 1;
 
-            case Unit.BALLISTA:
+            case UnitType.BALLISTA:
                 return 1;
 
             // Tier 3
-            case Unit.KNIGHT:
+            case UnitType.KNIGHT:
                 return 1;
 
-            case Unit.WARRIOR:
+            case UnitType.WARRIOR:
                 return 1;
 
-            case Unit.RANGER:
+            case UnitType.RANGER:
                 return 1;
 
             // Everything else
@@ -562,146 +402,146 @@ public class Unit {
 
         switch (unitClass) {
             case Unit.ARCHERS:
-                units.add(Unit.getUnit(Unit.ARCHER, forCastle));
-                units.add(Unit.getUnit(Unit.BOWMAN, forCastle));
-                units.add(Unit.getUnit(Unit.CROSSBOWMAN, forCastle));
-                units.add(Unit.getUnit(Unit.FIRE_ARCHER, forCastle));
-                units.add(Unit.getUnit(Unit.LONGBOWMAN, forCastle));
+                units.add(Unit.getUnit(UnitType.ARCHER, forCastle));
+                units.add(Unit.getUnit(UnitType.BOWMAN, forCastle));
+                units.add(Unit.getUnit(UnitType.CROSSBOWMAN, forCastle));
+                units.add(Unit.getUnit(UnitType.FIRE_ARCHER, forCastle));
+                units.add(Unit.getUnit(UnitType.LONGBOWMAN, forCastle));
                 return units;
 
             case Unit.BLACK_MAGIC_USERS:
-                units.add(Unit.getUnit(Unit.DIABOLIST, forCastle));
-                units.add(Unit.getUnit(Unit.NECROMANCER, forCastle));
-                units.add(Unit.getUnit(Unit.SUMMONER, forCastle));
-                units.add(Unit.getUnit(Unit.WARLOCK, forCastle));
-                units.add(Unit.getUnit(Unit.WITCH, forCastle));
+                units.add(Unit.getUnit(UnitType.DIABOLIST, forCastle));
+                units.add(Unit.getUnit(UnitType.NECROMANCER, forCastle));
+                units.add(Unit.getUnit(UnitType.SUMMONER, forCastle));
+                units.add(Unit.getUnit(UnitType.WARLOCK, forCastle));
+                units.add(Unit.getUnit(UnitType.WITCH, forCastle));
                 return units;
 
             case Unit.CLERGY:
-                units.add(Unit.getUnit(Unit.ACOLYTE, forCastle));
-                units.add(Unit.getUnit(Unit.ARCHANGEL, forCastle));
-                units.add(Unit.getUnit(Unit.HEALER, forCastle));
-                units.add(Unit.getUnit(Unit.PALADIN, forCastle));
-                units.add(Unit.getUnit(Unit.PRIEST, forCastle));
-                units.add(Unit.getUnit(Unit.SHIELD_MAIDEN, forCastle));
-                units.add(Unit.getUnit(Unit.TEMPLAR, forCastle));
+                units.add(Unit.getUnit(UnitType.ACOLYTE, forCastle));
+                units.add(Unit.getUnit(UnitType.ARCHANGEL, forCastle));
+                units.add(Unit.getUnit(UnitType.HEALER, forCastle));
+                units.add(Unit.getUnit(UnitType.PALADIN, forCastle));
+                units.add(Unit.getUnit(UnitType.PRIEST, forCastle));
+                units.add(Unit.getUnit(UnitType.SHIELD_MAIDEN, forCastle));
+                units.add(Unit.getUnit(UnitType.TEMPLAR, forCastle));
                 return units;
 
             case Unit.COMMANDERS:
-                units.add(Unit.getUnit(Unit.CAPTAIN, forCastle));
-                units.add(Unit.getUnit(Unit.DIPLOMAT, forCastle));
-                units.add(Unit.getUnit(Unit.GENERAL, forCastle));
-                units.add(Unit.getUnit(Unit.QUARTERMASTER, forCastle));
-                units.add(Unit.getUnit(Unit.SERGEANT, forCastle));
-                units.add(Unit.getUnit(Unit.STRATEGIST, forCastle));
-                units.add(Unit.getUnit(Unit.SYCOPHANT, forCastle));
-                units.add(Unit.getUnit(Unit.TACTICIAN, forCastle));
-                units.add(Unit.getUnit(Unit.CONSPIRATOR, forCastle));
+                units.add(Unit.getUnit(UnitType.CAPTAIN, forCastle));
+                units.add(Unit.getUnit(UnitType.DIPLOMAT, forCastle));
+                units.add(Unit.getUnit(UnitType.GENERAL, forCastle));
+                units.add(Unit.getUnit(UnitType.QUARTERMASTER, forCastle));
+                units.add(Unit.getUnit(UnitType.SERGEANT, forCastle));
+                units.add(Unit.getUnit(UnitType.STRATEGIST, forCastle));
+                units.add(Unit.getUnit(UnitType.SYCOPHANT, forCastle));
+                units.add(Unit.getUnit(UnitType.TACTICIAN, forCastle));
+                units.add(Unit.getUnit(UnitType.CONSPIRATOR, forCastle));
                 return units;
 
             case Unit.CULTISTS:
-                units.add(Unit.getUnit(Unit.CONFESSOR, forCastle));
-                units.add(Unit.getUnit(Unit.FANATIC, forCastle));
-                units.add(Unit.getUnit(Unit.HERETIC, forCastle));
-                units.add(Unit.getUnit(Unit.MARTYR, forCastle));
-                units.add(Unit.getUnit(Unit.MOURNER, forCastle));
-                units.add(Unit.getUnit(Unit.POSSESSED, forCastle));
-                units.add(Unit.getUnit(Unit.SUPPLICANT, forCastle));
+                units.add(Unit.getUnit(UnitType.CONFESSOR, forCastle));
+                units.add(Unit.getUnit(UnitType.FANATIC, forCastle));
+                units.add(Unit.getUnit(UnitType.HERETIC, forCastle));
+                units.add(Unit.getUnit(UnitType.MARTYR, forCastle));
+                units.add(Unit.getUnit(UnitType.MOURNER, forCastle));
+                units.add(Unit.getUnit(UnitType.POSSESSED, forCastle));
+                units.add(Unit.getUnit(UnitType.SUPPLICANT, forCastle));
                 return units;
 
             case Unit.HORSEMEN:
-                units.add(Unit.getUnit(Unit.CAVALRY, forCastle));
-                units.add(Unit.getUnit(Unit.KNIGHT, forCastle));
-                units.add(Unit.getUnit(Unit.LANCER, forCastle));
-                units.add(Unit.getUnit(Unit.MOUNTED_ARCHER, forCastle));
-                units.add(Unit.getUnit(Unit.RIDER, forCastle));
-                units.add(Unit.getUnit(Unit.WAR_ELEPHANT, forCastle));
+                units.add(Unit.getUnit(UnitType.CAVALRY, forCastle));
+                units.add(Unit.getUnit(UnitType.KNIGHT, forCastle));
+                units.add(Unit.getUnit(UnitType.LANCER, forCastle));
+                units.add(Unit.getUnit(UnitType.MOUNTED_ARCHER, forCastle));
+                units.add(Unit.getUnit(UnitType.RIDER, forCastle));
+                units.add(Unit.getUnit(UnitType.WAR_ELEPHANT, forCastle));
                 return units;
 
             case Unit.NATURE:
-                units.add(Unit.getUnit(Unit.BARBARIAN, forCastle));
-                units.add(Unit.getUnit(Unit.BERSERKER, forCastle));
-                units.add(Unit.getUnit(Unit.CHANNELER, forCastle));
-                units.add(Unit.getUnit(Unit.CHIEFTAIN, forCastle));
-                units.add(Unit.getUnit(Unit.DRUID, forCastle));
-                units.add(Unit.getUnit(Unit.GEOMANCER, forCastle));
-                units.add(Unit.getUnit(Unit.SHAMAN, forCastle));
+                units.add(Unit.getUnit(UnitType.BARBARIAN, forCastle));
+                units.add(Unit.getUnit(UnitType.BERSERKER, forCastle));
+                units.add(Unit.getUnit(UnitType.CHANNELER, forCastle));
+                units.add(Unit.getUnit(UnitType.CHIEFTAIN, forCastle));
+                units.add(Unit.getUnit(UnitType.DRUID, forCastle));
+                units.add(Unit.getUnit(UnitType.GEOMANCER, forCastle));
+                units.add(Unit.getUnit(UnitType.SHAMAN, forCastle));
                 return units;
 
             case Unit.SCOUTS:
-                units.add(Unit.getUnit(Unit.ASSASSIN, forCastle));
-                units.add(Unit.getUnit(Unit.BOUNTY_HUNTER, forCastle));
-                units.add(Unit.getUnit(Unit.RANGER, forCastle));
-                units.add(Unit.getUnit(Unit.ROGUE, forCastle));
-                units.add(Unit.getUnit(Unit.SCOUT, forCastle));
+                units.add(Unit.getUnit(UnitType.ASSASSIN, forCastle));
+                units.add(Unit.getUnit(UnitType.BOUNTY_HUNTER, forCastle));
+                units.add(Unit.getUnit(UnitType.RANGER, forCastle));
+                units.add(Unit.getUnit(UnitType.ROGUE, forCastle));
+                units.add(Unit.getUnit(UnitType.SCOUT, forCastle));
                 return units;
 
             case Unit.SHAPESHIFTERS:
-                units.add(Unit.getUnit(Unit.CHANGELING, forCastle));
-                units.add(Unit.getUnit(Unit.DOPPELGANGER, forCastle));
-                units.add(Unit.getUnit(Unit.LYCANTHROPE, forCastle));
-                units.add(Unit.getUnit(Unit.MIMIC, forCastle));
-                units.add(Unit.getUnit(Unit.SKINWALKER, forCastle));
+                units.add(Unit.getUnit(UnitType.CHANGELING, forCastle));
+                units.add(Unit.getUnit(UnitType.DOPPELGANGER, forCastle));
+                units.add(Unit.getUnit(UnitType.LYCANTHROPE, forCastle));
+                units.add(Unit.getUnit(UnitType.MIMIC, forCastle));
+                units.add(Unit.getUnit(UnitType.SKINWALKER, forCastle));
                 return units;
 
             case Unit.SIEGE:
-                units.add(Unit.getUnit(Unit.BALLISTA, forCastle));
-                units.add(Unit.getUnit(Unit.CATAPULT, forCastle));
-                units.add(Unit.getUnit(Unit.GOLEM, forCastle));
-                units.add(Unit.getUnit(Unit.MASON, forCastle));
+                units.add(Unit.getUnit(UnitType.BALLISTA, forCastle));
+                units.add(Unit.getUnit(UnitType.CATAPULT, forCastle));
+                units.add(Unit.getUnit(UnitType.GOLEM, forCastle));
+                units.add(Unit.getUnit(UnitType.MASON, forCastle));
                 return units;
 
             case Unit.SOLDIERS:
-                units.add(Unit.getUnit(Unit.AXEMAN, forCastle));
-                units.add(Unit.getUnit(Unit.FOOTMAN, forCastle));
-                units.add(Unit.getUnit(Unit.GATE_GUARD, forCastle));
-                units.add(Unit.getUnit(Unit.MILITIA, forCastle));
-                units.add(Unit.getUnit(Unit.PIKEMAN, forCastle));
-                units.add(Unit.getUnit(Unit.SHIELD_BEARER, forCastle));
-                units.add(Unit.getUnit(Unit.SWORDSMAN, forCastle));
-                units.add(Unit.getUnit(Unit.WARRIOR, forCastle));
-                units.add(Unit.getUnit(Unit.DUELIST, forCastle));
+                units.add(Unit.getUnit(UnitType.AXEMAN, forCastle));
+                units.add(Unit.getUnit(UnitType.FOOTMAN, forCastle));
+                units.add(Unit.getUnit(UnitType.GATE_GUARD, forCastle));
+                units.add(Unit.getUnit(UnitType.MILITIA, forCastle));
+                units.add(Unit.getUnit(UnitType.PIKEMAN, forCastle));
+                units.add(Unit.getUnit(UnitType.SHIELD_BEARER, forCastle));
+                units.add(Unit.getUnit(UnitType.SWORDSMAN, forCastle));
+                units.add(Unit.getUnit(UnitType.WARRIOR, forCastle));
+                units.add(Unit.getUnit(UnitType.DUELIST, forCastle));
                 return units;
 
             case Unit.STRUCTURES:
-                units.add(Unit.getUnit(Unit.ABBEY, forCastle));
-                units.add(Unit.getUnit(Unit.ARMORY, forCastle));
-                units.add(Unit.getUnit(Unit.BARRACKS, forCastle));
-                units.add(Unit.getUnit(Unit.COMMAND_POST, forCastle));
-                units.add(Unit.getUnit(Unit.TOWER, forCastle));
+                units.add(Unit.getUnit(UnitType.ABBEY, forCastle));
+                units.add(Unit.getUnit(UnitType.ARMORY, forCastle));
+                units.add(Unit.getUnit(UnitType.BARRACKS, forCastle));
+                units.add(Unit.getUnit(UnitType.COMMAND_POST, forCastle));
+                units.add(Unit.getUnit(UnitType.TOWER, forCastle));
                 return units;
 
             case Unit.WHITE_MAGIC_USERS:
-                units.add(Unit.getUnit(Unit.ABJURER, forCastle));
-                units.add(Unit.getUnit(Unit.ALCHEMIST, forCastle));
-                units.add(Unit.getUnit(Unit.ARTIFICER, forCastle));
-                units.add(Unit.getUnit(Unit.CONJURER, forCastle));
-                units.add(Unit.getUnit(Unit.ENCHANTER, forCastle));
-                units.add(Unit.getUnit(Unit.MAGUS, forCastle));
-                units.add(Unit.getUnit(Unit.WIZARD, forCastle));
+                units.add(Unit.getUnit(UnitType.ABJURER, forCastle));
+                units.add(Unit.getUnit(UnitType.ALCHEMIST, forCastle));
+                units.add(Unit.getUnit(UnitType.ARTIFICER, forCastle));
+                units.add(Unit.getUnit(UnitType.CONJURER, forCastle));
+                units.add(Unit.getUnit(UnitType.ENCHANTER, forCastle));
+                units.add(Unit.getUnit(UnitType.MAGUS, forCastle));
+                units.add(Unit.getUnit(UnitType.WIZARD, forCastle));
                 return units;
 
             case Unit.WYRMS:
-                units.add(Unit.getUnit(Unit.DRACOLICH, forCastle));
-                units.add(Unit.getUnit(Unit.DRAGON, forCastle));
-                units.add(Unit.getUnit(Unit.FEATHERED_SERPENT, forCastle));
-                units.add(Unit.getUnit(Unit.HYDRA, forCastle));
-                units.add(Unit.getUnit(Unit.WYVERN, forCastle));
+                units.add(Unit.getUnit(UnitType.DRACOLICH, forCastle));
+                units.add(Unit.getUnit(UnitType.DRAGON, forCastle));
+                units.add(Unit.getUnit(UnitType.FEATHERED_SERPENT, forCastle));
+                units.add(Unit.getUnit(UnitType.HYDRA, forCastle));
+                units.add(Unit.getUnit(UnitType.WYVERN, forCastle));
                 return units;
 
             case Unit.RELICS:
-                units.add(Unit.getUnit(Unit.RELIC_CLOCKWORK, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_EVASIVE, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_VAMPIRE, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_FLIGHT, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_BANISH, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_STUN, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_HEAL_MOVE, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_GIFT_UNIT, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_RESET, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_SPELL_BLOCK, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_PARRY, forCastle));
-                units.add(Unit.getUnit(Unit.RELIC_EXPLODE, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_CLOCKWORK, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_EVASIVE, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_VAMPIRE, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_FLIGHT, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_BANISH, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_STUN, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_HEAL_MOVE, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_GIFT_UNIT, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_RESET, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_SPELL_BLOCK, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_PARRY, forCastle));
+                units.add(Unit.getUnit(UnitType.RELIC_EXPLODE, forCastle));
                 return units;
 
         }
@@ -722,272 +562,272 @@ public class Unit {
     /////////////////////////////////////////////////////////////////
     public static Unit getUnit(short id, Castle castle) {
         switch (id) {
-            case Unit.FOOTMAN:
+            case UnitType.FOOTMAN:
                 return new UnitFootman(castle);
-            case Unit.BOWMAN:
+            case UnitType.BOWMAN:
                 return new UnitBowman(castle);
-            case Unit.CAVALRY:
+            case UnitType.CAVALRY:
                 return new UnitCavalry(castle);
-            case Unit.ARCHER:
+            case UnitType.ARCHER:
                 return new UnitArcher(castle);
-            case Unit.PIKEMAN:
+            case UnitType.PIKEMAN:
                 return new UnitPikeman(castle);
-            case Unit.KNIGHT:
+            case UnitType.KNIGHT:
                 return new UnitKnight(castle);
-            case Unit.RANGER:
+            case UnitType.RANGER:
                 return new UnitRanger(castle);
-            case Unit.WOLF:
+            case UnitType.WOLF:
                 return new UnitWolf(castle);
-            case Unit.SUMMONER:
+            case UnitType.SUMMONER:
                 return new UnitSummoner(castle);
-            case Unit.IMP:
+            case UnitType.IMP:
                 return new UnitImp(castle);
-            case Unit.DEMON:
+            case UnitType.DEMON:
                 return new UnitDemon(castle);
-            case Unit.ARCHDEMON:
+            case UnitType.ARCHDEMON:
                 return new UnitArchDemon(castle);
-            case Unit.PRIEST:
+            case UnitType.PRIEST:
                 return new UnitPriest(castle);
-            case Unit.ENCHANTER:
+            case UnitType.ENCHANTER:
                 return new UnitEnchanter(castle);
-            case Unit.TEMPLAR:
+            case UnitType.TEMPLAR:
                 return new UnitTemplar(castle);
-            case Unit.WARRIOR:
+            case UnitType.WARRIOR:
                 return new UnitWarrior(castle);
-            case Unit.RIDER:
+            case UnitType.RIDER:
                 return new UnitRider(castle);
-            case Unit.HEALER:
+            case UnitType.HEALER:
                 return new UnitHealer(castle);
-            case Unit.WIZARD:
+            case UnitType.WIZARD:
                 return new UnitWizard(castle);
-            case Unit.SCOUT:
+            case UnitType.SCOUT:
                 return new UnitScout(castle);
-            case Unit.ASSASSIN:
+            case UnitType.ASSASSIN:
                 return new UnitAssassin(castle);
-            case Unit.TACTICIAN:
+            case UnitType.TACTICIAN:
                 return new UnitTactician(castle);
-            case Unit.GENERAL:
+            case UnitType.GENERAL:
                 return new UnitGeneral(castle);
-            case Unit.WALL:
+            case UnitType.WALL:
                 return new UnitWall(castle);
-            case Unit.MASON:
+            case UnitType.MASON:
                 return new UnitMason(castle);
-            case Unit.CATAPULT:
+            case UnitType.CATAPULT:
                 return new UnitCatapult(castle);
-            case Unit.BALLISTA:
+            case UnitType.BALLISTA:
                 return new UnitBallista(castle);
-            case Unit.NECROMANCER:
+            case UnitType.NECROMANCER:
                 return new UnitNecromancer(castle);
-            case Unit.LICH:
+            case UnitType.LICH:
                 return new UnitLich(castle);
-            case Unit.SKELETON:
+            case UnitType.SKELETON:
                 return new UnitSkeleton(castle);
-            case Unit.ZOMBIE:
+            case UnitType.ZOMBIE:
                 return new UnitZombie(castle);
-            case Unit.SERGEANT:
+            case UnitType.SERGEANT:
                 return new UnitSergeant(castle);
-            case Unit.ABJURER:
+            case UnitType.ABJURER:
                 return new UnitAbjurer(castle);
-            case Unit.SEAL:
+            case UnitType.SEAL:
                 return new UnitSeal(castle);
-            case Unit.WARLOCK:
+            case UnitType.WARLOCK:
                 return new UnitWarlock(castle);
-            case Unit.CROSSBOWMAN:
+            case UnitType.CROSSBOWMAN:
                 return new UnitCrossbowman(castle);
-            case Unit.DRAGON:
+            case UnitType.DRAGON:
                 return new UnitDragon(castle);
-            case Unit.DRACOLICH:
+            case UnitType.DRACOLICH:
                 return new UnitDracolich(castle);
-            case Unit.HYDRA:
+            case UnitType.HYDRA:
                 return new UnitHydra(castle);
-            case Unit.TOWER:
+            case UnitType.TOWER:
                 return new UnitTower(castle);
-            case Unit.COMMAND_POST:
+            case UnitType.COMMAND_POST:
                 return new UnitCommandPost(castle);
-            case Unit.BARRACKS:
+            case UnitType.BARRACKS:
                 return new UnitBarracks(castle);
-            case Unit.SOLDIER:
+            case UnitType.SOLDIER:
                 return new UnitSoldier(castle);
-            case Unit.DRUID:
+            case UnitType.DRUID:
                 return new UnitDruid(castle);
-            case Unit.CHANNELER:
+            case UnitType.CHANNELER:
                 return new UnitChanneler(castle);
-            case Unit.LYCANTHROPE:
+            case UnitType.LYCANTHROPE:
                 return new UnitLycanthrope(castle);
-            case Unit.WEREWOLF:
+            case UnitType.WEREWOLF:
                 return new UnitWerewolf(castle);
-            case Unit.LYCANWOLF:
+            case UnitType.LYCANWOLF:
                 return new UnitLycanWolf(castle);
-            case Unit.MOUNTED_ARCHER:
+            case UnitType.MOUNTED_ARCHER:
                 return new UnitMountedArcher(castle);
-            case Unit.GEOMANCER:
+            case UnitType.GEOMANCER:
                 return new UnitGeomancer(castle);
-            case Unit.ROCK:
+            case UnitType.ROCK:
                 return new UnitRock(castle, null);
-            case Unit.SWORDSMAN:
+            case UnitType.SWORDSMAN:
                 return new UnitSwordsman(castle);
-            case Unit.WITCH:
+            case UnitType.WITCH:
                 return new UnitWitch(castle);
-            case Unit.TOAD:
+            case UnitType.TOAD:
                 return new UnitToad(castle);
-            case Unit.SHIELD_MAIDEN:
+            case UnitType.SHIELD_MAIDEN:
                 return new UnitShieldMaiden(castle);
-            case Unit.MAGUS:
+            case UnitType.MAGUS:
                 return new UnitMagus(castle);
-            case Unit.SPIRIT:
+            case UnitType.SPIRIT:
                 return new UnitSpirit(castle);
-            case Unit.WILL_O_THE_WISPS:
+            case UnitType.WILL_O_THE_WISPS:
                 return new UnitWillWisps(castle);
-            case Unit.GOLEM:
+            case UnitType.GOLEM:
                 return new UnitGolem(castle);
-            case Unit.ARMORY:
+            case UnitType.ARMORY:
                 return new UnitArmory(castle);
-            case Unit.SERPENT:
+            case UnitType.SERPENT:
                 return new UnitSerpent(castle);
-            case Unit.FIRE_ARCHER:
+            case UnitType.FIRE_ARCHER:
                 return new UnitFireArcher(castle);
-            case Unit.MIMIC:
+            case UnitType.MIMIC:
                 return new UnitMimic(castle);
-            case Unit.PALADIN:
+            case UnitType.PALADIN:
                 return new UnitPaladin(castle);
-            case Unit.SHAMAN:
+            case UnitType.SHAMAN:
                 return new UnitShaman(castle);
-            case Unit.MARTYR:
+            case UnitType.MARTYR:
                 return new UnitMartyr(castle);
-            case Unit.ROGUE:
+            case UnitType.ROGUE:
                 return new UnitRogue(castle);
-            case Unit.DIABOLIST:
+            case UnitType.DIABOLIST:
                 return new UnitDiabolist(castle);
-            case Unit.GHOST:
+            case UnitType.GHOST:
                 return new UnitGhost(castle);
-            case Unit.GATE_GUARD:
+            case UnitType.GATE_GUARD:
                 return new UnitGateGuard(castle);
-            case Unit.FEATHERED_SERPENT:
+            case UnitType.FEATHERED_SERPENT:
                 return new UnitFeatheredSerpent(castle);
-            case Unit.BERSERKER:
+            case UnitType.BERSERKER:
                 return new UnitBerserker(castle);
-            case Unit.ARTIFICER:
+            case UnitType.ARTIFICER:
                 return new UnitArtificer(castle);
-            case Unit.CHANGELING:
+            case UnitType.CHANGELING:
                 return new UnitChangeling(castle);
-            case Unit.DOPPELGANGER:
+            case UnitType.DOPPELGANGER:
                 return new UnitDoppelganger(castle);
-            case Unit.SKINWALKER:
+            case UnitType.SKINWALKER:
                 return new UnitSkinwalker(castle);
-            case Unit.ACOLYTE:
+            case UnitType.ACOLYTE:
                 return new UnitAcolyte(castle);
-            case Unit.AXEMAN:
+            case UnitType.AXEMAN:
                 return new UnitAxeman(castle);
-            case Unit.MOURNER:
+            case UnitType.MOURNER:
                 return new UnitMourner(castle);
-            case Unit.HERETIC:
+            case UnitType.HERETIC:
                 return new UnitHeretic(castle);
-            case Unit.WAR_ELEPHANT:
+            case UnitType.WAR_ELEPHANT:
                 return new UnitWarElephant(castle);
-            case Unit.FANATIC:
+            case UnitType.FANATIC:
                 return new UnitFanatic(castle);
-            case Unit.DISMOUNTED_KNIGHT:
+            case UnitType.DISMOUNTED_KNIGHT:
                 return new UnitDismountedKnight(castle);
-            case Unit.BEAR:
+            case UnitType.BEAR:
                 return new UnitBear(castle);
-            case Unit.QUARTERMASTER:
+            case UnitType.QUARTERMASTER:
                 return new UnitQuartermaster(castle);
-            case Unit.WALL_MASON:
+            case UnitType.WALL_MASON:
                 return new UnitWallMason(castle);
-            case Unit.CONFESSOR:
+            case UnitType.CONFESSOR:
                 return new UnitConfessor(castle);
-            case Unit.STRATEGIST:
+            case UnitType.STRATEGIST:
                 return new UnitStrategist(castle);
-            case Unit.POSSESSED:
+            case UnitType.POSSESSED:
                 return new UnitPossessed(castle);
-            case Unit.BARBARIAN:
+            case UnitType.BARBARIAN:
                 return new UnitBarbarian(castle);
-            case Unit.ALCHEMIST:
+            case UnitType.ALCHEMIST:
                 return new UnitAlchemist(castle);
-            case Unit.BOUNTY_HUNTER:
+            case UnitType.BOUNTY_HUNTER:
                 return new UnitBountyHunter(castle);
-            case Unit.SHIELD_BEARER:
+            case UnitType.SHIELD_BEARER:
                 return new UnitShieldBearer(castle);
-            case Unit.CHIEFTAIN:
+            case UnitType.CHIEFTAIN:
                 return new UnitChieftain(castle);
-            case Unit.LANCER:
+            case UnitType.LANCER:
                 return new UnitLancer(castle);
-            case Unit.ARCHANGEL:
+            case UnitType.ARCHANGEL:
                 return new UnitArchangel(castle);
-            case Unit.CONJURER:
+            case UnitType.CONJURER:
                 return new UnitConjurer(castle);
-            case Unit.PORTAL:
+            case UnitType.PORTAL:
                 return new UnitPortal(castle);
-            case Unit.GATE:
+            case UnitType.GATE:
                 return new UnitGate(castle);
-            case Unit.DIPLOMAT:
+            case UnitType.DIPLOMAT:
                 return new UnitDiplomat(castle, true);
-            case Unit.DIPLOMAT_USED:
+            case UnitType.DIPLOMAT_USED:
                 return new UnitDiplomat(castle, false);
-            case Unit.LONGBOWMAN:
+            case UnitType.LONGBOWMAN:
                 return new UnitLongbowman(castle);
-            case Unit.SYCOPHANT:
+            case UnitType.SYCOPHANT:
                 return new UnitSycophant(castle);
-            case Unit.WYVERN:
+            case UnitType.WYVERN:
                 return new UnitWyvern(castle);
-            case Unit.EGG:
+            case UnitType.EGG:
                 return new UnitEgg(castle);
-            case Unit.CAPTAIN:
+            case UnitType.CAPTAIN:
                 return new UnitCaptain(castle);
-            case Unit.ABBEY:
+            case UnitType.ABBEY:
                 return new UnitAbbey(castle);
-            case Unit.SUPPLICANT:
+            case UnitType.SUPPLICANT:
                 return new UnitSupplicant(castle);
-            case Unit.DUELIST:
+            case UnitType.DUELIST:
                 return new UnitDuelist(castle);
-            case Unit.MILITIA:
+            case UnitType.MILITIA:
                 return new UnitMilitia(castle);
-            case Unit.CONSPIRATOR:
+            case UnitType.CONSPIRATOR:
                 return new UnitConspirator(castle);
-            case Unit.RELIC_CLOCKWORK:
+            case UnitType.RELIC_CLOCKWORK:
                 return new RelicClockwork(castle);
-            case Unit.RELIC_BANISH:
+            case UnitType.RELIC_BANISH:
                 return new RelicBanish(castle);
-            case Unit.RELIC_EVASIVE:
+            case UnitType.RELIC_EVASIVE:
                 return new RelicEvasive(castle);
-            case Unit.RELIC_VAMPIRE:
+            case UnitType.RELIC_VAMPIRE:
                 return new RelicVampire(castle);
-            case Unit.RELIC_STUN:
+            case UnitType.RELIC_STUN:
                 return new RelicStun(castle);
-            case Unit.RELIC_FLIGHT:
+            case UnitType.RELIC_FLIGHT:
                 return new RelicFlight(castle);
-            case Unit.RELIC_HEAL_MOVE:
+            case UnitType.RELIC_HEAL_MOVE:
                 return new RelicHealMove(castle);
-            case Unit.RELIC_GIFT_UNIT:
+            case UnitType.RELIC_GIFT_UNIT:
                 return new RelicGiftUnit(castle);
-            case Unit.RELIC_RESET:
+            case UnitType.RELIC_RESET:
                 return new RelicReset(castle);
-            case Unit.RELIC_SPELL_BLOCK:
+            case UnitType.RELIC_SPELL_BLOCK:
                 return new RelicSpellBlock(castle);
-            case Unit.RELIC_PARRY:
+            case UnitType.RELIC_PARRY:
                 return new RelicParry(castle);
-            case Unit.RELIC_EXPLODE:
+            case UnitType.RELIC_EXPLODE:
                 return new RelicExplode(castle);
-            case Unit.NONE:
+            case UnitType.NONE:
                 return new UnitNone(castle);
-            case Unit.POWERUP_TOXIC:
-            case Unit.POWERUP_EVASIVE:
-            case Unit.POWERUP_RESILIENT:
-            case Unit.POWERUP_LONGSHANK:
-            case Unit.POWERUP_MIGHTY:
-            case Unit.POWERUP_CLOCKWORK:
-            case Unit.POWERUP_VAMPIRIC:
-            case Unit.POWERUP_CUNNING:
-            case Unit.POWERUP_EPIC:
-            case Unit.POWERUP_ARCANE:
-            case Unit.POWERUP_ASCENDANT:
-            case Unit.POWERUP_GUARDIAN:
-            case Unit.POWERUP_VIGILANT:
-            case Unit.POWERUP_ZEALOUS:
-            case Unit.POWERUP_RAMPAGING:
-            case Unit.POWERUP_RUTHLESS:
-            case Unit.POWERUP_ENRAGED:
-                return new RelicPowerUp(castle, (byte) ((0 - id) + Unit.POWERUP));
+            case UnitType.POWERUP_TOXIC:
+            case UnitType.POWERUP_EVASIVE:
+            case UnitType.POWERUP_RESILIENT:
+            case UnitType.POWERUP_LONGSHANK:
+            case UnitType.POWERUP_MIGHTY:
+            case UnitType.POWERUP_CLOCKWORK:
+            case UnitType.POWERUP_VAMPIRIC:
+            case UnitType.POWERUP_CUNNING:
+            case UnitType.POWERUP_EPIC:
+            case UnitType.POWERUP_ARCANE:
+            case UnitType.POWERUP_ASCENDANT:
+            case UnitType.POWERUP_GUARDIAN:
+            case UnitType.POWERUP_VIGILANT:
+            case UnitType.POWERUP_ZEALOUS:
+            case UnitType.POWERUP_RAMPAGING:
+            case UnitType.POWERUP_RUTHLESS:
+            case UnitType.POWERUP_ENRAGED:
+                return new RelicPowerUp(castle, (byte) ((0 - id) + UnitType.POWERUP));
             default:
                 return null;
         }
@@ -1021,10 +861,10 @@ public class Unit {
     /////////////////////////////////////////////////////////////////
     public boolean ready() {
         if (isDead()) return false;
-        if (getID() == Unit.WALL ||
-                getID() == Unit.SEAL ||
-                getID() == Unit.ROCK ||
-                getID() == Unit.ARMORY) return true;
+        if (getID() == UnitType.WALL ||
+                getID() == UnitType.SEAL ||
+                getID() == UnitType.ROCK ||
+                getID() == UnitType.ARMORY) return true;
 
         Iterator<Action> it = actions.iterator();
         while (it.hasNext()) {
@@ -1043,7 +883,7 @@ public class Unit {
         if (!targetable(this)) return;
         //if (!getOrganic(this)) return;
         if (getSoul() == null) return;
-        if (getSoul().getID() == Unit.NONE) return;
+        if (getSoul().getID() == UnitType.NONE) return;
 
         // transform
         short oldID = getID();
@@ -1160,12 +1000,12 @@ public class Unit {
         //   getSoulmate().die(false, source);
         //}
 
-        if (id != NONE) {
+        if (id != UnitType.NONE) {
             Vector<Unit> units = getBattleField().getUnits();
             Iterator<Unit> it = units.iterator();
             while (it.hasNext()) {
                 Unit tmp = it.next();
-                if (tmp.isSkinwalking() && death && getOrganic(this) && tmp != this && getID() != Unit.NONE && targetable(tmp)) {
+                if (tmp.isSkinwalking() && death && getOrganic(this) && tmp != this && getID() != UnitType.NONE && targetable(tmp)) {
                     tmp.setSoul(this);
                     getCastle().getObserver().attack(tmp, this, tmp.getLocation(), Action.ATTACK_SPIRIT);
                 }

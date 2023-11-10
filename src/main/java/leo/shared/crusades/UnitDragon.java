@@ -31,7 +31,7 @@ public class UnitDragon extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.DRAGON;
+        id = UnitType.DRAGON;
         category = Unit.WYRMS;
         name = Strings.UNIT_DRAGON_1;
         actions = new Vector<Action>();
@@ -55,7 +55,7 @@ public class UnitDragon extends Unit {
         actions.add(attack);
 
         // Good stuff
-        fireball = new ActionFireball(this, (byte) 0, (byte) 2, TargetType.ANY_AREA, (byte) 2, (byte) 4, Unit.DRAGON);
+        fireball = new ActionFireball(this, (byte) 0, (byte) 2, TargetType.ANY_AREA, (byte) 2, (byte) 4, UnitType.DRAGON);
         actions.add(fireball);
     }
 

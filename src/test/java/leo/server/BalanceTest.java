@@ -1,7 +1,6 @@
 package leo.server;
 
-import leo.shared.Unit;
-import leo.shared.crusades.UnitWyvern;
+import leo.shared.UnitType;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
@@ -23,10 +22,10 @@ class BalanceTest {
     @Test
     void affordableUnits() {
         // TODO this is still very very grindy. recheck
-        assertTrue(Balance.getUnitBuyPrice(Unit.SCOUT) < rewardSum(2));
-        assertTrue(Balance.getUnitBuyPrice(Unit.PRIEST) < rewardSum(5));
-        assertTrue(Balance.getUnitBuyPrice(Unit.ABJURER) < rewardSum(8));
-        assertTrue(Balance.getUnitBuyPrice(Unit.DRAGON) < rewardSum(12));
-        assertTrue(Balance.getUnitBuyPrice(Unit.WYVERN) < rewardSum(15));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.SCOUT) < rewardSum(2));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.PRIEST) < rewardSum(5));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.ABJURER) < rewardSum(8));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.DRAGON) < rewardSum(12));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.WYVERN) < rewardSum(15));
     }
 }

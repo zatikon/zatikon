@@ -30,7 +30,7 @@ public class UnitShieldBearer extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.SHIELD_BEARER;
+        id = UnitType.SHIELD_BEARER;
         category = Unit.SOLDIERS;
         name = Strings.UNIT_SHIELD_BEARER_1;
         actions = new Vector<Action>();

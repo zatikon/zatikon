@@ -30,7 +30,7 @@ public class UnitMountedArcher extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.MOUNTED_ARCHER;
+        id = UnitType.MOUNTED_ARCHER;
         category = Unit.HORSEMEN;
         name = Strings.UNIT_MOUNTED_ARCHER_1;
         actions = new Vector<Action>();

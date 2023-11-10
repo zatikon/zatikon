@@ -71,7 +71,7 @@ public class ActionSacrifice implements Action {
         if (victim.isDead())
             owner.getCastle().getObserver().death(victim);
 
-        if (victim.getID() != Unit.NONE) owner.setSouls(owner.getSouls() + 1);
+        if (victim.getID() != UnitType.NONE) owner.setSouls(owner.getSouls() + 1);
 
         owner.getBattleField().event(Event.WITNESS_ACTION, owner, victim, getType(), Event.NONE, Event.OK);
 

@@ -30,7 +30,7 @@ public class UnitBarbarian extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.BARBARIAN;
+        id = UnitType.BARBARIAN;
         category = Unit.NATURE;
         name = Strings.UNIT_BARBARIAN_1;
         actions = new Vector<Action>();

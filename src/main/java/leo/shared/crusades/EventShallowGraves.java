@@ -11,6 +11,7 @@ package leo.shared.crusades;
 import leo.shared.Action;
 import leo.shared.Event;
 import leo.shared.Unit;
+import leo.shared.UnitType;
 
 import java.util.Vector;
 
@@ -44,7 +45,7 @@ public class EventShallowGraves implements Event, Action {
 
         if (!corpse.getOrganic(owner)) return Event.OK;
         if (murderer.isDead()) return Event.OK;
-        if (corpse.getID() == Unit.NONE) return Event.OK;
+        if (corpse.getID() == UnitType.NONE) return Event.OK;
 
         // get the outcome
         short outcome = owner.getBattleField().event(Event.PREVIEW_ACTION, owner, murderer, type, Event.NONE, Event.OK);

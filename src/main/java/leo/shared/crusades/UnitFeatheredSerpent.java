@@ -34,7 +34,7 @@ public class UnitFeatheredSerpent extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = Unit.FEATHERED_SERPENT;
+        id = UnitType.FEATHERED_SERPENT;
         category = Unit.WYRMS;
         name = Strings.UNIT_FEATHERED_SERPENT_1;
         actions = new Vector<Action>();

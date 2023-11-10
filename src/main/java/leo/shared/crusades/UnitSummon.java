@@ -13,6 +13,7 @@ package leo.shared.crusades;
 import leo.shared.Event;
 import leo.shared.Unit;
 import org.tinylog.Logger;
+import leo.shared.UnitType;
 
 
 public class UnitSummon extends Unit {
@@ -32,10 +33,10 @@ public class UnitSummon extends Unit {
     // Deployed event, in case of reset (summons can't be reset)
     /////////////////////////////////////////////////////////////////
     public void entered() {
-        if (id == Unit.NONE)
+        if (id == UnitType.NONE)
             die(false, this);
         else
-            id = Unit.NONE;
+            id = UnitType.NONE;
     }
 
     // When banished or reset, die and return to owner

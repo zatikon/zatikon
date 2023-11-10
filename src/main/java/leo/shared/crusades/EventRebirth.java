@@ -8,10 +8,7 @@ package leo.shared.crusades;
 
 // imports
 
-import leo.shared.Action;
-import leo.shared.Event;
-import leo.shared.Strings;
-import leo.shared.Unit;
+import leo.shared.*;
 
 import java.util.Vector;
 
@@ -50,7 +47,7 @@ public class EventRebirth implements Event, Action {
         if (charges < 1) return Event.NONE;
         if (!corpse.getOrganic(owner)) return Event.NONE;
         if (!corpse.targetable(owner)) return Event.NONE;
-        if (corpse.getID() == Unit.NONE) return Event.NONE;
+        if (corpse.getID() == UnitType.NONE) return Event.NONE;
         if (corpse.getCastle() != owner.getCastle()) return Event.NONE;
 
         // yank it from the graveyard. if it's not there, no rebirth

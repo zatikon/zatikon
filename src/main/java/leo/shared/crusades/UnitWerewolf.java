@@ -29,7 +29,7 @@ public class UnitWerewolf extends Unit implements Lycan {
         castle = newCastle;
 
         // Initialize
-        id = Unit.WEREWOLF;
+        id = UnitType.WEREWOLF;
         name = Strings.UNIT_WEREWOLF_1;
         actions = new Vector<Action>();
         damage = 6;
@@ -66,7 +66,7 @@ public class UnitWerewolf extends Unit implements Lycan {
         castle = newCastle;
 
         // Initialize
-        id = Unit.WEREWOLF;
+        id = UnitType.WEREWOLF;
         name = Strings.UNIT_WEREWOLF_1;
         actions = new Vector<Action>();
         damage = 6;

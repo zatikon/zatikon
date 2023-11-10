@@ -34,7 +34,7 @@ public class UnitSycophant extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = Unit.SYCOPHANT;
+        id = UnitType.SYCOPHANT;
         category = Unit.COMMANDERS;
         name = Strings.UNIT_SYCOPHANT_1;
         actions = new Vector<Action>();

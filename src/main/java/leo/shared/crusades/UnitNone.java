@@ -28,7 +28,7 @@ public class UnitNone extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = Unit.NONE;
+        id = UnitType.NONE;
         name = Strings.UNIT_NONE_1;
         actions = new Vector<Action>();
         damage = 0;
