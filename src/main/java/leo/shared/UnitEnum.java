@@ -1,6 +1,7 @@
 package leo.shared;
 
 public enum UnitEnum {
+    // Units
     IMP(-1),
     DEMON(-2),
     SKELETON(-3),
@@ -169,7 +170,7 @@ public enum UnitEnum {
         this.unitId = (short) unitId;
     }
 
-    public short shortValue() {
+    public short value() {
         return this.unitId;
     }
     
