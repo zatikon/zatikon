@@ -32,7 +32,7 @@ public class UnitSummoner extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.SUMMONER;
+        id = UnitType.SUMMONER.value();
         category = Unit.BLACK_MAGIC_USERS;
         name = Strings.UNIT_SUMMONER_1;
         actions = new Vector<Action>();

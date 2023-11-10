@@ -31,7 +31,7 @@ public class UnitChangeling extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.CHANGELING;
+        id = UnitType.CHANGELING.value();
         category = Unit.SHAPESHIFTERS;
         name = Strings.UNIT_CHANGELING_1;
         actions = new Vector<Action>();

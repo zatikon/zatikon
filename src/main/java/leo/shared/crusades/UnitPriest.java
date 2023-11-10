@@ -27,7 +27,7 @@ public class UnitPriest extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.PRIEST;
+        id = UnitType.PRIEST.value();
         category = Unit.CLERGY;
         name = Strings.UNIT_PRIEST_1;
         actions = new Vector<Action>();

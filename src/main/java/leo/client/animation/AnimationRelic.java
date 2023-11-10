@@ -10,10 +10,7 @@ package leo.client.animation;
 
 import leo.client.Client;
 import leo.client.LeoComponent;
-import leo.shared.BattleField;
-import leo.shared.Constants;
-import leo.shared.Unit;
-import leo.shared.UnitType;
+import leo.shared.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -122,7 +119,7 @@ public class AnimationRelic implements Animation {
         transform.translate(-offX, -offY);
 
 
-        if (relic.getID() != UnitType.RELIC_EXPLODE) {
+        if (relic.getID() != UnitType.RELIC_EXPLODE.value()) {
             // Change alpha
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 

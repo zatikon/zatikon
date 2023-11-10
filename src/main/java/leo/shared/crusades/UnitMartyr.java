@@ -34,7 +34,7 @@ public class UnitMartyr extends Unit {
         eventPriority = 2;
 
         // Initialize
-        id = UnitType.MARTYR;
+        id = UnitType.MARTYR.value();
         category = Unit.CULTISTS;
         name = Strings.UNIT_MARTYR_1;
         actions = new Vector<Action>();

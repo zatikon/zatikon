@@ -32,7 +32,7 @@ public class UnitHealer extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.HEALER;
+        id = UnitType.HEALER.value();
         category = Unit.CLERGY;
         name = Strings.UNIT_HEALER_1;
         actions = new Vector<Action>();

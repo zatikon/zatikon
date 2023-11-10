@@ -29,7 +29,7 @@ public class UnitWolf extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.WOLF;
+        id = UnitType.WOLF.value();
         name = Strings.UNIT_WOLF_1;
         actions = new Vector<Action>();
         damage = 3;
@@ -68,17 +68,17 @@ public class UnitWolf extends Unit {
     }
 
     public void entered() {
-        if (id == UnitType.NONE)
+        if (id == UnitType.NONE.value())
             die(false, this);
         else if (parent != null)
-            id = UnitType.NONE;
+            id = UnitType.NONE.value();
     }
 
     /////////////////////////////////////////////////////////////////
     // force a false death, acts as a summon when summoned by druid
     /////////////////////////////////////////////////////////////////
     public void die(boolean death, Unit source) {
-        if (id == UnitType.NONE) {
+        if (id == UnitType.NONE.value()) {
             if (parent == null) {
                 Logger.error("Invalid summon death: no parent");
                 return;

@@ -32,7 +32,7 @@ public class UnitCommandPost extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.COMMAND_POST;
+        id = UnitType.COMMAND_POST.value();
         category = Unit.STRUCTURES;
         name = Strings.UNIT_COMMAND_POST_1;
         actions = new Vector<Action>();

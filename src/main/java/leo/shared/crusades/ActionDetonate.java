@@ -51,7 +51,7 @@ public class ActionDetonate implements Action {
         // The costs
         //System.out.println("the costs");
         owner.deductActions(cost);
-        if (owner.getID() == UnitType.DIABOLIST)
+        if (owner.getID() == UnitType.DIABOLIST.value())
             owner.setSouls(owner.getSouls() - 1);
         owner.getCastle().deductCommands(this, (byte) 1);
 
@@ -205,7 +205,7 @@ public class ActionDetonate implements Action {
     public short getRemaining() { //System.out.println("owner.noCost()");
         if (owner.noCost()) return 1;
         //System.out.println("DIABOLIST check");
-        if (owner.getID() == UnitType.DIABOLIST && owner.getSouls() < 1) return 0;
+        if (owner.getID() == UnitType.DIABOLIST.value() && owner.getSouls() < 1) return 0;
         //System.out.println("commands left <=0 && doesn't freely act or not depolyed");
         if ((owner.getCastle().getCommandsLeft() <= 0 && !owner.freelyActs()) || !owner.deployed()) return 0;
         //System.out.println("ret actions/cost");

@@ -45,7 +45,7 @@ public class EventSummoner implements Event, Action {
         // Later, this will be a switch statment based on the owner's unit type
         maxSummons = getSummonLimitNumber(owner.getID());
         //"This unit has the ability to summon other units, but can only have so many summoned at the same time. If this unit dies, so do everything it has summoned.";
-        if (owner.getID() == UnitType.BARRACKS) {
+        if (owner.getID() == UnitType.BARRACKS.value()) {
             name = Strings.UNIT_BARRACKS_6; // Troop Deployment
             detail = Strings.UNIT_BARRACKS_7; // Deployments Availible
             description = Strings.UNIT_BARRACKS_8; //
@@ -104,18 +104,20 @@ public class EventSummoner implements Event, Action {
     }
 
     private int getSummonLimitNumber(short id) {
-        switch (id) {
-            case UnitType.BARRACKS:
+        var unit = UnitType.idToUnit(id);
+
+        switch (unit) {
+            case BARRACKS:
                 return 3;
-            case UnitType.DRUID:
+            case DRUID:
                 return 3;
-            case UnitType.MAGUS:
+            case MAGUS:
                 return 1;
-            case UnitType.NECROMANCER:
+            case NECROMANCER:
                 return 4;
-            case UnitType.SUMMONER:
+            case SUMMONER:
                 return 2;
-            case UnitType.CONJURER:
+            case CONJURER:
                 return 3;
         }
         return 1;

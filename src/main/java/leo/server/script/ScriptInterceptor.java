@@ -122,7 +122,7 @@ public class ScriptInterceptor implements Script {
 
         if (unit.getMove().getRemaining() < 1) return false;
 
-        if (unit.getID() == UnitType.GATE_GUARD && unit.getLocation() == castle.getLocation()) return false;
+        if (unit.getID() == UnitType.GATE_GUARD.value() && unit.getLocation() == castle.getLocation()) return false;
 
         // Get the move targets
         Vector<Short> moves = unit.getMove().getTargets();

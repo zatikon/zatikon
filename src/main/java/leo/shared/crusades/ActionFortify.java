@@ -48,7 +48,7 @@ public class ActionFortify implements Action {
         while (it.hasNext()) {
             Unit victim = it.next();
             if (victim.getCastle() == castle) {
-                if (!victim.getOrganic(owner) && victim.getID() > UnitType.POWERUP) {
+                if (!victim.getOrganic(owner) && victim.getID() > UnitType.POWERUP.value()) {
                     if (victim.getArmor() < 2) {
                         victim.setArmor((byte) (victim.getBaseArmor() + 1));
                         // Generate a nifty effect

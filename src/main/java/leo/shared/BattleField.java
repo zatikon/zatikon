@@ -221,7 +221,7 @@ public class BattleField {
                     if (
                             (unit == null) ||
                                     (unit != null && unit.targetable(looker) && (organic == unit.getOrganic(looker) || inorganic != unit.getOrganic(looker)) &&
-                                            (selectionType == TargetType.BOTH || unit.getID() == UnitType.ROCK || (selectionType == TargetType.FRIENDLY && unit.getCastle() == castle) || (selectionType == TargetType.ENEMY && unit.getCastle() != castle))
+                                            (selectionType == TargetType.BOTH || unit.getID() == UnitType.ROCK.value() || (selectionType == TargetType.FRIENDLY && unit.getCastle() == castle) || (selectionType == TargetType.ENEMY && unit.getCastle() != castle))
                                     )
                     )
                         addTarget(targets, new Short(location));
@@ -384,7 +384,7 @@ public class BattleField {
             if (x >= 0 && x < Constants.BOARD_SIZE && y >= 0 && y < Constants.BOARD_SIZE)
                 if ((location != unit.getCastle().getLocation() || units) && (obstacle == null && locations) || (obstacle != null && units))
                     if ((obstacle == null) || (obstacle != null && obstacle.targetable(unit) && (organic == obstacle.getOrganic(unit) || inorganic != obstacle.getOrganic(unit)) &&
-                            (selectionType == TargetType.BOTH || obstacle.getID() == UnitType.ROCK || (selectionType == TargetType.FRIENDLY && obstacle.getCastle() == castle) || (selectionType == TargetType.ENEMY && obstacle.getCastle() != castle))))
+                            (selectionType == TargetType.BOTH || obstacle.getID() == UnitType.ROCK.value() || (selectionType == TargetType.FRIENDLY && obstacle.getCastle() == castle) || (selectionType == TargetType.ENEMY && obstacle.getCastle() != castle))))
                         addTarget(targets, new Short(location));
 
             // If they don't jump, give them what they've got so far (unless obstacle is a powerup)

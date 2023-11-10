@@ -30,7 +30,7 @@ public class RelicHealMove extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.RELIC_HEAL_MOVE;
+        id = UnitType.RELIC_HEAL_MOVE.value();
         category = Unit.RELICS;
         name = Strings.RELIC_HEAL_MOVE_1;
         actions = new Vector<Action>();

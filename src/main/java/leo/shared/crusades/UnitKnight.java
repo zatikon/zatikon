@@ -28,7 +28,7 @@ public class UnitKnight extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.KNIGHT;
+        id = UnitType.KNIGHT.value();
         category = Unit.HORSEMEN;
         name = Strings.UNIT_KNIGHT_1;
         actions = new Vector<Action>();

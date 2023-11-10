@@ -48,7 +48,7 @@ public class ActionReconstruct implements Action {
         while (it.hasNext()) {
             Unit victim = it.next();
             if (victim.getCastle() == castle) {
-                if (!victim.getOrganic(owner) && victim.getID() > UnitType.POWERUP) {
+                if (!victim.getOrganic(owner) && victim.getID() > UnitType.POWERUP.value()) {
                     if (victim.heal(owner)) {
                         // Generate a nifty effect
                         castle.getObserver().abilityUsed(owner.getLocation(), victim.getLocation(), Constants.IMG_POOF);

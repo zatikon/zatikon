@@ -30,7 +30,7 @@ public class UnitArmory extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.ARMORY;
+        id = UnitType.ARMORY.value();
         category = Unit.STRUCTURES;
         name = Strings.UNIT_ARMORY_1;
         actions = new Vector<Action>();

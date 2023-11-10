@@ -27,7 +27,7 @@ public class UnitPikeman extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.PIKEMAN;
+        id = UnitType.PIKEMAN.value();
         category = Unit.SOLDIERS;
         name = Strings.UNIT_PIKEMAN_1;
         actions = new Vector<Action>();

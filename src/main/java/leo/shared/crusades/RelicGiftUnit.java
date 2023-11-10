@@ -34,7 +34,7 @@ public class RelicGiftUnit extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.RELIC_GIFT_UNIT;
+        id = UnitType.RELIC_GIFT_UNIT.value();
         category = Unit.RELICS;
         name = Strings.RELIC_GIFT_UNIT_1;
         actions = new Vector<Action>();
@@ -91,7 +91,7 @@ public class RelicGiftUnit extends Unit {
 
         //ally.grow(Action.GROW_RELIC_GIFT); //Implemented to use the A.I.'s grow properties, much like all the other unis/relics
 
-        getCastle().add(Unit.getUnit(UnitType.RELIC_GIFT_UNIT, getCastle()));
+        getCastle().add(Unit.getUnit(UnitType.RELIC_GIFT_UNIT.value(), getCastle()));
         getCastle().getObserver().castleAddition(this);
     }
 

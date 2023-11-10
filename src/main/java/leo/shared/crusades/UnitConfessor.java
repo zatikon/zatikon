@@ -31,7 +31,7 @@ public class UnitConfessor extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.CONFESSOR;
+        id = UnitType.CONFESSOR.value();
         category = Unit.CULTISTS;
         name = Strings.UNIT_CONFESSOR_1;
         actions = new Vector<Action>();

@@ -27,7 +27,7 @@ public class UnitSpirit extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.SPIRIT;
+        id = UnitType.SPIRIT.value();
         name = Strings.UNIT_SPIRIT_1;
         actions = new Vector<Action>();
         damage = 3;

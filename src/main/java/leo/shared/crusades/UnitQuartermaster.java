@@ -34,7 +34,7 @@ public class UnitQuartermaster extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.QUARTERMASTER;
+        id = UnitType.QUARTERMASTER.value();
         category = Unit.COMMANDERS;
         name = Strings.UNIT_QUARTERMASTER_1;
         actions = new Vector<Action>();

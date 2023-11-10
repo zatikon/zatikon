@@ -28,7 +28,7 @@ public class UnitSeal extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.SEAL;
+        id = UnitType.SEAL.value();
         name = Strings.UNIT_SEAL_1;
         actions = new Vector<Action>();
         damage = 0;

@@ -32,7 +32,7 @@ public class UnitArchangel extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.ARCHANGEL;
+        id = UnitType.ARCHANGEL.value();
         category = Unit.CLERGY;
         name = Strings.UNIT_ARCHANGEL_1;
         actions = new Vector<Action>();

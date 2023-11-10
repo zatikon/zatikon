@@ -30,7 +30,7 @@ public class UnitMimic extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.MIMIC;
+        id = UnitType.MIMIC.value();
         category = Unit.SHAPESHIFTERS;
         name = Strings.UNIT_MIMIC_1;
         actions = new Vector<Action>();

@@ -33,7 +33,7 @@ public class UnitMagus extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.MAGUS;
+        id = UnitType.MAGUS.value();
         category = Unit.WHITE_MAGIC_USERS;
         name = Strings.UNIT_MAGUS_1;
         actions = new Vector<Action>();

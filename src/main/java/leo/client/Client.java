@@ -51,7 +51,7 @@ public class Client {
     private static boolean web;
     private static boolean active = false;
     private static final long serialVersionUID = 1L;
-    private static final short[] units = new short[UnitType.UNIT_COUNT];
+    private static final short[] units = new short[UnitType.UNIT_COUNT.value()];
 
 
     /////////////////////////////////////////////////////////////////

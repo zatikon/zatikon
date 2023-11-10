@@ -27,7 +27,7 @@ public class UnitRanger extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.RANGER;
+        id = UnitType.RANGER.value();
         category = Unit.SCOUTS;
         name = Strings.UNIT_RANGER_1;
         actions = new Vector<Action>();

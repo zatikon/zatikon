@@ -30,7 +30,7 @@ public class RelicStun extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.RELIC_STUN;
+        id = UnitType.RELIC_STUN.value();
         category = Unit.RELICS;
         name = Strings.RELIC_STUN_1;
         actions = new Vector<Action>();
@@ -85,8 +85,8 @@ public class RelicStun extends Unit {
     public boolean canTarget(Unit target) {
         if (target.getCastle() == castle) {
             return target.getOrganic(this) && target.targetable(this) &&
-                    ((target.getAttack() != null && target.getBaseDamage() > 0) || target.getID() == UnitType.WYVERN ||
-                            target.getID() == UnitType.LANCER || target.getID() == UnitType.CHANNELER || target.getID() == UnitType.FIRE_ARCHER) && !target.boss();
+                    ((target.getAttack() != null && target.getBaseDamage() > 0) || target.getID() == UnitType.WYVERN.value() ||
+                            target.getID() == UnitType.LANCER.value() || target.getID() == UnitType.CHANNELER.value() || target.getID() == UnitType.FIRE_ARCHER.value()) && !target.boss();
         }
         return false;
     }

@@ -57,7 +57,7 @@ public class EditSellExtraButton extends LeoComponent {
         short[] units = Client.getUnits();
 
         // Sell it
-        for (short i = 0; i < UnitType.UNIT_COUNT; i++) {
+        for (short i = 0; i < UnitType.UNIT_COUNT.value(); i++) {
             Castle tmp = new Castle();
             Unit unit = Unit.getUnit(i, tmp);
             while (unit != null && unit.getCastleCost() != 1001 && unit.getCastleCost() * units[i] > Constants.MAX_ARMY_SIZE) {

@@ -98,7 +98,7 @@ public class AI {
 
             // deploy new units
             if (turns == 0) {
-                want = UnitType.GATE_GUARD;
+                want = UnitType.GATE_GUARD.value();
                 deployUnits(units);
             }
 
@@ -297,7 +297,7 @@ public class AI {
 
         if (locations.size() < 1) {
             // Don't get stuck with relics you can't deploy, replace with a unit
-            if (unit.getID() <= UnitType.POWERUP) {
+            if (unit.getID() <= UnitType.POWERUP.value()) {
                 want = getNewWant();
                 return deployUnits(units);
             }
@@ -307,7 +307,7 @@ public class AI {
 
         Short location = 0;
         // Deploy militia as far up as you can
-        if (unit.getID() == UnitType.MILITIA) {
+        if (unit.getID() == UnitType.MILITIA.value()) {
             Iterator it = locations.iterator();
             while (it.hasNext()) {
                 Short loc = (Short) it.next();

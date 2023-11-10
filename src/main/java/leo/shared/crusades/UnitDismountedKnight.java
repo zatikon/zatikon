@@ -27,7 +27,7 @@ public class UnitDismountedKnight extends Unit {
         castle = newCastle;
 
         // Initialize
-        id = UnitType.KNIGHT;
+        id = UnitType.KNIGHT.value();
         name = Strings.UNIT_DISMOUNTED_KNIGHT_1;
         actions = new Vector<Action>();
         damage = 4;

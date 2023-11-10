@@ -29,7 +29,7 @@ public class UnitAxeman extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.AXEMAN;
+        id = UnitType.AXEMAN.value();
         category = Unit.SOLDIERS;
         name = Strings.UNIT_AXEMAN_1;
         actions = new Vector<Action>();

@@ -25,7 +25,7 @@ public class UnitMilitia extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.MILITIA;
+        id = UnitType.MILITIA.value();
         category = Unit.SOLDIERS;
         name = Strings.UNIT_MILITIA_1;
         actions = new Vector<Action>();

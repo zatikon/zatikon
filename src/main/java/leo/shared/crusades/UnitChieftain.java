@@ -30,7 +30,7 @@ public class UnitChieftain extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.CHIEFTAIN;
+        id = UnitType.CHIEFTAIN.value();
         category = Unit.NATURE;
         name = Strings.UNIT_CHIEFTAIN_1;
         actions = new Vector<Action>();

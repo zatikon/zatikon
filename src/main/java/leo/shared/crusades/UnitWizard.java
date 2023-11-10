@@ -30,7 +30,7 @@ public class UnitWizard extends Unit {
         accessLevel = Unit.CRUSADES;
 
         // Initialize
-        id = UnitType.WIZARD;
+        id = UnitType.WIZARD.value();
         category = Unit.WHITE_MAGIC_USERS;
         name = Strings.UNIT_WIZARD_1;
         actions = new Vector<Action>();

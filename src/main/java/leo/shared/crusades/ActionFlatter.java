@@ -65,7 +65,7 @@ public class ActionFlatter implements Action {
         owner.remove(this);
 
         // set the ID to none
-        owner.setID(UnitType.NONE);
+        owner.setID(UnitType.NONE.value());
 
         // set the new invincible state
         owner.friendTargetable(false);

@@ -31,7 +31,7 @@ public class RelicFlight extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.RELIC_FLIGHT;
+        id = UnitType.RELIC_FLIGHT.value();
         category = Unit.RELICS;
         name = Strings.RELIC_FLIGHT_1;
         actions = new Vector<Action>();

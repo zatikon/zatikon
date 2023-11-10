@@ -32,7 +32,7 @@ public class UnitWyvern extends Unit {
         accessLevel = Unit.LEGIONS;
 
         // Initialize
-        id = UnitType.WYVERN;
+        id = UnitType.WYVERN.value();
         category = Unit.WYRMS;
         name = Strings.UNIT_WYVERN_1;
         actions = new Vector<Action>();

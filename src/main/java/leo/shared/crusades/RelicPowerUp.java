@@ -83,7 +83,7 @@ public class RelicPowerUp extends Unit {
         power = newPower;
 
         // Initialize
-        id = (byte) (UnitType.POWERUP - newPower);
+        id = (byte) (UnitType.POWERUP.value() - newPower);
         name = names[power];
         actions = new Vector<Action>();
         damage = 0;
