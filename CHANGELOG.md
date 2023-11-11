@@ -1,4 +1,4 @@
-# Upcoming
+# 1.1.3
 
 - versioning scheme improved; protocol version now separated from game version
 - parameterized SQL queries now done so correctly
