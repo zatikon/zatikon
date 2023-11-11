@@ -13,6 +13,7 @@ import leo.server.script.*;
 import leo.shared.*;
 import leo.shared.crusades.*;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -20,7 +21,8 @@ public class AI {
     /////////////////////////////////////////////////////////////////
     // Constants
     /////////////////////////////////////////////////////////////////
-
+    public static final int MINIMUM_LEVEL_FOR_POINT_INCREASE = 5;
+    public static final int TURN_COUNT_FACTOR = 5;
 
     /////////////////////////////////////////////////////////////////
     // Properties
@@ -34,7 +36,6 @@ public class AI {
     private int turns = 0;
     private long points;
     private short want;
-    private int diminish;
     private final DNA dna;
     private int consecutiveRelics;
 
@@ -60,11 +61,13 @@ public class AI {
 
         dna = new DNA(game.random(), level);
 
-        // points
-        points = 300 + (15 * level);
+        // initial point budget
+        points = 300 + (15L * level);
 
-        diminish = level / 5;
-        if (diminish < 1) diminish = 1;
+        // Scale them down on lower levels
+        if (level < 5) {
+            points = points * (level + 5)/10;
+        }
     }
 
 
@@ -106,7 +109,8 @@ public class AI {
             }
 
         } catch (Exception e) {
-            Log.error("Script Error2: " + lastUnit + ", " + e);
+            // TODO improve handling this. Getting an exception shouldn't always end the while loop! Show must go on.
+            Log.error("Script Error2: " + lastUnit + ", " + e + "trace: " + Arrays.toString(e.getStackTrace()));
         }
 
         try {
@@ -130,13 +134,23 @@ public class AI {
     }
 
     public static long calculatePointsIncrease(int aiLevel, int turnCount) {
-        var exhaustionRatio = (double) (aiLevel+9) / (aiLevel+10);
-        var exhaustionFactor = Math.pow(exhaustionRatio, turnCount);
+        if (aiLevel < MINIMUM_LEVEL_FOR_POINT_INCREASE) {
+            return 0;
+        } else {
+            var effectiveLevel = aiLevel - MINIMUM_LEVEL_FOR_POINT_INCREASE;
+            var effectiveTurnCount = Math.floorDiv(turnCount, TURN_COUNT_FACTOR);
 
-        // Mostly trying to keep the original formula, but with some shifts
-        var minimumIncrease = 20 + aiLevel * 2;
+            var exhaustionRatio = (double) (effectiveLevel + 5) / (effectiveLevel + 30);
+            var exhaustionFactor = Math.pow(exhaustionRatio, effectiveTurnCount);
 
-        return Math.round((101 + (4 * aiLevel)) * exhaustionFactor) + minimumIncrease;
+            var minimumIncrease = 5 + effectiveLevel * 0.5;
+            var minimumScalable = 1;
+            var effectiveLevelMultiplier = 1;
+
+            return Math.round(
+                    (minimumScalable + (effectiveLevelMultiplier * effectiveLevel)) * exhaustionFactor + minimumIncrease
+            );
+        }
     }
 
 

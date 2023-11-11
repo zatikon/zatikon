@@ -14,6 +14,7 @@ import java.util.Vector;
 
 
 public class UnitGateGuard extends Unit {
+    private static final boolean FORTIFY_GUARD = false;
 
     /////////////////////////////////////////////////////////////////
     // Properties
@@ -64,11 +65,10 @@ public class UnitGateGuard extends Unit {
         actions.add(move);
         actions.add(attack);
 
-        if (castle != null)
-            if (castle.isAI()) {
-                life += 2;
-                lifeMax += 2;
-            }
+        if (FORTIFY_GUARD && castle != null && castle.isAI()) {
+            life += 2;
+            lifeMax += 2;
+        }
     }
 
 
