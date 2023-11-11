@@ -172,7 +172,8 @@ public enum UnitType {
                 shortToEnum.put(e.value(), e);
             }
         }
-        return shortToEnum.get(unitId);
+        // Having the default returned is currently required for compatibility, but maybe something better could be devised
+        return shortToEnum.getOrDefault(unitId, UnitType.NONE);
     }
 
     UnitType(int unitId) {
