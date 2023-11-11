@@ -14,6 +14,7 @@ package leo.server;
 
 import leo.shared.Constants;
 import leo.shared.Log;
+import org.tinylog.Logger;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -278,7 +279,7 @@ public class DatabaseManager {
             }
             return Integer.parseInt(temp);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            Logger.error(e);
             return -1;
         }
     }

@@ -9,6 +9,7 @@ package leo.client;
 // imports
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.awt.*;
 
@@ -44,7 +45,7 @@ public class mirroredRandomButton extends LeoComponent {
             Client.getGameData().screenLoading("Searching for an opponent, please wait...");
             return true;
         } catch (Exception e) {
-            System.out.println("mirroredRandomButton.clickAt(): " + e);
+            Logger.error("mirroredRandomButton.clickAt(): " + e);
             Client.shutdown();
         }
         return false;

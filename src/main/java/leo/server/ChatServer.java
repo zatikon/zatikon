@@ -32,7 +32,7 @@ public class ChatServer implements Runnable {
     public ChatServer(int newPort, boolean useTls) {
         this.port = newPort;
         this.useTls = useTls;
-        runner = new Thread(this);
+        runner = new Thread(this, "ChatServerThread");
         runner.start();
     }
 

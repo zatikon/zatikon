@@ -9,6 +9,7 @@ package leo.client;
 // imports
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.awt.*;
 import java.util.Vector;
@@ -169,7 +170,7 @@ public class PlayerList extends LeoComponent {
             //g.drawString("clientName= " + clientName, getScreenX() + 45, getScreenY() + 205);
             //g.drawString("playerName= " + playerName, getScreenX() + 45, getScreenY() + 220);
         } catch (Exception e) {
-            System.out.println("PlayerList.draw(): " + e);
+            Logger.error("PlayerList.draw(): " + e);
         }
     }
 }

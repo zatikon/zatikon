@@ -9,6 +9,7 @@ package leo.client;
 // imports
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.awt.*;
 
@@ -48,7 +49,7 @@ public class PlayButton extends LeoComponent {
             }
             return true;
         } catch (Exception e) {
-            System.out.println("PlayButton().clickAt(): " + e);
+            Logger.error("PlayButton().clickAt(): " + e);
             Client.shutdown();
         }
         return false;

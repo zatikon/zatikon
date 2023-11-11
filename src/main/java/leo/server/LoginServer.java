@@ -37,7 +37,7 @@ public class LoginServer implements Runnable {
     public LoginServer(int newPort, boolean useTls) {
         this.port = newPort;
         this.useTls = useTls;
-        runner = new Thread(this);
+        runner = new Thread(this, "LoginServerThread");
         runner.start();
     }
 

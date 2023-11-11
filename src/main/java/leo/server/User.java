@@ -63,7 +63,7 @@ public class User implements Runnable {
     public User(Socket newSocket) {
         chatID = Server.getChatID();
         socket = newSocket;
-        runner = new Thread(this);
+        runner = new Thread(this, "UserThread");
         runner.start();
     }
 

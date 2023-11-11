@@ -12,6 +12,7 @@ package leo.client;
 import leo.client.animation.Animation;
 import leo.client.animation.AnimationDamage;
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -492,7 +493,7 @@ public class ClientGameData {
             selectedAction = null;
             deployingUnit = null;
         } catch (Exception e) {
-            System.out.println("ClientGameData.setSelectedUnit(): " + e);
+            Logger.error("ClientGameData.setSelectedUnit(): " + e);
         }
     }
 

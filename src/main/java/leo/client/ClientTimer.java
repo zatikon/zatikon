@@ -23,7 +23,7 @@ public class ClientTimer implements Runnable {
     /////////////////////////////////////////////////////////////////
     public ClientTimer(int count) {
         time = count;
-        runner = new Thread(this);
+        runner = new Thread(this, "ClientTimerThread");
         runner.start();
     }
 

@@ -10,6 +10,7 @@ package leo.client;
 
 import leo.client.animation.Animation;
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -104,7 +105,7 @@ public class CheckerBoard extends LeoComponent {
 
             return false;
         } catch (Exception e) {
-            System.out.println("CheckerBoard.clickAt(): " + e);
+            Logger.error("CheckerBoard.clickAt(): " + e);
             Client.getGameData().click();
             return false;
         }
@@ -760,7 +761,7 @@ public class CheckerBoard extends LeoComponent {
                     animation.draw(g, mainFrame, this);
                 } catch (Exception e) {
                     animations.remove(animation);
-                    System.out.println("CheckerBoard.drawAnimations() animation.draw()" + e);
+                    Logger.error("CheckerBoard.drawAnimations() animation.draw()" + e);
                 }
 
                 if (animation.finished()) {
@@ -770,7 +771,7 @@ public class CheckerBoard extends LeoComponent {
             }
 
         } catch (Exception e) {
-            System.out.println("CheckerBoard.drawAnimations(): " + e);
+            Logger.error("CheckerBoard.drawAnimations(): " + e);
             Client.getGameData().click();
         }
 
@@ -829,7 +830,7 @@ public class CheckerBoard extends LeoComponent {
 
         } catch (Exception e) {
             Client.getGameData().click();
-            System.out.println("CheckerBoard.drawUnitTargets: " + e);
+            Logger.error("CheckerBoard.drawUnitTargets: " + e);
         }
     }
 
@@ -874,7 +875,7 @@ public class CheckerBoard extends LeoComponent {
 
         } catch (Exception e) {
             Client.getGameData().click();
-            System.out.println("CheckerBoard.drawEnemyTargets: " + e);
+            Logger.error("CheckerBoard.drawEnemyTargets: " + e);
         }
     }
 
@@ -959,7 +960,7 @@ public class CheckerBoard extends LeoComponent {
                 highlight(g, relicTargets, TargetType.UNIT_AREA, Constants.IMG_BLUE, alphaHalf, false);
             }
         } catch (Exception e) {
-            System.out.println("CheckerBoard.drawCastleTargets: " + e);
+            Logger.error("CheckerBoard.drawCastleTargets: " + e);
             Client.getGameData().click();
         }
     }
@@ -1016,7 +1017,7 @@ public class CheckerBoard extends LeoComponent {
                 }
             }
         } catch (Exception e) {
-            System.out.println("CheckerBoard.highlight(): " + e);
+            Logger.error("CheckerBoard.highlight(): " + e);
             Client.getGameData().click();
         }
     }

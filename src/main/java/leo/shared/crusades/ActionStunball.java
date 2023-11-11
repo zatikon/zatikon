@@ -9,6 +9,7 @@ package leo.shared.crusades;
 // imports
 
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.util.Vector;
 
@@ -123,7 +124,7 @@ public class ActionStunball implements Action {
         }
 
         // Bad bad monkey
-        System.out.println(Strings.INVALID_ACTION);
+        Logger.error(Strings.INVALID_ACTION);
         return false;
     }
 

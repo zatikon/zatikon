@@ -13,6 +13,7 @@ package leo.client;
 //import leo.client.OggClip;
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -248,7 +249,7 @@ public class GameMedia {
             sounds[loadingSound] = new Sound(url);
 
         } catch (Exception e) {
-            System.out.println("loadSounds " + e);
+            Logger.error("loadSounds " + e);
         }
         soundLoaded = true;
     }
@@ -270,7 +271,7 @@ public class GameMedia {
                     urls[0] = new URL(urlName);
                     artLoader = new URLClassLoader(urls);
                 } catch (Exception e) {
-                    System.out.println("Classloader preload " + e);
+                    Logger.error("Classloader preload " + e);
                 }
             }
 
@@ -310,7 +311,7 @@ public class GameMedia {
             images[Constants.IMG_WAITING_TEAM_ICON] = ImageIO.read(url);
 
         } catch (Exception e) {
-            System.out.println("preload: " + url + " " + e);
+            Logger.error("preload: " + url + " " + e);
         }
     }
 
@@ -343,7 +344,7 @@ public class GameMedia {
                     urls[0] = new URL(urlName);
                     artLoader = new URLClassLoader(urls);
                 } catch (Exception e) {
-                    System.out.println("classloader load " + e);
+                    Logger.error("classloader load " + e);
                 }
             }
 
@@ -2306,7 +2307,7 @@ public class GameMedia {
             //System.out.println("Images loaded.");
 
         } catch (Exception e) {
-            System.out.println("load " + url + e);
+            Logger.error("load " + url + e);
         }
         artLoaded = true;
     }
@@ -2421,7 +2422,7 @@ public class GameMedia {
             }
 
         } catch (Exception e) {
-            System.out.println("Initialize: " + debug + " " + e);
+            Logger.error("Initialize: " + debug + " " + e);
         }
     }
 
@@ -2478,7 +2479,7 @@ public class GameMedia {
             }
             return bimage;
         } catch (Exception e) {
-            System.out.println("GameMedia.copy(): " + e);
+            Logger.error("GameMedia.copy(): " + e);
             return null;
         }
     }
@@ -2491,7 +2492,7 @@ public class GameMedia {
         try {
             if (!Client.mute() && !Client.musicOff()) music.play();
         } catch (Exception e) {
-            System.out.println("GameMedia.playMusic(): " + e);
+            Logger.error("GameMedia.playMusic(): " + e);
         }
     }
 
@@ -2499,7 +2500,7 @@ public class GameMedia {
         try {
             if (!Client.mute() && !Client.musicOff()) music.stop();
         } catch (Exception e) {
-            System.out.println("GameMedia.stopMusic(): " + e);
+            Logger.error("GameMedia.stopMusic(): " + e);
         }
     }
 
@@ -2507,7 +2508,7 @@ public class GameMedia {
         try {
             music.pause();
         } catch (Exception e) {
-            System.out.println("GameMedia.pauseMusic(): " + e);
+            Logger.error("GameMedia.pauseMusic(): " + e);
         }
     }
 
@@ -2515,7 +2516,7 @@ public class GameMedia {
         try {
             music.resume();
         } catch (Exception e) {
-            System.out.println("GameMedia.resumeMusic(): " + e);
+            Logger.error("GameMedia.resumeMusic(): " + e);
         }
     }
 
@@ -2530,7 +2531,7 @@ public class GameMedia {
 
             music.close();
         } catch (Exception e) {
-            System.out.println("GameMedia.clean(): " + e);
+            Logger.error("GameMedia.clean(): " + e);
         }
     }
 
@@ -2625,11 +2626,11 @@ public class GameMedia {
                 buf.getGraphics().drawImage(img, 0, 0, null);
                 rotatedImages[image] = rotate(buf);
                 if (rotatedImages[image] == null) {
-                    System.out.println("rotate(buf) returned null.");
+                    Logger.warn("rotate(buf) returned null.");
                     rotatedImages[image] = images[0];
                 }
             } else {
-                System.out.println("getWidth (which is: " + img.getWidth(null) + ") != square size.");
+                Logger.warn("getWidth (which is: " + img.getWidth(null) + ") != square size.");
                 rotatedImages[image] = images[0];
             }
         }

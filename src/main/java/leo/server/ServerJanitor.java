@@ -28,7 +28,7 @@ public class ServerJanitor implements Runnable {
     // Constructor
     /////////////////////////////////////////////////////////////////
     public ServerJanitor() {
-        runner = new Thread(this);
+        runner = new Thread(this, "ServerJanitorThread");
         runner.start();
     }
 

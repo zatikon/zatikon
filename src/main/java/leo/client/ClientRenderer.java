@@ -8,6 +8,8 @@ package leo.client;
 
 // imports
 
+import org.tinylog.Logger;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.Date;
@@ -45,7 +47,7 @@ public class ClientRenderer implements Runnable {
 
         Client.getGameData().screenProgress();
 
-        runner = new Thread(this);
+        runner = new Thread(this, "ClientRendererThread");
         runner.start();
 
         initialize();
@@ -92,7 +94,7 @@ public class ClientRenderer implements Runnable {
             }
         } catch (Exception e) {
             Client.setDraw(false);
-            System.out.println("ClientRenderer.run(): " + e);
+            Logger.error("ClientRenderer.run(): " + e);
         }
 
     }

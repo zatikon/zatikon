@@ -8,6 +8,7 @@ import com.jcraft.jorbis.Block;
 import com.jcraft.jorbis.Comment;
 import com.jcraft.jorbis.DspState;
 import com.jcraft.jorbis.Info;
+import org.tinylog.Logger;
 
 import javax.sound.sampled.*;
 import java.io.BufferedInputStream;
@@ -227,7 +228,7 @@ public class OggClip {
             // ignore if no mark
         }
 
-        player = new Thread() {
+        player = new Thread("OggClipPlayThread") {
             public void run() {
                 try {
                     playStream(Thread.currentThread());
@@ -258,7 +259,7 @@ public class OggClip {
             // ignore if no mark
         }
 
-        player = new Thread() {
+        player = new Thread("OggClipLoopThread") {
             public void run() {
                 while (player == Thread.currentThread()) {
                     try {
@@ -333,7 +334,7 @@ public class OggClip {
             setBalance(balance);
             setGain(gain);
         } catch (Exception ee) {
-            System.out.println("OggClip.initJavaSound(): " + ee);
+            Logger.error("OggClip.initJavaSound(): " + ee);
         }
     }
 

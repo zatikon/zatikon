@@ -43,7 +43,7 @@ public class ChatUser implements Runnable {
         try {
             socket = newSocket;
             //socket.setSoTimeout(0);
-            runner = new Thread(this);
+            runner = new Thread(this, "ChatUserThread");
             runner.start();
         } catch (Exception e) {
             Log.error("ChatUser.constructor " + e);

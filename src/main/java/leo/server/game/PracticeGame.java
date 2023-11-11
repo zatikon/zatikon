@@ -13,6 +13,7 @@ package leo.server.game;
 import leo.server.*;
 import leo.server.observers.PracticeObserver;
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.util.Random;
 import java.util.Vector;
@@ -51,7 +52,7 @@ public class PracticeGame implements Game {
 
         // Log it with the server
         Server.gameListSingle().add(this);
-        System.out.println("Added a singleplayer game to the game list. Current total: " + Server.gameListSingle().size());
+        Logger.info("Added a singleplayer game to the game list. Current total: " + Server.gameListSingle().size());
 
         // initialize the server state
         initialize();
@@ -141,7 +142,7 @@ public class PracticeGame implements Game {
     public void endGame(Castle winner) {
         over = true;
         Server.gameListSingle().remove(this);
-        System.out.println("Removed a singleplayer game from the game list. Current total: " + Server.gameListSingle().size());
+        Logger.info("Removed a singleplayer game from the game list. Current total: " + Server.gameListSingle().size());
         if (validGame()) {
             // Update the scores
             if (winner == castle1) {

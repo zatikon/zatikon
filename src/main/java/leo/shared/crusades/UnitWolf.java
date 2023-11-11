@@ -9,6 +9,7 @@ package leo.shared.crusades;
 // imports
 
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.util.Vector;
 
@@ -79,12 +80,12 @@ public class UnitWolf extends Unit {
     public void die(boolean death, Unit source) {
         if (id == Unit.NONE) {
             if (parent == null) {
-                System.out.println("Invalid summon death: no parent");
+                Logger.error("Invalid summon death: no parent");
                 return;
             }
             EventSummoner esum = parent.getSummonManager();
             if (esum == null) {
-                System.out.println("Invalid summon death");
+                Logger.error("Invalid summon death");
                 return;
             }
             esum.perform(this, source, Event.NONE, Event.NONE, Event.NONE);

@@ -7,6 +7,7 @@
 package leo.util.patcher;
 
 
+import org.tinylog.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -118,7 +119,7 @@ public class Patcher extends Frame {
                 file.mkdir();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
         }
 
         Patcher patcher = new Patcher();
@@ -147,14 +148,14 @@ public class Patcher extends Frame {
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
         } finally {
             patcher.dispose();
         }
         try {
             patcher.run();
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
         }
     }
 
@@ -171,7 +172,7 @@ public class Patcher extends Frame {
 
             return value;
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
             return "0";
         }
     }
@@ -219,7 +220,7 @@ public class Patcher extends Frame {
             is.close();
 
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
         }
     }
 
@@ -247,7 +248,7 @@ public class Patcher extends Frame {
             method.invoke(obj, new Object[]{arg});
 
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
             throw e;
         }
     }

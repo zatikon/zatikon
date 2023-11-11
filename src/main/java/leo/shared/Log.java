@@ -8,6 +8,8 @@ package leo.shared;
 
 // imports
 
+import org.tinylog.Logger;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +34,7 @@ public class Log {
     // Log an error
     /////////////////////////////////////////////////////////////////
     public static void error(String text) {
-        System.err.println("ERROR " + getTime() + ": " + text);
+        Logger.error(text);
     }
 
 
@@ -40,7 +42,7 @@ public class Log {
     // Log activity
     /////////////////////////////////////////////////////////////////
     public static void activity(String text) {
-        System.err.println("ACTIVITY " + getTime() + ": " + text);
+        Logger.debug(text);
     }
 
 
@@ -48,7 +50,7 @@ public class Log {
     // Log game actions
     /////////////////////////////////////////////////////////////////
     public static void game(String text) {
-        System.err.println("GAME " + getTime() + ": " + text);
+        Logger.info(text);
     }
 
 
@@ -56,7 +58,7 @@ public class Log {
     // Log game actions
     /////////////////////////////////////////////////////////////////
     public static void alert(String text) {
-        System.err.println("ALERT " + getTime() + ": " + text);
+        Logger.warn(text);
     }
 
 
@@ -64,7 +66,7 @@ public class Log {
     // Chat
     /////////////////////////////////////////////////////////////////
     public static void chat(String text) {
-        System.err.println("CHAT " + getTime() + ": " + text);
+        Logger.info("CHAT: " + text);
     }
 
 
@@ -72,7 +74,7 @@ public class Log {
     // System
     /////////////////////////////////////////////////////////////////
     public static void system(String text) {
-        System.err.println("SYSTEM " + getTime() + ": " + text);
+        Logger.info(text);
     }
 
 

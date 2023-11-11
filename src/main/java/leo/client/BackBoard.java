@@ -9,6 +9,7 @@ package leo.client;
 // imports
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import java.awt.*;
 
@@ -45,7 +46,7 @@ public class BackBoard extends LeoContainer {
             g.drawImage(image, getScreenX(), getScreenY(), mainFrame);
             super.draw(g, mainFrame);
         } catch (Exception e) {
-            System.out.println("BackBoard.draw(): " + e);
+            Logger.error("BackBoard.draw(): " + e);
         }
     }
 

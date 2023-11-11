@@ -32,7 +32,7 @@ public class LobbyDuel implements Runnable {
     // Constructor
     /////////////////////////////////////////////////////////////////
     public LobbyDuel() {
-        runner = new Thread(this);
+        runner = new Thread(this, "LobbyDuelThread");
         runner.start();
     }
 

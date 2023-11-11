@@ -11,6 +11,7 @@ package leo.client;
 // imports
 
 import leo.shared.Constants;
+import org.tinylog.Logger;
 
 import javax.swing.*;
 import javax.swing.text.Style;
@@ -158,7 +159,7 @@ public class MessageFrame extends JFrame implements ActionListener, MouseListene
 
             chatOutput.setCaretPosition(doc.getLength());
         } catch (Exception e) {
-            System.out.println("MessageFrame.showText(): " + e);
+            Logger.error("MessageFrame.showText(): " + e);
         }
     }
 
@@ -177,7 +178,7 @@ public class MessageFrame extends JFrame implements ActionListener, MouseListene
             remove(inviteStatus);
             validate();
         } catch (Exception e) {
-            System.out.println("MessageFrame.disable(): " + e);
+            Logger.error("MessageFrame.disable(): " + e);
         }
     }
 
@@ -225,7 +226,7 @@ public class MessageFrame extends JFrame implements ActionListener, MouseListene
             }
 
             Client.getChat().invite(player, leo.shared.Action.GAME_MIRRORED_RANDOM);
-            System.out.println("Case MirroredRandom");
+            Logger.trace("Case MirroredRandom");
             showText("You've invited " + player.getName() + " to play mirrored random", "");
             invited();
         } else if (ae.getSource() == cooperative) {
@@ -399,11 +400,11 @@ public class MessageFrame extends JFrame implements ActionListener, MouseListene
     }
 
     public void windowIconified(WindowEvent e) {
-        System.out.println("ico");
+        Logger.trace("ico");
     }
 
     public void windowClosed(WindowEvent e) {
-        System.out.println("closed");
+        Logger.trace("closed");
     }
 
     public void windowClosing(WindowEvent e) {

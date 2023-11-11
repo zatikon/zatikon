@@ -12,6 +12,7 @@ import leo.shared.Action;
 import leo.shared.Strings;
 import leo.shared.TargetType;
 import leo.shared.Unit;
+import org.tinylog.Logger;
 
 import java.util.Vector;
 
@@ -56,7 +57,7 @@ public class ActionSuicide implements Action {
     /////////////////////////////////////////////////////////////////
     public String perform(short target) {
         if (!validate(target)) {
-            System.out.println(Strings.INVALID_ACTION);
+            Logger.error(Strings.INVALID_ACTION);
             return Strings.INVALID_ACTION;
         }
 

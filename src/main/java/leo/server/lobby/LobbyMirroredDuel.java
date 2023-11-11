@@ -32,7 +32,7 @@ public class LobbyMirroredDuel implements Runnable {
     // Constructor
     /////////////////////////////////////////////////////////////////
     public LobbyMirroredDuel() {
-        runner = new Thread(this);
+        runner = new Thread(this, "LobbyMirroredDuelThread");
         runner.start();
     }
 

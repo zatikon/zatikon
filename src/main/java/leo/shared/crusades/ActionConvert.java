@@ -9,6 +9,7 @@ package leo.shared.crusades;
 // imports
 
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.util.Vector;
 
@@ -127,7 +128,7 @@ public class ActionConvert implements Action {
         }
 
         // Bad bad monkey
-        System.out.println("Received bad action!!!");
+        Logger.error("Received bad action!!!");
         return false;
     }
 

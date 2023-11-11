@@ -10,6 +10,7 @@ package leo.shared;
 // imports
 
 import leo.shared.crusades.*;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -1268,7 +1269,7 @@ public class Unit {
             if (tmpAction == action) return i;
             i++;
         }
-        System.out.println("Invalid action from getAction: " + action.getName());
+        Logger.error("Invalid action from getAction: " + action.getName());
         return 100;
     }
 
