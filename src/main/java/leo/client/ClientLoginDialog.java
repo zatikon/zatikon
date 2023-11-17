@@ -15,7 +15,13 @@ import org.tinylog.Logger;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Optional;
+
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HexFormat;
 
 
 public class ClientLoginDialog extends Dialog
@@ -23,9 +29,11 @@ public class ClientLoginDialog extends Dialog
     /////////////////////////////////////////////////////////////////
     // Constants
     /////////////////////////////////////////////////////////////////
-    private static final int HEIGHT = 115;
+    private static final int HEIGHT = 138;
     private static final int WIDTH = 357;
     private static final long serialVersionUID = 1L;
+
+    private static final String passwordStore = Constants.LOCAL_DIR + "/etc"; // Feel free to rename
 
 
     /////////////////////////////////////////////////////////////////
@@ -49,11 +57,14 @@ public class ClientLoginDialog extends Dialog
     private final Panel userPanel;
     private final Panel passwordPanel;
     private final Button loginButton;
+
+    private final Checkbox savePasswordCheckbox;
     private final Panel buttonPanel;
+
+    private final Panel checkBoxPanel;
     private final Button createButton;
     private short loginType = LoginAttempt.EXISTING_ACCOUNT;
     //private Checkbox fullScreenBox;
-
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -65,7 +76,7 @@ public class ClientLoginDialog extends Dialog
         //fullScreenBox = new Checkbox("Fullscreen mode", false);
         //fullScreenBox.addItemListener(this);
         mainPanel = new Panel(new BorderLayout());
-        loginPanel = new Panel(new GridLayout(5, 1));
+        loginPanel = new Panel(new GridLayout(6, 1));
 
         //imagePanel = new ImagePanel("helmet.jpg");
         serverField = new TextField();
@@ -95,10 +106,17 @@ public class ClientLoginDialog extends Dialog
         userPanel.add(userField);
         passwordPanel.add(new Label("Password:"));
         passwordPanel.add(passwordField);
+
         loginButton = new Button("Login");
         loginButton.addActionListener(this);
+
+        savePasswordCheckbox = new Checkbox("Remember password?");
+        savePasswordCheckbox.addItemListener(this);
+
         createButton = new Button("Create new account");
         createButton.addActionListener(this);
+        checkBoxPanel = new Panel(new GridLayout(1, 2));
+        checkBoxPanel.add(savePasswordCheckbox);
         buttonPanel = new Panel(new GridLayout(1, 2));
         buttonPanel.add(loginButton);
         buttonPanel.add(createButton);
@@ -109,7 +127,9 @@ public class ClientLoginDialog extends Dialog
         loginPanel.add(standaloneCheckbox);
         loginPanel.add(userPanel);
         loginPanel.add(passwordPanel);
+        loginPanel.add(checkBoxPanel);
         loginPanel.add(buttonPanel);
+
         //loginPanel.add(fullScreenBox);
         //mainPanel.add(imagePanel,  "Center");
         mainPanel.add(loginPanel, "Center");
@@ -130,6 +150,13 @@ public class ClientLoginDialog extends Dialog
         validate();
         //setVisible(true);
         userField.requestFocus();
+
+        // Not sure where this should go, here seems a little weird
+        boolean passwordFile = new java.io.File(passwordStore).exists();
+        if (passwordFile) {
+            savePasswordCheckbox.setState(true);
+            passwordField.setText(readUserPassword());
+        }
     }
 
 
@@ -154,7 +181,6 @@ public class ClientLoginDialog extends Dialog
         if (e.getSource() == createButton) {
             ClientNewAccountDialog ccnad = new ClientNewAccountDialog(this);
         }
-
     }
 
 
@@ -186,6 +212,17 @@ public class ClientLoginDialog extends Dialog
         if (standalone) {
             Client.startLocalServer();
             loginType = LoginAttempt.EXISTING_OR_NEW;
+        }
+
+        boolean savePassword = savePasswordCheckbox.getState(); // Maybe this should be placed where it saves the username
+        if (savePassword) {
+            try (FileOutputStream writer = new FileOutputStream(passwordStore)) {
+                byte[] bytes = xorObfuscate(password.getBytes());
+                writer.write(bytes);
+                writer.flush();
+            } catch (IOException e) {
+                Logger.error("Failed to write password to file");
+            }
         }
 
         Logger.info("Connecting to server");
@@ -229,13 +266,13 @@ public class ClientLoginDialog extends Dialog
         }
 
         if (loginResponse.getResponse() == LoginResponse.FAIL_INCORRECT_DATA) {
-            alert("Data was recieved incorrectly. Please try again.");
+            alert("Data was received incorrectly. Please try again.");
             passwordField.requestFocus();
             return;
         }
 
         if (loginResponse.getResponse() == LoginResponse.FAIL_ALREADY_LOGGED_IN) {
-            alert("That account is already loggin in.");
+            alert("That account is already logged in.");
             userField.setText("");
             passwordField.setText("");
             userField.requestFocus();
@@ -368,6 +405,15 @@ public class ClientLoginDialog extends Dialog
             createButton.setEnabled(remote);
         }
 
+        if (e.getSource() == savePasswordCheckbox) {
+            if (!savePasswordCheckbox.getState()) {
+                boolean passwordStoreExists = new java.io.File(passwordStore).exists();
+                if (passwordStoreExists) {
+                    boolean test = new File(passwordStore).delete();
+                }
+            }
+        }
+
         //if (e.getSource() == fullScreenBox)
         //{ //fullScreenBox.setState(!fullScreenBox.getState());
         //Client.setFullScreen(fullScreenBox.getState());
@@ -408,5 +454,23 @@ public class ClientLoginDialog extends Dialog
     public void windowDeactivated(WindowEvent e) {
     }
 
+    private static String readUserPassword() {
+        StringBuilder content = new StringBuilder();
+        try {
+            byte[] bytes = Files.readAllBytes(Path.of(passwordStore));
+            return new String(xorObfuscate(bytes), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            Logger.error("Failed to read password from file");
+        }
 
+        return ""; // Somehow this failed, just return blank to not crash
+    }
+
+    private static byte[] xorObfuscate(byte[] bytes) {
+        byte[] key = HexFormat.of().parseHex("752a386c4247c7a583676bb57d6fbf1d84675ef0af968878c48a318d3850c1e7026c0fc0ec8057754aee949ae023097cb3a9");
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] ^= key[i];
+        }
+        return bytes;
+    }
 }
