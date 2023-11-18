@@ -409,7 +409,7 @@ public class ClientLoginDialog extends Dialog
             if (!savePasswordCheckbox.getState()) {
                 boolean passwordStoreExists = new java.io.File(passwordStore).exists();
                 if (passwordStoreExists) {
-                    boolean test = new File(passwordStore).delete();
+                    new File(passwordStore).delete();
                 }
             }
         }
