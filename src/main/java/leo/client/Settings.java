@@ -37,7 +37,6 @@ public class Settings {
             FileConfig config = FileConfig.of(SETTINGS_PATH);
             config.load();
             if (!config.isEmpty()) {
-                config.isEmpty();
                 server = config.getOrElse("server", server);
                 username = config.getOrElse("username", username);
                 musicstate = config.getOrElse("musicstate", musicstate);
