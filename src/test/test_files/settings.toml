@@ -1,0 +1,5 @@
+server = "thisissome.testserver.com"
+soundstate = false
+musicstate = true
+username = "Player"
+
