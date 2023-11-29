@@ -22,8 +22,8 @@ public class Settings {
     /////////////////////////////////////////////////////////////////
     private String server = "zatikon.chroniclogic.com";
     private String username = "";
-    private String musicstate = "FF";
-    private String soundstate = "FF";
+    private boolean musicstate = false;
+    private boolean soundstate = false;
 
     private static final String SETTINGS_PATH = Constants.LOCAL_DIR + "/settings.toml";
 
@@ -31,24 +31,11 @@ public class Settings {
     // Constructor
     /////////////////////////////////////////////////////////////////
     public Settings() {
-        try {
-            if (Client.isWeb()) return;
-
-            FileConfig config = FileConfig.of(SETTINGS_PATH);
-            config.load();
-            if (!config.isEmpty()) {
-                server = config.getOrElse("server", server);
-                username = config.getOrElse("username", username);
-                musicstate = config.getOrElse("musicstate", musicstate);
-                soundstate = config.getOrElse("soundstate", soundstate);
-                config.close();
-            } else {
-                Logger.info("No settings file");
-            }
-        } catch (Exception e) {
-            Logger.error("Settings(): " + e);
-        }
+        load(SETTINGS_PATH);
     }
+    public Settings(String path) {
+        load (path);
+    };
 
     /////////////////////////////////////////////////////////////////
     // Save
@@ -66,6 +53,26 @@ public class Settings {
             config.close();
         } catch (Exception e) {
             Logger.error("Settings.save(): " + e);
+        }
+    }
+
+    public void load(String path) {
+        try {
+            if (Client.isWeb()) return;
+
+            FileConfig config = FileConfig.of(path);
+            config.load();
+            if (!config.isEmpty()) {
+                server = config.getOrElse("server", server);
+                username = config.getOrElse("username", username);
+                musicstate = config.getOrElse("musicstate", musicstate);
+                soundstate = config.getOrElse("soundstate", soundstate);
+                config.close();
+            } else {
+                Logger.info("No settings file");
+            }
+        } catch (Exception e) {
+            Logger.error("Settings(): " + e);
         }
     }
 
@@ -90,20 +97,18 @@ public class Settings {
     }
 
     public boolean getMusicState() {
-        return musicstate.equals("ON");
+        return musicstate;
     }
 
-    public void setMusicState(boolean on) {
-        if (on) musicstate = "ON";
-        else musicstate = "FF";
+    public void setMusicState(boolean state) {
+        musicstate = state;
     }
 
     public boolean getSoundState() {
-        return soundstate.equals("ON");
+        return soundstate;
     }
 
-    public void setSoundState(boolean on) {
-        if (on) soundstate = "ON";
-        else soundstate = "FF";
+    public void setSoundState(boolean state) {
+        soundstate = state;
     }
 }
