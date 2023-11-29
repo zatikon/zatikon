@@ -34,8 +34,8 @@ public class Settings {
         load(SETTINGS_PATH);
     }
     public Settings(String path) {
-        load (path);
-    };
+        load(path);
+    }
 
     /////////////////////////////////////////////////////////////////
     // Save
