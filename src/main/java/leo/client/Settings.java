@@ -10,6 +10,7 @@ package leo.client;
 
 import leo.shared.Constants;
 import org.tinylog.Logger;
+import com.electronwill.nightconfig.core.file.FileConfig;
 
 import java.io.*;
 
@@ -21,28 +22,52 @@ public class Settings {
     /////////////////////////////////////////////////////////////////
     private String server = "zatikon.chroniclogic.com";
     private String username = "";
-    private String musicstate = "";
-    private String soundstate = "";
+    private boolean musicstate = false;
+    private boolean soundstate = false;
 
-    private static final String SETTINGS_PATH = Constants.LOCAL_DIR + "/settings";
+    private static final String SETTINGS_PATH = Constants.LOCAL_DIR + "/settings.toml";
 
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
     public Settings() {
+        load(SETTINGS_PATH);
+    }
+    public Settings(String path) {
+        load(path);
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Save
+    /////////////////////////////////////////////////////////////////
+    public void save() {
+        if (Client.isWeb()) return;
+        try {
+            FileConfig config = FileConfig.of(SETTINGS_PATH);
+            config.load(); // This isn't really required, this maintains the keys of the current config, even if they don't exist.
+            config.set("server", server);
+            config.set("username", username);
+            config.set("musicstate", musicstate);
+            config.set("soundstate", soundstate);
+            config.save();
+            config.close();
+        } catch (Exception e) {
+            Logger.error("Settings.save(): " + e);
+        }
+    }
+
+    public void load(String path) {
         try {
             if (Client.isWeb()) return;
 
-            File file = new File(SETTINGS_PATH);
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                DataInputStream dis = new DataInputStream(fis);
-
-                server= dis.readUTF();
-                username = dis.readUTF();
-                musicstate = dis.readUTF();
-                soundstate = dis.readUTF();
-                fis.close();
+            FileConfig config = FileConfig.of(path);
+            config.load();
+            if (!config.isEmpty()) {
+                server = config.getOrElse("server", server);
+                username = config.getOrElse("username", username);
+                musicstate = config.getOrElse("musicstate", musicstate);
+                soundstate = config.getOrElse("soundstate", soundstate);
+                config.close();
             } else {
                 Logger.info("No settings file");
             }
@@ -72,41 +97,18 @@ public class Settings {
     }
 
     public boolean getMusicState() {
-        return musicstate.equals("ON");
+        return musicstate;
     }
 
-    public void setMusicState(boolean on) {
-        if (on) musicstate = "ON";
-        else musicstate = "FF";
+    public void setMusicState(boolean state) {
+        musicstate = state;
     }
 
     public boolean getSoundState() {
-        return soundstate.equals("ON");
+        return soundstate;
     }
 
-    public void setSoundState(boolean on) {
-        if (on) soundstate = "ON";
-        else soundstate = "FF";
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Save
-    /////////////////////////////////////////////////////////////////
-    public void save() {
-        if (Client.isWeb()) return;
-        try {
-            FileOutputStream fos = new FileOutputStream(SETTINGS_PATH);
-            DataOutputStream dos = new DataOutputStream(fos);
-            dos.writeUTF(server);
-            dos.writeUTF(username);
-            dos.writeUTF(musicstate);
-            dos.writeUTF(soundstate);
-            dos.close();
-            fos.close();
-
-        } catch (Exception e) {
-            Logger.error("Settings.save(): " + e);
-        }
+    public void setSoundState(boolean state) {
+        soundstate = state;
     }
 }
