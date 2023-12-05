@@ -12,7 +12,11 @@ import leo.shared.Constants;
 import org.tinylog.Logger;
 import com.electronwill.nightconfig.core.file.FileConfig;
 
+import java.nio.charset.StandardCharsets;
+import java.util.HexFormat;
 import java.io.*;
+import java.util.Base64;
+
 
 
 public class Settings {
@@ -24,6 +28,7 @@ public class Settings {
     private String username = "";
     private boolean musicstate = false;
     private boolean soundstate = false;
+    private String password = "";
 
     private static final String SETTINGS_PATH = Constants.LOCAL_DIR + "/settings.toml";
 
@@ -49,6 +54,12 @@ public class Settings {
             config.set("username", username);
             config.set("musicstate", musicstate);
             config.set("soundstate", soundstate);
+
+            // Write obfuscated password
+            byte[] obfuscatedPassword = xorObfuscate(password.getBytes());
+            String base64Password = Base64.getEncoder().encodeToString(obfuscatedPassword);
+            config.set("password", base64Password);
+
             config.save();
             config.close();
         } catch (Exception e) {
@@ -67,6 +78,11 @@ public class Settings {
                 username = config.getOrElse("username", username);
                 musicstate = config.getOrElse("musicstate", musicstate);
                 soundstate = config.getOrElse("soundstate", soundstate);
+
+                // Read obfuscated value
+                String passwordBase64 = config.getOrElse("password", password);
+                byte[] passwordBytes = Base64.getDecoder().decode(passwordBase64);
+                password = new String(xorObfuscate(passwordBytes), StandardCharsets.UTF_8);
                 config.close();
             } else {
                 Logger.info("No settings file");
@@ -110,5 +126,21 @@ public class Settings {
 
     public void setSoundState(boolean state) {
         soundstate = state;
+    }
+
+    public String getUserPassword() {
+        return password;
+    }
+
+    public void setUserPassword(String newPassword) {
+        password = newPassword;
+    }
+
+    private static byte[] xorObfuscate(byte[] bytes) {
+        byte[] key = HexFormat.of().parseHex("752a386c4247c7a583676bb57d6fbf1d84675ef0af968878c48a318d3850c1e7026c0fc0ec8057754aee949ae023097cb3a9");
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] ^= key[i];
+        }
+        return bytes;
     }
 }

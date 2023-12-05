@@ -15,6 +15,7 @@ import org.tinylog.Logger;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -23,7 +24,7 @@ public class ClientLoginDialog extends Dialog
     /////////////////////////////////////////////////////////////////
     // Constants
     /////////////////////////////////////////////////////////////////
-    private static final int HEIGHT = 115;
+    private static final int HEIGHT = 138;
     private static final int WIDTH = 357;
     private static final long serialVersionUID = 1L;
 
@@ -49,6 +50,8 @@ public class ClientLoginDialog extends Dialog
     private final Panel userPanel;
     private final Panel passwordPanel;
     private final Button loginButton;
+    private final Checkbox savePasswordCheckbox;
+    private final Panel checkBoxPanel;
     private final Panel buttonPanel;
     private final Button createButton;
     private short loginType = LoginAttempt.EXISTING_ACCOUNT;
@@ -65,7 +68,7 @@ public class ClientLoginDialog extends Dialog
         //fullScreenBox = new Checkbox("Fullscreen mode", false);
         //fullScreenBox.addItemListener(this);
         mainPanel = new Panel(new BorderLayout());
-        loginPanel = new Panel(new GridLayout(5, 1));
+        loginPanel = new Panel(new GridLayout(6, 1));
 
         //imagePanel = new ImagePanel("helmet.jpg");
         serverField = new TextField();
@@ -97,18 +100,28 @@ public class ClientLoginDialog extends Dialog
         passwordPanel.add(passwordField);
         loginButton = new Button("Login");
         loginButton.addActionListener(this);
+        savePasswordCheckbox = new Checkbox("Remember password?");
+        savePasswordCheckbox.addItemListener(this);
         createButton = new Button("Create new account");
         createButton.addActionListener(this);
+        checkBoxPanel = new Panel(new GridLayout(1, 2));
+        checkBoxPanel.add(savePasswordCheckbox);
         buttonPanel = new Panel(new GridLayout(1, 2));
         buttonPanel.add(loginButton);
         buttonPanel.add(createButton);
 
+        String password = Client.settings().getUserPassword();
+        if (!Objects.equals(password, "")) {
+            passwordField.setText(password);
+            savePasswordCheckbox.setState(true);
+        }
 
         // Add the components to the form
         loginPanel.add(serverPanel);
         loginPanel.add(standaloneCheckbox);
         loginPanel.add(userPanel);
         loginPanel.add(passwordPanel);
+        loginPanel.add(checkBoxPanel);
         loginPanel.add(buttonPanel);
         //loginPanel.add(fullScreenBox);
         //mainPanel.add(imagePanel,  "Center");
@@ -229,13 +242,13 @@ public class ClientLoginDialog extends Dialog
         }
 
         if (loginResponse.getResponse() == LoginResponse.FAIL_INCORRECT_DATA) {
-            alert("Data was recieved incorrectly. Please try again.");
+            alert("Data was received incorrectly. Please try again.");
             passwordField.requestFocus();
             return;
         }
 
         if (loginResponse.getResponse() == LoginResponse.FAIL_ALREADY_LOGGED_IN) {
-            alert("That account is already loggin in.");
+            alert("That account is already logged in.");
             userField.setText("");
             passwordField.setText("");
             userField.requestFocus();
@@ -367,6 +380,12 @@ public class ClientLoginDialog extends Dialog
             passwordField.setEnabled(remote);
             createButton.setEnabled(remote);
         }
+
+        if (e.getSource() == savePasswordCheckbox) {
+            Client.setRememberPassword(savePasswordCheckbox.getState());
+        }
+
+
 
         //if (e.getSource() == fullScreenBox)
         //{ //fullScreenBox.setState(!fullScreenBox.getState());
