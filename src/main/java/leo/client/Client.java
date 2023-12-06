@@ -88,6 +88,7 @@ public class Client {
     private static ChatPanel chatPanel = null;
     private static String name = "";
     private static String password = "";
+    private static boolean rememberPassword = false;
     private static boolean demo = true;
     private static Frame frame;
     private static boolean shuttingDown = false;
@@ -431,8 +432,16 @@ public class Client {
             if (!Client.standalone) {
                 settings().setServer(serverName);
                 settings().setUsername(getName());
+                if (rememberPassword) {
+                    settings().setUserPassword(getPassword());
+                } else {
+                    settings().setUserPassword("");
+                }
             }
-            settings().save();
+
+            if (!Objects.equals(getName(), "")) {
+                settings().save();
+            }
 
             active = false;
             if (clientGameData != null && clientGameData.getTimer() != null) clientGameData.getTimer().end();
@@ -816,7 +825,9 @@ public class Client {
     public static void setPassword(String newPassword) {
         password = newPassword;
     }
-
+    public static void setRememberPassword(boolean shouldRememberPassword) {
+        rememberPassword = shouldRememberPassword;
+    }
     public static String getName() {
         return name;
     }
