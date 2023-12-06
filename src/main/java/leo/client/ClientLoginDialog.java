@@ -51,7 +51,6 @@ public class ClientLoginDialog extends Dialog
     private final Panel passwordPanel;
     private final Button loginButton;
     private final Checkbox savePasswordCheckbox;
-    private final Panel checkBoxPanel;
     private final Panel buttonPanel;
     private final Button createButton;
     private short loginType = LoginAttempt.EXISTING_ACCOUNT;
@@ -104,8 +103,6 @@ public class ClientLoginDialog extends Dialog
         savePasswordCheckbox.addItemListener(this);
         createButton = new Button("Create new account");
         createButton.addActionListener(this);
-        checkBoxPanel = new Panel(new GridLayout(1, 2));
-        checkBoxPanel.add(savePasswordCheckbox);
         buttonPanel = new Panel(new GridLayout(1, 2));
         buttonPanel.add(loginButton);
         buttonPanel.add(createButton);
@@ -114,6 +111,7 @@ public class ClientLoginDialog extends Dialog
         if (!Objects.equals(password, "")) {
             passwordField.setText(password);
             savePasswordCheckbox.setState(true);
+            Client.setRememberPassword(true);
         }
 
         // Add the components to the form
@@ -121,7 +119,7 @@ public class ClientLoginDialog extends Dialog
         loginPanel.add(standaloneCheckbox);
         loginPanel.add(userPanel);
         loginPanel.add(passwordPanel);
-        loginPanel.add(checkBoxPanel);
+        loginPanel.add(savePasswordCheckbox);
         loginPanel.add(buttonPanel);
         //loginPanel.add(fullScreenBox);
         //mainPanel.add(imagePanel,  "Center");
@@ -379,6 +377,7 @@ public class ClientLoginDialog extends Dialog
             userField.setEnabled(remote);
             passwordField.setEnabled(remote);
             createButton.setEnabled(remote);
+            savePasswordCheckbox.setEnabled(remote);
         }
 
         if (e.getSource() == savePasswordCheckbox) {
