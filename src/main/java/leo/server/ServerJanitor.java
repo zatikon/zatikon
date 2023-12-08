@@ -9,21 +9,20 @@
 ///////////////////////////////////////////////////////////////////////
 package leo.server;
 
-// imports
-
 import leo.shared.Log;
 
 import java.util.Vector;
-
 
 public class ServerJanitor implements Runnable {
 
     /////////////////////////////////////////////////////////////////
     // Properties
     /////////////////////////////////////////////////////////////////
+    private static final int INACTIVITY_TIMEOUT_HOURS = 6;
+    private static final long INACTIVITY_TIMEOUT_MILLIS = INACTIVITY_TIMEOUT_HOURS * 60 * 60 * 1000;
+
     private final Thread runner;
     private final Server server;
-
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -34,43 +33,46 @@ public class ServerJanitor implements Runnable {
         runner.start();
     }
 
-
     /////////////////////////////////////////////////////////////////
     // The main loop
     /////////////////////////////////////////////////////////////////
     public void run() {
         // Declaration
-        Vector players;
+        Vector<Player> players;
         Player sentPlayer;
-        // Loop indefinately, checking idle users
+        // Loop indefinitely, checking idle users
         int cycle = 0;
         int timer;
         while (true) {
             try {
                 players = server.getPlayers();
-                for (int i = 0; i < players.size(); i++) {
-                    Player player = (Player) players.elementAt(i);
+                for (Player player : players) {
                     player.getUser().checkIdle();
                 }
-                // Timer = how many ping calls between rank/rating updates
-                timer = ((players.size()) / 100) + 1;
-                if (cycle > timer) {
-                    //Updates the rank/rating lists for each client's char menu
-                    for (int i = 0; i < players.size(); i++) {
-                        sentPlayer = (Player) players.elementAt(i);
-                        for (int j = 0; j < players.size(); j++) {
-                            ((Player) players.elementAt(j)).getUser().getChat().updateRating(sentPlayer);
-                        }
-                    }
-                    cycle = 0;
-                } else {
-                    cycle++;
-                }
+
+                updateRankings(players);
+
                 server.getDB().ping();
-                Thread.sleep(60000);
+                Thread.sleep(INACTIVITY_TIMEOUT_MILLIS);
             } catch (Exception e) {
                 Log.error("Janitor: " + e);
             }
+        }
+    }
+
+    private void updateRankings(Vector<Player> players) {
+        int cycle = 0;
+        int timer = ((players.size()) / 100) + 1;
+
+        if (cycle > timer) {
+            for (Player sentPlayer : players) {
+                for (Player player : players) {
+                    player.getUser().getChat().updateRating(sentPlayer);
+                }
+            }
+            cycle = 0;
+        } else {
+            cycle++;
         }
     }
 }
