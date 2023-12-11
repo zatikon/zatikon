@@ -52,7 +52,7 @@ public class ServerJanitor implements Runnable {
                 updateRankings(players);
 
                 server.getDB().ping();
-		Thread.sleep(60 * 1000);
+		Thread.sleep(60000);
             } catch (Exception e) {
                 Log.error("Janitor: " + e);
             }
