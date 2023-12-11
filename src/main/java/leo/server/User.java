@@ -1312,7 +1312,7 @@ public class User implements Runnable {
             idling -= 90;
 
         // Player has been idle for a long time, log him out
-        if (idling >= 3000) {
+        if (idling >= 6*60*60*1000) {
             Log.activity("Idling out user " + socket.getInetAddress());
             disconnect = false;
             sendAction(Action.TIME_OUT, Action.NOTHING, Action.NOTHING);
