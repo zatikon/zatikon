@@ -19,7 +19,6 @@ public class ServerJanitor implements Runnable {
     // Properties
     /////////////////////////////////////////////////////////////////
     private static final int INACTIVITY_TIMEOUT_HOURS = 6;
-    private static final long INACTIVITY_TIMEOUT_MILLIS = INACTIVITY_TIMEOUT_HOURS * 60 * 60 * 1000;
 
     private final Thread runner;
     private final Server server;
@@ -54,7 +53,6 @@ public class ServerJanitor implements Runnable {
 
                 server.getDB().ping();
 		Thread.sleep(60 * 1000);
-                Thread.sleep(INACTIVITY_TIMEOUT_MILLIS);
             } catch (Exception e) {
                 Log.error("Janitor: " + e);
             }
