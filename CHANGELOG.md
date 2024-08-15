@@ -1,3 +1,8 @@
+# 1.1.4
+
+- Use toml for settings instead of current implementation
+- Add remember password
+
 # 1.1.3
 
 - versioning scheme improved; protocol version now separated from game version
