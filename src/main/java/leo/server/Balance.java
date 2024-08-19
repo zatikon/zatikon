@@ -9,17 +9,23 @@ public class Balance {
     public static final int BUY_PRICE_FACTOR = 10;
     public static final int SELL_PRICE_FACTOR = 1;
 
-    // TODO use this in the reward derivation
-    public static final long REWARD_BOUND_LOW = 300;
-    public static final long REWARD_BOUND_HIGH = 5000;
+    public static final long REWARD_BOUND_LOW = 200;
+    public static final long REWARD_BOUND_HIGH = 2000;
+
+    public static final double CLIMB_RATE = 0.997;
 
     public static final long REWARD_PVP_WIN = 500;
     public static final long REWARD_PVP_DRAW = 350;
     public static final long REWARD_PVP_LOSS = 200;
 
-    public static long reward(int aiLevel) {
-//        return 150 + (aiLevel * 25);
-        return 253 + Math.round(4747 * (1 - Math.pow(99.0/100, aiLevel)));
+    public static long reward(long aiLevel) {
+        // a + b - CLIMB_RATE * b = REWARD_BOUND_LOW
+        // a + b = REWARD_BOUND_HIGH
+
+        var a = REWARD_BOUND_HIGH - (REWARD_BOUND_HIGH - REWARD_BOUND_LOW) / CLIMB_RATE;
+        var b = (REWARD_BOUND_HIGH - REWARD_BOUND_LOW) / CLIMB_RATE;
+
+        return Math.round(a + b * (1 - Math.pow(CLIMB_RATE, aiLevel)));
     }
 
     public static int getUnitBuyPrice(short id) {
