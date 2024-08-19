@@ -143,7 +143,7 @@ public class AI {
             var exhaustionRatio = (double) (effectiveLevel + 5) / (effectiveLevel + 30);
             var exhaustionFactor = Math.pow(exhaustionRatio, effectiveTurnCount);
 
-            var minimumIncrease = 5 + effectiveLevel * 0.5;
+            var minimumIncrease = 5 + effectiveLevel * 1.25;
             var minimumScalable = 1;
             var effectiveLevelMultiplier = 1;
 
