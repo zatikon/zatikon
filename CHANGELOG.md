@@ -1,3 +1,8 @@
+# Upcoming
+
+- AI game rebalanced to be much easier than before
+- Gold reward for AI game readjusted
+
 # 1.1.4
 
 - Use toml for settings instead of current implementation
