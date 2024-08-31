@@ -86,13 +86,10 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     // save a player
     /////////////////////////////////////////////////////////////////
-    public void update(String username, String password, int rating, byte[] buf, String email) throws Exception {
+    public void update(String username, String hashedPassword, byte[] salt, int rating, byte[] buf, String email) throws Exception {
         try {
             // open a connection
             //Connection connection = initialize();
-
-            byte[] salt = PasswordHasher.salt();
-            String hashedPassword = PasswordHasher.hashPassword(password, salt);
 
             PreparedStatement ps = connection.prepareStatement("UPDATE players SET `rating` = ?, `data` = ?, `email` = ?, `password` = ?, `salt` = ? WHERE `username` = ?");
             ps.setInt(1, rating);
@@ -139,14 +136,12 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     // insert a new player
     /////////////////////////////////////////////////////////////////
-    public void insert(String username, String password, int rating, byte[] buf, String email) throws Exception { //if (!validEmail(email)) return;
+    public void insert(String username, String hashedPassword, byte[] salt, int rating, byte[] buf, String email) throws Exception { //if (!validEmail(email)) return;
         try {
             //ByteArrayInputStream bais = new ByteArrayInputStream(buf);
 
             // open a connection
             //Connection connection = initialize();
-            byte[] salt = PasswordHasher.salt();
-            String hashedPassword = PasswordHasher.hashPassword(password, salt);
 
             // TODO replace datetime with Java code
             PreparedStatement ps = connection.prepareStatement("INSERT INTO players VALUES (?, ?, ?, ?, ?, NULL, ?, NULL, NULL, datetime())");
@@ -496,6 +491,29 @@ public class DatabaseManager {
             throw e;
         }
         return email;
+    }
+
+    public byte[] getSalt(String name) throws Exception {
+        byte[] salt = null;
+        try { // open a connection
+            //Connection connection = initialize();
+
+            PreparedStatement statement = connection.prepareStatement("SELECT salt FROM players WHERE username = ?");
+            statement.setString(1, name);
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+
+            while (rs.next()) {
+                salt = rs.getBytes("salt");
+            }
+            rs.close();
+
+            //connection.close();
+        } catch (Exception e) {
+            Log.error("DatabaseManager.getSalt");
+            throw e;
+        }
+        return salt;
     }
 
 

@@ -1026,18 +1026,19 @@ public class User implements Runnable {
         return result;
     }
 
+    public boolean verifyPasswordHashed(String passwordHashed) {
+        return player.getPasswordHashed().equals(passwordHashed);
+    }
+
 
     /////////////////////////////////////////////////////////////////
     // Load existing player
     /////////////////////////////////////////////////////////////////
     private void getNewPassword(String oldPassword, String newPassword) throws Exception {
         try {
-            if (oldPassword.contentEquals(player.getPassword()) || oldPassword.contentEquals(player.getPasswordHashed())) {
-                /* TODO cleanup; this sets the password in the unhashed field; then the update should take care of the hashing;
-                *   */
-                player.setPassword(newPassword);
+            if (verifyPasswordHashed(PasswordHasher.hashPassword(oldPassword, player.salt))) {
+                player.setNewPassword(newPassword);
                 player.save();
-                player.setPasswordHashed(server.getDB().getPasswordHashed(player.getName()));
                 dos.writeShort(Action.NEW_PASSWORD);
                 dos.writeShort(Action.NOTHING);
                 dos.writeShort(Action.NOTHING);
@@ -1066,14 +1067,12 @@ public class User implements Runnable {
                 return null;
             }
 
-            // TODO reduce the passwords into one; there was password2 here instead of hashed when there were no hashes and it's rather confusing
-            if (!(newPlayer.getPassword().equals(login.getPassword()) || newPlayer.getPasswordHashed().equals(login.getPassword()))) {
+            if (!(newPlayer.getPasswordHashed().equals(PasswordHasher.hashPassword(login.getPassword(), newPlayer.salt)))) {
                 Log.activity("Bad password for: " + login.getUsername());
                 dos.writeInt(LoginResponse.FAIL_WRONG_PASSWORD);
                 dos.writeInt(0);
                 return null;
             }
-
 
             return newPlayer;
 
