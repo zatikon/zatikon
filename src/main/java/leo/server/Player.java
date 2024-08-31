@@ -33,8 +33,8 @@ public class Player {
     private boolean accessLoaded = false;
     private final short[] units = new short[UnitType.UNIT_COUNT.value()];
     private String name;
-    private String password;
     private String passwordHashed;
+    byte[] salt;
     private String email;
     private int winsToLower = 0;
     private int wins = 0;
@@ -70,7 +70,7 @@ public class Player {
     public Player(DatabaseManager dbm, String newName, String newPassword, String newEmail) {
         this.dbm = dbm;
         name = newName;
-        password = newPassword;
+        setNewPassword(newPassword);
         email = newEmail;
         createStartingArmy();
         for (int i = 0; i < 10; i++) {
@@ -78,10 +78,15 @@ public class Player {
             castleArchives[i] = new CastleArchive(archiveName);
         }
         try {
-            dbm.insert(name, password, getRating(), toBytes(), email);
+            dbm.insert(name, passwordHashed, salt, getRating(), toBytes(), email);
         } catch (Exception e) {
             Log.error("Player.constructor " + e);
         }
+    }
+
+    public void setNewPassword(String newPassword) {
+        salt = PasswordHasher.salt();
+        passwordHashed = PasswordHasher.hashPassword(newPassword, salt);
     }
 
 
@@ -96,6 +101,7 @@ public class Player {
             buf = getPlayerBytes(dbm, username);
             if (buf == null) return;
             email = dbm.getEmail(username);
+            salt = dbm.getSalt(username);
             passwordHashed = dbm.getPasswordHashed(username);
 
             ByteArrayInputStream bais = new ByteArrayInputStream(buf);
@@ -103,8 +109,9 @@ public class Player {
 
             int version = dis.readInt();
 
-            name = dis.readUTF();
-            password = dis.readUTF();
+            name = username;
+            dis.readUTF(); // discard username (backwards compat)
+            dis.readUTF(); // discard password (same)
             winsToLower = dis.readInt();
             wins = dis.readInt();
             lossesToHigher = dis.readInt();
@@ -227,37 +234,6 @@ public class Player {
 
 
     /////////////////////////////////////////////////////////////////
-    // Get bytes
-    /////////////////////////////////////////////////////////////////
-    public byte[] getBytes(String filename) {
-        try {
-            File file = new File("./users/" + filename);
-            if (!file.exists()) {
-                return null;
-            }
-
-            FileInputStream fis = new FileInputStream(file);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-            byte[] buffer;
-            int i;
-            while ((i = fis.read()) != -1) {
-                baos.write(i);
-            }
-            baos.close();
-            fis.close();
-            buffer = baos.toByteArray();
-
-            return buffer;
-
-        } catch (Exception e) {
-            Log.error("Player.getBytes " + e);
-        }
-        return null;
-    }
-
-
-    /////////////////////////////////////////////////////////////////
     // Save the player
     /////////////////////////////////////////////////////////////////
     public synchronized void save() {
@@ -273,7 +249,7 @@ public class Player {
 
             // update the database
             byte[] buf = toBytes();
-            dbm.update(name, password, getRating(), buf, email);
+            dbm.update(name, passwordHashed, salt, getRating(), buf, email);
 
         } catch (Exception e) {
             Log.error("Player.save " + e);
@@ -291,7 +267,7 @@ public class Player {
             dos.writeInt(VERSION);
 
             dos.writeUTF(name);
-            dos.writeUTF(password);
+            dos.writeUTF("");
             dos.writeInt(winsToLower);
             dos.writeInt(wins);
             dos.writeInt(lossesToHigher);
@@ -570,10 +546,6 @@ public class Player {
         return chatName == null ? name : chatName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -671,11 +643,6 @@ public class Player {
 
     public void setGold(long newGold) {
         gold = newGold;
-    }
-
-    public void setPassword(String newPassword) {
-        password = newPassword;
-//        passwordHashed = newPassword;
     }
 
     public void setPasswordHashed(String newPassword) {
