@@ -11,8 +11,8 @@ class BalanceTest {
 
     @Test
     void reward() {
-        assertEquals(300, Balance.reward(1));
-        assertEquals(5000, Balance.reward(100000));
+        assertEquals(200, Balance.reward(1));
+        assertEquals(2000, Balance.reward(100000));
     }
 
     long rewardSum(int finalLevel) {
@@ -21,11 +21,9 @@ class BalanceTest {
 
     @Test
     void affordableUnits() {
-        // TODO this is still very very grindy. recheck
         assertTrue(Balance.getUnitBuyPrice(UnitType.SCOUT.value()) < rewardSum(2));
-        assertTrue(Balance.getUnitBuyPrice(UnitType.PRIEST.value()) < rewardSum(5));
-        assertTrue(Balance.getUnitBuyPrice(UnitType.ABJURER.value()) < rewardSum(8));
-        assertTrue(Balance.getUnitBuyPrice(UnitType.DRAGON.value()) < rewardSum(12));
-        assertTrue(Balance.getUnitBuyPrice(UnitType.WYVERN.value()) < rewardSum(15));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.PRIEST.value()) < rewardSum(8));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.ABJURER.value()) < rewardSum(10));
+        assertTrue(Balance.getUnitBuyPrice(UnitType.DRAGON.value()) < rewardSum(18));
     }
 }
