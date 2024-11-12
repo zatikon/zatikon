@@ -43,7 +43,7 @@ public class AdFrame extends JDialog {
 //                try {
 //
 //                    if (Client.applet() == null) {
-                        Browser.open("http://www.chroniclogic.com/index.htm?zat_order.htm");
+                        Browser.open("https://www.chroniclogic.com/zatikon.htm");
 //                    } else {
 //                        Client.applet().getAppletContext().showDocument(new java.net.URL("http://www.chroniclogic.com/index.htm?zat_order.htm"));
 //                        dispose();

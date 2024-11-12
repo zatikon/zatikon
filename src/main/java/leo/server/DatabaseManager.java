@@ -202,16 +202,16 @@ public class DatabaseManager {
 
             Statement statement = connection.createStatement();
             //String q = "SELECT username,rating FROM players WHERE keycode IS NOT NULL ORDER BY RATING DESC LIMIT 0,20";
-            String q = "SELECT `username`, `rating` FROM `players` ORDER BY `rating` DESC LIMIT 0,20";
+            String q = "SELECT `username`, `rating` FROM `players` WHERE `rating` != 1000 ORDER BY `rating` DESC LIMIT 0,20";
             statement.execute(q);
             ResultSet rs = statement.getResultSet();
 
             scores.append("<center><b>Top 20 Players</b></center>");
-            scores.append("<ol>");
+            scores.append("<ol style='padding-left: 0; margin-left: 10px;'>");
             while (rs.next()) {
                 scores.append("<li>");
                 scores.append(rs.getString("username"));
-                //scores = scores + ": " + rs.getString("rating");
+                scores.append(": " + rs.getString("rating"));
                 scores.append("</li>");
             }
             scores.append("</ol>");
