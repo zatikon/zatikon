@@ -36,7 +36,7 @@ public class ForumButton extends LeoComponent {
 
 //        try {
 //            if (Client.applet() == null) {
-                Browser.open("http://www.pontifex2.com/smf/index.php");
+                Browser.open("https://www.chroniclogic.com/smf/");
 //            } else {
 //                Client.applet().getAppletContext().showDocument(new java.net.URL("http://www.pontifex2.com/smf/index.php"));
 //            }

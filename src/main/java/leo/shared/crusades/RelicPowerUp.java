@@ -230,10 +230,24 @@ public class RelicPowerUp extends Unit {
     public boolean canTarget(Unit target) {
         if (target.getCastle() == castle) {
             if (target.getOrganic(this) && target.targetable(this) && !target.boss()) {
-                if (power == Action.GROW_ARCANE && (target instanceof UnitLancer))
+                if (power == Action.GROW_ARCANE && ((target instanceof UnitLancer) || (target instanceof UnitWarrior)))
                     return false;
-                if (power == Action.GROW_ZEALOUS && ((target instanceof UnitGateGuard) || (target instanceof UnitLancer)))
+                if (power == Action.GROW_ZEALOUS && ( 
+                        (target instanceof UnitGateGuard) || 
+                        (target instanceof UnitLancer) ||
+                        (target instanceof UnitFanatic) ||
+                        (target.getMaxAttackRange() > 2)))
                     return false;
+                if (power == Action.GROW_CLOCKWORK && (target instanceof UnitGateGuard))
+                    return false;
+                if (power == Action.GROW_LONGSHANK && (target instanceof UnitGateGuard))
+                    return false;                    
+                if (power == Action.GROW_RUTHLESS && ((target instanceof UnitWarrior) || (target.getMaxAttackRange() > 1)))
+                    return false;
+                if (power == Action.GROW_VIGILANT && (target instanceof UnitLancer))
+                    return false;
+                if (power == Action.GROW_RAMPAGING && (target instanceof UnitWarrior))
+                    return false;                                                                               
                 if (power == Action.GROW_TOXIC ||
                         power == Action.GROW_MIGHTY ||
                         power == Action.GROW_VAMPIRIC ||

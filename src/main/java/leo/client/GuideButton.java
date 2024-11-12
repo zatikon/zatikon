@@ -36,7 +36,7 @@ public class GuideButton extends LeoComponent {
 
 //        try {
 //            if (Client.applet() == null) {
-                Browser.open("http://www.chroniclogic.com/zat_guide.htm");
+                Browser.open("https://www.chroniclogic.com/zat_guide.htm");
 //            } else {
 //                Client.applet().getAppletContext().showDocument(new java.net.URL("http://www.chroniclogic.com/zat_guide.htm"));
 //            }
