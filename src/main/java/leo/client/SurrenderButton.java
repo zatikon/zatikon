@@ -59,7 +59,7 @@ public class SurrenderButton extends LeoComponent {
     }
 
     private boolean isTutorialGame() {
-        return Client.getGameData().getEnemyRating() == 1;
+        return (Client.getGameData().getEnemyRating() == 1 && Client.getGameData().getEnemyName().equals("The Artificial Opponent"));
     }
 
     //////////////////////////////////////////////////////////////////
