@@ -282,7 +282,8 @@ public interface Action {
     short SET_GOLD = 126;
     short NOTHING = 127;
     short SET_RANK = -20;
-
+    short SET_WINS = -21;
+    short SET_LOSSES = -22;
 
     /////////////////////////////////////////////////////////////////
     // Chat actions

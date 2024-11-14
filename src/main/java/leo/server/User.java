@@ -756,6 +756,8 @@ public class User implements Runnable {
                     // Send their gold
                     sendGold();
 
+                    sendAction(Action.SET_WINS, (byte) ((player.getWins() + player.getWinsToLower()) / 100), (byte) ((player.getWins() + player.getWinsToLower()) % 100));
+                    sendAction(Action.SET_LOSSES, (byte) ((player.getLosses() + player.getLossesToHigher()) / 100), (byte) ((player.getLosses() + player.getLossesToHigher()) % 100));
                     //sendPlayers();
                     break;
 

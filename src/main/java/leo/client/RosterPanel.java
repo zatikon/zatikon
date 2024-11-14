@@ -23,7 +23,8 @@ public class RosterPanel extends LeoContainer {
     /////////////////////////////////////////////////////////////////
     public static final int MARGIN = 6;
     private static final Color GOLD = new Color(255, 255, 175);
-
+    private final RosterText rosterText;
+    private boolean inside = false;
 
     /////////////////////////////////////////////////////////////////
     // Properties
@@ -48,17 +49,11 @@ public class RosterPanel extends LeoContainer {
         MusicButton msb = new MusicButton(718, 545, 54, 34);
         add(msb);
 
-
         // Play
-        ComputerButton computerButton = new ComputerButton(
-                this,
-                25,
-                101,
-                38,
-                38,
-                true);
+        ComputerButton computerButton = new ComputerButton(this, 25, 101, 38, 38, true);
         add(computerButton);
 
+        rosterText = null;
     }
 
 
@@ -101,15 +96,14 @@ public class RosterPanel extends LeoContainer {
 
 
         // Create the buttons
-        int buttonX = (Constants.SCREEN_WIDTH / 7) - 1;
+        int buttonX = 5; //(Constants.SCREEN_WIDTH / 7) - 1;
         int buttonHeight = 154;
         int buttonY = Constants.SCREEN_HEIGHT - buttonHeight;
-
 
         // Play team
         TeamButton teamButton = new TeamButton(
                 this,
-                20,
+                buttonX,
                 153,
                 38,
                 38);
@@ -118,7 +112,7 @@ public class RosterPanel extends LeoContainer {
         // Play
         ComputerButton computerButton = new ComputerButton(
                 this,
-                20,
+                buttonX,
                 69,
                 38,
                 38,
@@ -128,7 +122,7 @@ public class RosterPanel extends LeoContainer {
         // play button
         PlayButton playButton = new PlayButton(
                 this,
-                20,
+                buttonX,
                 195,
                 38,
                 38);
@@ -137,7 +131,7 @@ public class RosterPanel extends LeoContainer {
         // Duel with Random Armies
         PlayDuelButton playDuelButton = new PlayDuelButton(
                 this,
-                20,
+                buttonX,
                 237,
                 38,
                 38);
@@ -146,7 +140,7 @@ public class RosterPanel extends LeoContainer {
         // Duel with Mirrored Random Armies
         mirroredRandomButton mirroredRandom = new mirroredRandomButton(
                 this,
-                20,
+                buttonX,
                 280,
                 38,
                 38);
@@ -155,16 +149,16 @@ public class RosterPanel extends LeoContainer {
         // Coop
         CooperativeButton cooperativeButton = new CooperativeButton(
                 this,
-                20,
+                buttonX,
                 111,
                 38,
                 38);
         add(cooperativeButton);
 
-        // edit multiplayer army
+        // edit army
         EditButton editButtonPlayer = new EditButton(
                 this,
-                20,
+                buttonX,
                 323,
                 38,
                 38);
@@ -173,7 +167,7 @@ public class RosterPanel extends LeoContainer {
         // Quit
         ArchiveButton archiveButton = new ArchiveButton(
                 this,
-                20,
+                buttonX,
                 368,
                 38,
                 38);
@@ -182,11 +176,13 @@ public class RosterPanel extends LeoContainer {
         // Refresh
         NewButton newButton = new NewButton(
                 this,
-                20,
+                buttonX,
                 411,
                 38,
                 38);
         add(newButton);
+
+        rosterText = new RosterText(this, "Wins: " + Client.getWins() + " Losses: " + Client.getLosses(), 4, 455, 186, 142);         
     }
 
 
@@ -246,9 +242,10 @@ public class RosterPanel extends LeoContainer {
         g.setFont(Client.getFont());
         drawText(g, "Gold: " + Client.getGold(), getScreenX() + 70, getScreenY() + 45, GOLD);
 
-        g.setFont(Client.getFont());
-        drawText(g, "Rating: " + Client.getRating() + ", #" + Client.getRank(), getScreenX() + 70, getScreenY() + 58, GOLD);
+        //g.setFont(Client.getFont());
+        drawText(g, "Rating: " + Client.getRating() + (Client.getRank() != 0 ? ", #" + Client.getRank() : ""), getScreenX() + 70, getScreenY() + 58, GOLD);    
 
+        //Client.getWins()
         //g.setFont(Client.getFontBig());
         //String text = getMessage();
 
@@ -308,6 +305,20 @@ public class RosterPanel extends LeoContainer {
 
             //g.drawString(text, atX, atY);
             //g.setFont(Client.getFont());
+        }
+
+        if ((Client.getGameData().getMouseX() >= getScreenX() && Client.getGameData().getMouseX() <= getScreenX() + 180) &&
+                (Client.getGameData().getMouseY() >= getScreenY() && Client.getGameData().getMouseY() <= getScreenY() + 65)) {
+            rosterText.draw(g, mainFrame);
+
+            if (!inside) {
+                Client.getImages().playSound(Constants.SOUND_MOUSEOVER);
+            }
+            inside = true;
+            //g.drawImage(Client.getImages().getImage(Constants.IMG_TEAM_HIGHLIGHT), getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
+        } else {
+            inside = false;
+            //g.drawImage(Client.getImages().getImage(Constants.IMG_TEAM), getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
         }
 
         super.draw(g, mainFrame);

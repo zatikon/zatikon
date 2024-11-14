@@ -64,6 +64,8 @@ public class Client {
     private static boolean rendering = false;
     private static int rating = 0;
     private static int rank = -1;
+    private static int wins = 0;
+    private static int losses = 0;
     private static long gold = -1;
     private static long lastGold = -1;
     private static final int count = 0;
@@ -488,6 +490,19 @@ public class Client {
         lastGold = newGold;
     }
 
+    /////////////////////////////////////////////////////////////////
+    // Set the wins
+    /////////////////////////////////////////////////////////////////
+    public static void setWins(short hundreds, short ones) {
+        wins = (hundreds * 100) + ones;
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Set the losses
+    /////////////////////////////////////////////////////////////////
+    public static void setLosses(short hundreds, short ones) {
+        losses = (hundreds * 100) + ones;
+    }
 
     /////////////////////////////////////////////////////////////////
     // Get the rating
@@ -495,6 +510,20 @@ public class Client {
     public static int getRating() {
         return rating;
     }
+
+    /////////////////////////////////////////////////////////////////
+    // Get wins
+    /////////////////////////////////////////////////////////////////
+    public static int getWins() {
+        return wins;
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Get losses
+    /////////////////////////////////////////////////////////////////
+    public static int getLosses() {
+        return losses;
+    }    
 
     /////////////////////////////////////////////////////////////////
     // Get the rank
@@ -828,7 +857,7 @@ public class Client {
     }
     public static String getName() {
         return name;
-    }
+    }  
 
     public static String getPassword() {
         return password;
