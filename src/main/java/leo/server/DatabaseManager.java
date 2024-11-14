@@ -230,6 +230,7 @@ public class DatabaseManager {
     ////////////////////////////////
     // Scoredump (Ratings transition)
     ////////////////////////////////
+    /*
     public void getScoreDump() {
         try {
             FileWriter fstream = new FileWriter("StatDump.txt");
@@ -259,7 +260,7 @@ public class DatabaseManager {
             Log.error("DatabaseManager.getScoreDump");
             //throw e;
         }
-    }
+    }*/
 
     public int getRating(String userName) {
         try {
@@ -522,13 +523,16 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     public int getRank(int rating) {
         int rank = 0;
+        if (rating == 1000) {
+            return 0;
+        }
         try {
             // open a connection
             //Connection connection = initialize();
 
             Statement statement = connection.createStatement();
             //statement.execute("select count(*) + 1 as rank from players where rating > " + rating + " and keycode is not null");
-            statement.execute("select count(*) + 1 as rank from players where rating > " + rating);
+            statement.execute("SELECT count(*) + 1 as rank FROM players WHERE rating > " + rating + " AND rating != 1000");
             ResultSet rs = statement.getResultSet();
 
             while (rs.next()) {

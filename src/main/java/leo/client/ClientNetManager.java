@@ -433,6 +433,14 @@ public class ClientNetManager implements Runnable {
                     Client.setRank(actor, target);
                     break;
 
+                case Action.SET_WINS:
+                    Client.setWins(actor, target);
+                    break;
+
+                case Action.SET_LOSSES:
+                    Client.setLosses(actor, target);
+                    break; 
+
                 case Action.SET_GOLD:
                     try {
                         Client.setGold(dis.readLong());
