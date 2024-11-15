@@ -61,7 +61,7 @@ public class UnitGate extends UnitSummon implements Conjuration {
     public Vector<Short> getBonusCastleTargets(Unit looker) {
         if (looker.getCastle() != getCastle()) return null;
         Vector<Short> targets = new Vector<Short>();
-        targets.add(new Short(getLocation()));
+        targets.add(getLocation());
         return targets;
     }
 

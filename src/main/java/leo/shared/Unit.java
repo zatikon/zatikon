@@ -1880,7 +1880,7 @@ public class Unit {
         }
 
         // add it to the inherit list, if it gets this far
-        bonus.add(new Short(newBonus));
+        bonus.add(newBonus);
     }
 
 

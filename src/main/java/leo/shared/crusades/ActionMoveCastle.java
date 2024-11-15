@@ -43,7 +43,7 @@ public class ActionMoveCastle extends ActionMove {
 
         // Make sure the castle is a legal move. Empty square, and 1 square away
         if (getOwner().getCastle().getBattleField().getUnitAt(getOwner().getCastle().getLocation()) == null && BattleField.getDistance(getOwner().getLocation(), getOwner().getCastle().getLocation()) == 1) {
-            targets.add(new Short(getOwner().getCastle().getLocation()));
+            targets.add(getOwner().getCastle().getLocation());
         }
         return targets;
     }

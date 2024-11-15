@@ -25,6 +25,7 @@ import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
+import java.lang.reflect.InvocationTargetException;
 
 public class Patcher extends Frame {
 
@@ -239,9 +240,17 @@ public class Patcher extends Frame {
             URLClassLoader loader = new URLClassLoader(urls);
 
             // Load the main class out of the jar
-            Class cl = loader.loadClass(MAIN_CLASS);
-            Object obj = cl.newInstance();
-
+            //Class cl = loader.loadClass(MAIN_CLASS);
+            //Object obj = cl.newInstance();
+            Class<?> cl = null;
+            Object obj = null;
+            try {
+                cl = loader.loadClass(MAIN_CLASS);
+                obj = cl.getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException |
+                     IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
             // Run the main method
             String[] arg = new String[0];
             Method method = cl.getMethod(MAIN_METHOD, arg.getClass());

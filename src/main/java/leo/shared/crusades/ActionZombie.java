@@ -130,7 +130,7 @@ public class ActionZombie implements Action {
         while (it.hasNext()) {
             Unit victim = it.next();
             if (!victim.isPowerUp())
-                locations.add(new Short(victim.getLocation()));
+                locations.add(victim.getLocation());
         }
         //targets.removeAll(graves);
         if (freeOnly) targets.clear();

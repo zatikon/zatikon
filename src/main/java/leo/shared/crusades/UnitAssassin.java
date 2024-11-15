@@ -127,7 +127,7 @@ public class UnitAssassin extends Unit {
             Unit victim = it.next();
             if (victim.getCastle() == castle) {
                 if (victim.getOrganic(this) && victim.targetable(this)) {
-                    locations.add(new Short(victim.getLocation()));
+                    locations.add(victim.getLocation());
                 }
             }
         }

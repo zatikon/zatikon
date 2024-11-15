@@ -110,7 +110,7 @@ public class RelicGiftUnit extends Unit {
                 // Left over piece from older implementation. Might be useful for a revision however
                 if (victim.getOrganic(this) && victim.targetable(this))// && (victim.getTeam() != ally/*&& victim.getAttack() != null && victim.getBaseDamage() > 0*/)
                 {
-                    locations.add(new Short(victim.getLocation()));
+                    locations.add(victim.getLocation());
                 }
             }
         }

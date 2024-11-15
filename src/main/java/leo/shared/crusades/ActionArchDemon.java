@@ -151,7 +151,7 @@ public class ActionArchDemon implements Action {
             Unit victim = it.next();
             if (victim.getCastle() == owner.getCastle() && victim instanceof UnitDemon) {
                 if (victim.getOrganic(victim))
-                    targets.add(new Short(victim.getLocation()));
+                    targets.add(victim.getLocation());
             }
         }
         return targets;
