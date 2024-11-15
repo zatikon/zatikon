@@ -247,7 +247,9 @@ public class RelicPowerUp extends Unit {
                 if (power == Action.GROW_VIGILANT && (target instanceof UnitLancer))
                     return false;
                 if (power == Action.GROW_RAMPAGING && (target instanceof UnitWarrior))
-                    return false;                                                                               
+                    return false;
+                if (power == Action.GROW_VIGILANT && (target instanceof UnitPikeman))
+                    return false;                                                                                                   
                 if (power == Action.GROW_TOXIC ||
                         power == Action.GROW_MIGHTY ||
                         power == Action.GROW_VAMPIRIC ||

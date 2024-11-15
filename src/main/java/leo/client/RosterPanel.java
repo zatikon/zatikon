@@ -71,12 +71,12 @@ public class RosterPanel extends LeoContainer {
         // Constants.SCREEN_HEIGHT - (Constants.OFFSET*2));
 
 
-        ForumButton fb = new ForumButton(699, 37, 91, 17);
-        add(fb);
-        BlogButton bb = new BlogButton(699, 87, 91, 17);
+        BlogButton bb = new BlogButton(699, 37, 91, 17);
         add(bb);
-        GuideButton gb = new GuideButton(699, 137, 91, 17);
+        GuideButton gb = new GuideButton(699, 87, 91, 17);
         add(gb);
+        ForumButton fb = new ForumButton(699, 137, 91, 17);
+        add(fb);
         ExitButton eb = new ExitButton(699, 187, 91, 17);
         add(eb);
 
