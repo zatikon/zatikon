@@ -36,7 +36,7 @@ public class BlogButton extends LeoComponent {
 
 //        try {
 //            if (Client.applet() == null) {
-                Browser.open("https://zatikon.blogspot.com");
+                Browser.open("https://discord.gg/6w8PfkzjV9");
 //            } else {
 //                Client.applet().getAppletContext().showDocument(new java.net.URL("http://zatikon.blogspot.com"));
 //            }
