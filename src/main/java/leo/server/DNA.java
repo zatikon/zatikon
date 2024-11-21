@@ -279,8 +279,6 @@ public class DNA {
     }
 
     public short getRelic() {
-        return RELICS[13].value();
-        /*
         int choice = random.nextInt(relicTotal);
         int weight = 0;
         for (int i = 0; i < RELICS.length; i++) {
@@ -288,7 +286,7 @@ public class DNA {
             if (choice < weight) return RELICS[i].value();
         }
         System.err.println("That's not great.");
-        return (short) -1;*/
+        return (short) -1;
     }
 
 }

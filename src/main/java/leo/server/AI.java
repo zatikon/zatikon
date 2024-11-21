@@ -50,7 +50,7 @@ public class AI {
             level = 8 + ((newLevel - 8) / 3);
         }
 
-        maxCost = 1000 + (level * 10);
+        maxCost = 100 + (level * 10);
 
         game = newGame;
         bf = newBf;
@@ -62,7 +62,7 @@ public class AI {
         dna = new DNA(game.random(), level);
 
         // initial point budget
-        points = 3000 + (15L * level);
+        points = 300 + (15L * level);
 
         // Scale them down on lower levels
         if (level < 5) {
