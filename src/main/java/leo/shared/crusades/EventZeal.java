@@ -40,6 +40,7 @@ public class EventZeal implements Event, Action {
         Unit victim = target;
         short actionType = val1;
 
+        if(source.getNoZeal()) return Event.OK;
         if (victim == null) return Event.OK;
         if (source != owner) return Event.OK;
         if (actionType != Action.ATTACK) return Event.OK;

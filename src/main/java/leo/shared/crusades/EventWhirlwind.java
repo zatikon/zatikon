@@ -45,6 +45,7 @@ public class EventWhirlwind implements Event, Action {
 
         Unit victim = target;
         short actionType = val1;
+        boolean noZeal = owner.getNoZeal();
 
         // do some checks
         if (source != owner) return Event.OK;
@@ -55,12 +56,29 @@ public class EventWhirlwind implements Event, Action {
 
         // get the targets, and do more initialization
         Vector<Short> targets = owner.getAttack().getTargets();
+        //remove the victim from targets as we will attack that first
+        if (targets.contains(victim.getLocation())) {
+            targets.remove((Short) victim.getLocation());
+            }
+
         owner.noCost(true);
+
+        //always attack the victim first
+        System.out.println("perform attack on victim: " + victim);
+        owner.getAttack().perform(victim.getLocation());
+        //Do not do Zeal event on any other attacks
+        owner.setNoZeal(true);
+
+        System.out.println("targets" + targets);
 
         // loop through and beat them down
         for (int i = 0; i < targets.size(); i++) {
             Short tmp = targets.elementAt(i);
             Unit unit = owner.getBattleField().getUnitAt(tmp.byteValue());
+
+            System.out.println("tmp " + tmp);
+            //System.out.println(tmp);
+            System.out.println("unit " + unit);
             if (unit != null && owner.getAttack() != null) {
                 owner.getAttack().perform(tmp.byteValue());
             }
@@ -69,6 +87,8 @@ public class EventWhirlwind implements Event, Action {
         // restore the unit
         owner.noCost(false);
 
+        //Set noZeal back to what it was 
+        owner.setNoZeal(noZeal);
         // stop the whirlwind
         executing = false;
 

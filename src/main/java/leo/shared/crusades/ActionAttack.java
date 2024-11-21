@@ -77,6 +77,7 @@ public class ActionAttack implements Action {
     // Perform the action on the client
     /////////////////////////////////////////////////////////////////
     public String perform(short target) {
+        System.out.println("Action Attack Java target " + target);
         if (!validate(target)) {
             Logger.error(Strings.INVALID_ACTION);
             return Strings.INVALID_ACTION;
