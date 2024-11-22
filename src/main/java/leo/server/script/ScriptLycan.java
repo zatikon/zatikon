@@ -125,7 +125,7 @@ public class ScriptLycan extends ScriptInterceptor {
         while (it.hasNext()) {
             Unit tmp = it.next();
             if (tmp.getCastle() == enemyCastle && tmp.targetable(unit))
-                units.add(new Short(tmp.getLocation()));
+                units.add(tmp.getLocation());
         }
         return units;
     }

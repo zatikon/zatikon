@@ -95,7 +95,7 @@ public class UnitGateGuard extends Unit {
         Vector<Short> targets = new Vector<Short>();
         Unit atCastle = getCastle().getBattleField().getUnitAt(getCastle().getLocation());
         if (atCastle == null)
-            targets.add(new Short(getCastle().getLocation()));
+            targets.add(getCastle().getLocation());
         return targets;
     }
 

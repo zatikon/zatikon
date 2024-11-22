@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.channels.FileChannel;
+import java.lang.reflect.InvocationTargetException;
 
 
 public class Launcher {
@@ -140,8 +141,10 @@ public class Launcher {
             URLClassLoader loader = new URLClassLoader(urls);
 
             // Load the main class out of the jar
-            Class cl = loader.loadClass(MAIN_CLASS);
-            Object obj = cl.newInstance();
+            // Class cl = loader.loadClass(MAIN_CLASS);
+            // Object obj = cl.newInstance();
+            Class<?> cl = loader.loadClass(MAIN_CLASS);
+            Object obj = cl.getDeclaredConstructor().newInstance();
 
             // Run the main method
             String[] arg = new String[0];

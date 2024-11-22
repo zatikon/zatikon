@@ -99,7 +99,7 @@ public class ActionFireball implements Action {
 
                 // build up the lists
                 victims.add(victim);
-                damages.add(new Short(result));
+                damages.add(result);
             }
         }
 

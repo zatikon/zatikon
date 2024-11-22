@@ -152,7 +152,7 @@ public class ActionDamn implements Action {
             Unit victim = it.next();
             if (victim.getCastle() == owner.getCastle() && victim instanceof UnitImp) {
                 if (victim.getOrganic(victim) && summonOverride(victim))
-                    targets.add(new Short(victim.getLocation()));
+                    targets.add(victim.getLocation());
             }
         }
 
@@ -181,7 +181,7 @@ public class ActionDamn implements Action {
             Unit victim = it.next();
             if (victim.getCastle() == owner.getCastle() && victim instanceof UnitImp) {
                 if (victim.getOrganic(victim))
-                    targets.add(new Short(victim.getLocation()));
+                    targets.add(victim.getLocation());
             }
         }
 

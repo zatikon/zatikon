@@ -137,7 +137,7 @@ public class ActionInvert implements Action {
         while (it.hasNext()) {
             Unit tmp = it.next();
             if (tmp instanceof Conjuration && tmp.getCastle() == owner.getCastle())
-                targets.add(new Short(tmp.getLocation()));
+                targets.add(tmp.getLocation());
         }
         return targets;
     }

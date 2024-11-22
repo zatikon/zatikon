@@ -83,7 +83,7 @@ public class UnitConfessor extends Unit {
                     victim.getOrganic(this) &&
                     victim.targetable(this) &&
                     victim.isMurderer()) {
-                targets.add(new Short(victim.getLocation()));
+                targets.add(victim.getLocation());
             }
         }
         return targets;

@@ -100,7 +100,7 @@ public class ScriptWarlock extends ScriptInterceptor {
                         true,
                         true, TargetType.BOTH, unit.getCastle());
 
-        targets.add(new Short(target));
+        targets.add(target);
 
         // Hit the targets
         for (int i = 0; i < targets.size(); i++) {

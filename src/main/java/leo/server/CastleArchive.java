@@ -39,7 +39,7 @@ public class CastleArchive {
     // add a unit
     /////////////////////////////////////////////////////////////////
     public void add(short newUnit) {
-        units.add(new Short(newUnit));
+        units.add(newUnit);
     }
 
 

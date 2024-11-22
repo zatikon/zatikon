@@ -136,7 +136,7 @@ public class BattleField {
         Unit obstacle = getUnitAt(location);
         if (x >= 0 && x < Constants.BOARD_SIZE && y >= 0 && y < Constants.BOARD_SIZE)
             if (obstacle == null || obstacle.isPowerUp())
-                addTarget(targets, new Short(location));
+                addTarget(targets, location);
     }
 
 
@@ -214,7 +214,7 @@ public class BattleField {
                 // exception for moving onto powerups
                 if (unit != null)
                     if (selectionType == TargetType.MOVE && unit.isPowerUp())
-                        addTarget(targets, new Short(location));
+                        addTarget(targets, location);
                 /////////////////////////////
                 //if (location != startingPoint && (looker.getCastle().getLocation() != location || units) && ((units && unit != null) || (locations && unit == null)))
                 if ((looker.getCastle().getLocation() != location || units) && ((units && unit != null) || (locations && unit == null)))
@@ -224,7 +224,7 @@ public class BattleField {
                                             (selectionType == TargetType.BOTH || unit.getID() == UnitType.ROCK.value() || (selectionType == TargetType.FRIENDLY && unit.getCastle() == castle) || (selectionType == TargetType.ENEMY && unit.getCastle() != castle))
                                     )
                     )
-                        addTarget(targets, new Short(location));
+                        addTarget(targets, location);
             }
 
         return targets;
@@ -379,13 +379,13 @@ public class BattleField {
             // exception for moving onto powerups
             if (obstacle != null)
                 if (selectionType == TargetType.MOVE && obstacle.isPowerUp())
-                    addTarget(targets, new Short(location));
+                    addTarget(targets, location);
             ////////////////////////////////////////
             if (x >= 0 && x < Constants.BOARD_SIZE && y >= 0 && y < Constants.BOARD_SIZE)
                 if ((location != unit.getCastle().getLocation() || units) && (obstacle == null && locations) || (obstacle != null && units))
                     if ((obstacle == null) || (obstacle != null && obstacle.targetable(unit) && (organic == obstacle.getOrganic(unit) || inorganic != obstacle.getOrganic(unit)) &&
                             (selectionType == TargetType.BOTH || obstacle.getID() == UnitType.ROCK.value() || (selectionType == TargetType.FRIENDLY && obstacle.getCastle() == castle) || (selectionType == TargetType.ENEMY && obstacle.getCastle() != castle))))
-                        addTarget(targets, new Short(location));
+                        addTarget(targets, location);
 
             // If they don't jump, give them what they've got so far (unless obstacle is a powerup)
             if (!jumps && obstacle != null && !obstacle.isPowerUp()) return targets;
