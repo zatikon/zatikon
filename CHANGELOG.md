@@ -1,10 +1,11 @@
-# Upcoming
+# 1.1.5
 
 - The warrior's whirlwind attack now always attacks the target first and then continues in a clockwise order. With the zealous relic Will only trigger on the first attack.
 - Restricted broken and redundent relic/unit combos for the AI
 - Changed number of commanders and types for random armies
 - Updated UI buttons with correct links and a discord link.
 - Updated UI to show wins/losses and active pvp players and rankings
+- Handling password hashes fixed
 - AI game rebalanced to be much easier than before
 - Gold reward for AI game readjusted
 
