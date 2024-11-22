@@ -920,7 +920,7 @@ public class Strings {
     public static String EVENT_VIGILANT_3 = "Triggers default attack";
     public static String EVENT_VIGILANT_4 = "Vigilant";
 
-    public static String EVENT_WHIRLWIND_1 = "Whenever this unit performs any attack, it also attacks all enemies within range. The first attack must succeed for the other attacks to occur.";
+    public static String EVENT_WHIRLWIND_1 = "Whenever this unit performs any attack, it also attacks all enemies within range in a clockwise order starting with the target. The first attack must succeed for the other attacks to occur.";
     public static String EVENT_WHIRLWIND_2 = "Attack all enemies in range";
     public static String EVENT_WHIRLWIND_3 = "Triggers on every attack";
     public static String EVENT_WHIRLWIND_4 = "Whirlwind";

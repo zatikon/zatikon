@@ -351,6 +351,8 @@ public class Unit {
     protected boolean haunted = false;
     private boolean erased = false;
     private Unit soulmate = null;
+    //if true will prevent the zeal relic from activating
+    private boolean noZeal = false;
 
     // Client related
     private final Unit link = null;
@@ -2179,6 +2181,10 @@ public class Unit {
     public boolean erased() {
         return erased;
     }
+    //prevent the zeal relic from activating
+    public boolean getNoZeal() {
+        return noZeal;
+    }    
 
 
     /////////////////////////////////////////////////////////////////
@@ -2325,6 +2331,10 @@ public class Unit {
     // Here for overriding
     /////////////////////////////////////////////////////////////////
     public void setMark(Unit newUnit) {
+    }
+    //prevent the zeal relic from activating
+    public void setNoZeal(boolean newNoZeal) {
+        noZeal = newNoZeal;
     }
 
     /////////////////////////////////////////////////////////////////
