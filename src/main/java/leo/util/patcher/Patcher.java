@@ -33,7 +33,7 @@ public class Patcher extends Frame {
     // Constants
     /////////////////////////////////////////////////////////////////
     private static final String USER_DIR = System.getProperty("user.home") + "/zatikon";
-    private static final String XML_URL = "http://zatikon.com/versions.xml";
+    private static final String XML_URL = "https://www.chroniclogic.com/zatikon/versions.xml";
     private static final String JAR = "JAR";
     private static final String FILE = "FILE_NAME";
     private static final String VERSION = "VERSION";

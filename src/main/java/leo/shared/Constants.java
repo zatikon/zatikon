@@ -394,7 +394,7 @@ public class Constants {
     public static final int IMG_BACK_PANEL_EDIT = 280;
 
     // cooperative
-    public static final int IMG_COOPERATIVE = 281;
+    // public static final int IMG_COOPERATIVE = 281;
     public static final int IMG_COOPERATIVE_RED = 282;
 
     // administrative menu buttons
@@ -404,17 +404,17 @@ public class Constants {
     public static final int IMG_CREDITS_HIGHLIGHT = 286;
 
     // menu buttons [reordered numerically as of 9/21/10]
-    public static final int IMG_ARCHIVE = 287;
+    // public static final int IMG_ARCHIVE = 287;
     public static final int IMG_ARCHIVE_RED = 288;
-    public static final int IMG_BUY = 289;
+    // public static final int IMG_BUY = 289;
     public static final int IMG_BUY_RED = 290;
-    public static final int IMG_BUY_DISABLED = 291;
+    //public static final int IMG_BUY_DISABLED = 291;
     public static final int IMG_EDIT_RED = 292;
-    public static final int IMG_EDIT = 293;
+    // public static final int IMG_EDIT = 293;
     public static final int IMG_RANDOM_RED = 294;
-    public static final int IMG_RANDOM = 295;
+    // public static final int IMG_RANDOM = 295;
     public static final int IMG_CONSTRUCTED_RED = 296;
-    public static final int IMG_CONSTRUCTED = 297;
+    // public static final int IMG_CONSTRUCTED = 297;
     public static final int IMG_SINGLE_RED = 298; // IMG_SINGLE lies at 449
 
     // Projectiles
@@ -594,7 +594,7 @@ public class Constants {
 
     // menu
     public static final int IMG_MENU = 448;
-    public static final int IMG_SINGLE = 449;
+    //public static final int IMG_SINGLE = 449;
 
     // icons for lobby (while in a game)
     public static final int IMG_SINGLE_ICON = 450;
