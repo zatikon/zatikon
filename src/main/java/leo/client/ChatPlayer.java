@@ -104,7 +104,7 @@ public class ChatPlayer {
 
     public String toString() {
         if (getRating() > 0)
-            return getName() + ", " + (rank == 0 ? "Unranked" : "#" + rank + " (Rating: " + getRating() + ")");
+            return getName() + ", " + (rank == 0 ? "Unranked" : "#" + rank + " (" + getRating() + ")");
             //return getName() + ", " + "#" + rank + " (Rating: " + getRating() + ")";
         else
             return getName() + " (demo)";

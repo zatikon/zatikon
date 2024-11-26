@@ -1673,37 +1673,37 @@ public class GameMedia {
             url = artLoader.getResource(Constants.ART_LOC + "menu.jpg");
             images[Constants.IMG_MENU] = ImageIO.read(url);
 
-            url = artLoader.getResource(Constants.ART_LOC + "single.png");
-            images[Constants.IMG_SINGLE] = ImageIO.read(url);
+            // url = artLoader.getResource(Constants.ART_LOC + "single.png");
+            // images[Constants.IMG_SINGLE] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "singlered.png");
             images[Constants.IMG_SINGLE_RED] = ImageIO.read(url);
 
-            url = artLoader.getResource(Constants.ART_LOC + "constructed.png");
-            images[Constants.IMG_CONSTRUCTED] = ImageIO.read(url);
+            // url = artLoader.getResource(Constants.ART_LOC + "constructed.png");
+            // images[Constants.IMG_CONSTRUCTED] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "constructedred.png");
             images[Constants.IMG_CONSTRUCTED_RED] = ImageIO.read(url);
 
-            url = artLoader.getResource(Constants.ART_LOC + "random.png");
-            images[Constants.IMG_RANDOM] = ImageIO.read(url);
+            // url = artLoader.getResource(Constants.ART_LOC + "random.png");
+            // images[Constants.IMG_RANDOM] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "randomred.png");
             images[Constants.IMG_RANDOM_RED] = ImageIO.read(url);
 
-            url = artLoader.getResource(Constants.ART_LOC + "edit.png");
-            images[Constants.IMG_EDIT] = ImageIO.read(url);
+            // url = artLoader.getResource(Constants.ART_LOC + "edit.png");
+            // images[Constants.IMG_EDIT] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "editred.png");
             images[Constants.IMG_EDIT_RED] = ImageIO.read(url);
 
-            url = artLoader.getResource(Constants.ART_LOC + "archive.png");
-            images[Constants.IMG_ARCHIVE] = ImageIO.read(url);
+            // url = artLoader.getResource(Constants.ART_LOC + "archive.png");
+            // images[Constants.IMG_ARCHIVE] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "archivered.png");
             images[Constants.IMG_ARCHIVE_RED] = ImageIO.read(url);
 
-            url = artLoader.getResource(Constants.ART_LOC + "buy.png");
-            images[Constants.IMG_BUY] = ImageIO.read(url);
+            // url = artLoader.getResource(Constants.ART_LOC + "buy.png");
+            // images[Constants.IMG_BUY] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "buyred.png");
             images[Constants.IMG_BUY_RED] = ImageIO.read(url);
-            url = artLoader.getResource(Constants.ART_LOC + "buydisabled.png");
-            images[Constants.IMG_BUY_DISABLED] = ImageIO.read(url);
+            //url = artLoader.getResource(Constants.ART_LOC + "buydisabled.png");
+            //images[Constants.IMG_BUY_DISABLED] = ImageIO.read(url);
 
             // buttons
             url = artLoader.getResource(Constants.ART_LOC + "account.png");
@@ -2172,8 +2172,8 @@ public class GameMedia {
             images[Constants.IMG_BACK_PANEL_EDIT] = ImageIO.read(url);
 
             // coop
-            url = artLoader.getResource(Constants.ART_LOC + "cooperative.png");
-            images[Constants.IMG_COOPERATIVE] = ImageIO.read(url);
+            // url = artLoader.getResource(Constants.ART_LOC + "cooperative.png");
+            // images[Constants.IMG_COOPERATIVE] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "cooperativered.png");
             images[Constants.IMG_COOPERATIVE_RED] = ImageIO.read(url);
 

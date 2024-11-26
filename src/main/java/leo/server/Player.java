@@ -360,7 +360,7 @@ public class Player {
     // Lose against the AI
     /////////////////////////////////////////////////////////////////
     public void loseAi() {
-        if (getLevel() > 15)
+        if (getLevel() > 2)
             computerLosses++;
         save();
     }
