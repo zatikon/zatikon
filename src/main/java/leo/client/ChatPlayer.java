@@ -26,16 +26,20 @@ public class ChatPlayer {
     private int rank = -1;
     private MessageFrame messageFrame = null;
     private int icon = Constants.IMG_USER_ICON;
+    private int wins;
+    private int losses;
 
 
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public ChatPlayer(int newId, String newName, int newRating, int newRank) {
+    public ChatPlayer(int newId, String newName, int newRating, int newRank, int newWins, int newLosses) {
         id = newId;
         name = newName;
         rating = newRating;
         rank = newRank;
+        wins = newWins;
+        losses = newLosses;
     }
 
 
@@ -101,6 +105,10 @@ public class ChatPlayer {
     public int getRank() {
         return rank;
     }
+
+    public String getWinsLosses() {
+        return "Wins:" + wins + " Losses:" + losses;
+    }    
 
     public String toString() {
         if (getRating() > 0)
