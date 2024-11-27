@@ -27,7 +27,7 @@ public class CastleArchiveList extends JDialog implements ActionListener {
     /////////////////////////////////////////////////////////////////
     // Properties
     /////////////////////////////////////////////////////////////////
-    private JList list;
+    private JList<CastleArchive> list;
     private JTextField input;
     private JButton load;
     private JButton save;
@@ -83,7 +83,7 @@ public class CastleArchiveList extends JDialog implements ActionListener {
         Panel panel = new Panel();
 
         // The JList
-        list = new JList(castleArchive);
+        list = new JList<>(castleArchive);
         list.setFixedCellWidth(WIDTH);
         list.setFixedCellHeight(14);
         list.setVisibleRowCount(10);
