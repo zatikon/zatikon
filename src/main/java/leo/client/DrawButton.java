@@ -38,21 +38,28 @@ public class DrawButton extends LeoComponent {
     // Process a click
     /////////////////////////////////////////////////////////////////
     public boolean clickAt(int x, int y) {
-        if (Client.getGameData().getEnemyCastle().isAI()) return false;
+        if (Client.getGameData().getEnemyCastle().isAI() && !Client.standalone) return false;
         if (!Client.getGameData().myTurn()) return false;
         if (pressed) return false;
         Client.getImages().playSound(Constants.SOUND_BUTTON);
-        Client.getGameData().setMyDraw();
-        if (Client.getGameData().drawOffered())
-            Client.addText("You have accepted the draw");
-        else
-            Client.addText("You have offered " + Client.getGameData().getEnemyName() + " a draw.");
+        if(Client.standalone) {
+            if(Client.getGameData().getTimer().getjustUnpaused() == false) {
+                Client.getGameData().getTimer().togglePaused();                
+            }
+            return true;
+        } else {
+            Client.getGameData().setMyDraw();
+            if (Client.getGameData().drawOffered())
+                Client.addText("You have accepted the draw");
+            else
+                Client.addText("You have offered " + Client.getGameData().getEnemyName() + " a draw.");
 
-        Client.getNetManager().sendAction(Action.OFFER_DRAW, (byte) 0, (byte) 0);
-        pressed = true;
-        if (Client.getGameData().getMyDraw() && Client.getGameData().drawOffered())
-            Client.getGameData().getMyCastle().getObserver().drawGame();
-        return true;
+            Client.getNetManager().sendAction(Action.OFFER_DRAW, (byte) 0, (byte) 0);
+            pressed = true;
+            if (Client.getGameData().getMyDraw() && Client.getGameData().drawOffered())
+                Client.getGameData().getMyCastle().getObserver().drawGame();
+            return true;
+        }
     }
 
 
@@ -61,8 +68,11 @@ public class DrawButton extends LeoComponent {
     /////////////////////////////////////////////////////////////////
     public void draw(Graphics2D g, Frame mainFrame) {
         try {
-
-            String message = Client.getGameData().drawOffered() ? "Accept Draw" : "Offer Draw";
+            String message;
+            if(Client.standalone)
+                message = Client.getGameData().getTimer().getPaused() ? "Unpause" : "Pause";
+            else
+                message = Client.getGameData().drawOffered() ? "Accept Draw" : "Offer Draw";
 
             int atX = getScreenX() + (getWidth() / 2) - (g.getFontMetrics().stringWidth(message) / 2);
             int atY = getScreenY() + (getHeight() / 2) + (Client.FONT_HEIGHT / 2);

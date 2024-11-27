@@ -441,7 +441,8 @@ public class ClientGameData {
     public void clickAt(int x, int y) {
         // Fire away
         //System.out.println("Click at " + x + ", " + y);
-
+        if(Client.standalone && Client.getGameData().playing() && Client.getGameData().getTimer().getPaused() == true)
+            Client.getGameData().getTimer().togglePaused();
         mainBoard.clickAt(x, y);
     }
 
