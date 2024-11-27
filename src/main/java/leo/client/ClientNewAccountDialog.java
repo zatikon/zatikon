@@ -241,7 +241,7 @@ public class ClientNewAccountDialog extends JDialog
 
 
         if (loginResponse.getResponse() == LoginResponse.FAIL_OLD_VERSION) {
-            alert("Please download the latest version from zatikon.com");
+            alert("Please download the latest version from https://www.chroniclogic.com/zat_download.htm");
             Client.shutdown();
             return;
         }

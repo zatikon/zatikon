@@ -111,6 +111,9 @@ public class ChatUser implements Runnable {
                 tmpDos.writeShort((byte) sentPlayer.getChatName().charAt(i));
             }
 
+            tmpDos.writeInt(sentPlayer.getWins() + sentPlayer.getWinsToLower());
+            tmpDos.writeInt(sentPlayer.getLosses() + sentPlayer.getLossesToHigher());
+
             tmpDos.flush();
             send(tmpBaos.toByteArray());
 

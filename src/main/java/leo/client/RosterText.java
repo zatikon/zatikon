@@ -28,7 +28,7 @@ public class RosterText extends LeoComponent {
     /////////////////////////////////////////////////////////////////
     private Vector<String> lines = null;
     private int lineCount = 1;
-    private final String text;
+    private String text;
 
 
     /////////////////////////////////////////////////////////////////
@@ -65,6 +65,10 @@ public class RosterText extends LeoComponent {
 
         } catch (Exception e) {
         }
+    }
+
+    public void setText(String newText) {
+        text = newText;
     }
 
 

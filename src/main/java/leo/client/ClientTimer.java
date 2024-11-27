@@ -16,7 +16,8 @@ public class ClientTimer implements Runnable {
     private final Thread runner;
     private boolean active = true;
     private int time = 0;
-
+    private boolean paused = false;
+    private boolean justUnpaused = false;
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -35,12 +36,16 @@ public class ClientTimer implements Runnable {
         // Loop indefinately, accepting socket connections
         while (active() && !Client.shuttingDown()) {
             try {
-                if (time > 0 && active())
-                    time--;
-                else {
-                    if (active() && Client.getGameData().getCastlePlaying() == Client.getGameData().getMyCastle()) {
-                        Client.getGameData().endTurn();
-                        end();
+                if(!Client.standalone || paused == false) {
+                    if(Client.standalone && justUnpaused == true) 
+                        justUnpaused = false;
+                    if (time > 0 && active())
+                        time--;
+                    else {
+                        if (active() && Client.getGameData().getCastlePlaying() == Client.getGameData().getMyCastle()) {
+                            Client.getGameData().endTurn();
+                            end();
+                        }
                     }
                 }
                 if (active()) Thread.sleep(1000);
@@ -57,7 +62,6 @@ public class ClientTimer implements Runnable {
         return (active && Client.getGameData() != null && Client.getGameData().playing());
     }
 
-
     /////////////////////////////////////////////////////////////////
     // Get the time
     /////////////////////////////////////////////////////////////////
@@ -65,6 +69,19 @@ public class ClientTimer implements Runnable {
         return time;
     }
 
+    public void togglePaused() {
+        if(paused == true)
+            justUnpaused = true;
+        paused = !paused;
+    }
+
+    public boolean getPaused() {
+        return paused;
+    }
+
+    public boolean getjustUnpaused() {
+        return justUnpaused;
+    }     
 
     /////////////////////////////////////////////////////////////////
     // End

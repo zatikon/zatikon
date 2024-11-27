@@ -257,7 +257,9 @@ public class ClientChatManager implements Runnable {
                 char ctmp = (char) dis.readShort();
                 nameBuffer.append(ctmp);
             }
-            ChatPlayer player = new ChatPlayer(id, nameBuffer.toString(), rating, rank);
+            int wins = dis.readInt();
+            int losses = dis.readInt();            
+            ChatPlayer player = new ChatPlayer(id, nameBuffer.toString(), rating, rank, wins, losses);
             player.setState(state);
             Client.add(player);
         } catch (Exception e) {

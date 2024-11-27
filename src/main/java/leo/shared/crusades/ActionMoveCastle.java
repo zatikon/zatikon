@@ -41,8 +41,8 @@ public class ActionMoveCastle extends ActionMove {
     public Vector<Short> getTargets() {
         Vector<Short> targets = super.getTargets();
 
-        // Make sure the castle is a legal move. Empty square, and 1 square away
-        if (getOwner().getCastle().getBattleField().getUnitAt(getOwner().getCastle().getLocation()) == null && BattleField.getDistance(getOwner().getLocation(), getOwner().getCastle().getLocation()) == 1) {
+        // Make sure the castle is a legal move. Empty square. Removed range limit for flying GateGuard // && BattleField.getDistance(getOwner().getLocation(), getOwner().getCastle().getLocation()) == 1
+        if (getOwner().getCastle().getBattleField().getUnitAt(getOwner().getCastle().getLocation()) == null) {
             targets.add(getOwner().getCastle().getLocation());
         }
         return targets;

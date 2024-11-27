@@ -156,10 +156,14 @@ public class PlayerList extends LeoComponent {
             g.setFont(Client.getFont());
             g.setColor(Color.white);
 
-
             // draw every players icon and name + rank
             int line = 0;
             for (int index = location; (index < players.size() && index < (location + MAX_LENGTH)); index++) {
+                //check for hover on each player
+                if (Client.getGameData().getMouseX() > getScreenX() + 3 && Client.getGameData().getMouseX() < getScreenX() + 200 && Client.getGameData().getMouseY() > getScreenY() + 34 + (35 * line) && Client.getGameData().getMouseY() < getScreenY() + 68 + (35 * line)) {
+                    Client.getGameData().getRosterPanel().setMsgText(players.elementAt(index).getName() + ", " + players.elementAt(index).getWinsLosses());
+                }
+
                 String message = players.elementAt(index).toString();
                 g.drawString(message.substring(0, 1).toUpperCase() + message.substring(1), getScreenX() + 45, getScreenY() + 54 + (35 * line));
                 g.drawImage(players.elementAt(index).getIcon(), getScreenX() + 10, getScreenY() + 35 + (35 * line), 30, 30, mainFrame);
