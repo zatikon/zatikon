@@ -111,6 +111,18 @@ public class LaunchGameButton extends LeoComponent {
     // Draw the component
     /////////////////////////////////////////////////////////////////
     public void draw(Graphics2D g, Frame mainFrame) {
+
+        if(label == "Buy New Unit") {
+            if(disabled == false && Client.getGold() < 100)
+                disabled = true;
+            else if(disabled == true && Client.getGold() >= 100)
+                disabled = false;
+        }
+         
+            
+        else if(label == "Buy New Unit" && disabled == true)
+            disabled = false;
+
         if (isWithin(Client.getGameData().getMouseX(), Client.getGameData().getMouseY())) {
             rosterText.draw(g, mainFrame);
             if (!inside) {
@@ -214,7 +226,6 @@ public class LaunchGameButton extends LeoComponent {
         g.setFont(Client.getFont());
 
     }
-
 
     /////////////////////////////////////////////////////////////////
     // Are the coordinates within this component

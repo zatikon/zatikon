@@ -31,6 +31,7 @@ public class RosterPanel extends LeoContainer {
     /////////////////////////////////////////////////////////////////
     private boolean first = true;
     private boolean noob = false;
+    private String msgText = "";
 
 
     /////////////////////////////////////////////////////////////////
@@ -153,9 +154,8 @@ public class RosterPanel extends LeoContainer {
         // Buy Unit
         LaunchGameButton buyButton = new LaunchGameButton(
                 this, buttonX, 405, 38, 38, Constants.IMG_BUY_RED, "Buy New Unit",
-                "Buy a randomly selected, new unit for your army for 100 gold.", (Client.getGold() < 100 ? true : false));
+                "Buy a randomly selected, new unit for your army for 100 gold.", false);
         add(buyButton);
-
         rosterText = new RosterText(this, "Wins: " + Client.getWins() + " Losses: " + Client.getLosses(), 4, 455, 186, 142);         
     }
 
@@ -193,6 +193,9 @@ public class RosterPanel extends LeoContainer {
         Client.lastGold(Client.getGold());
     }
 
+    public void setMsgText(String newText) {
+        msgText = newText;
+    }
 
     /////////////////////////////////////////////////////////////////
     // Draw the component
@@ -281,8 +284,10 @@ public class RosterPanel extends LeoContainer {
             //g.setFont(Client.getFont());
         }
 
+        //profile area top left of screen
         if ((Client.getGameData().getMouseX() >= getScreenX() && Client.getGameData().getMouseX() <= getScreenX() + 180) &&
                 (Client.getGameData().getMouseY() >= getScreenY() && Client.getGameData().getMouseY() <= getScreenY() + 65)) {
+            rosterText.setText("Wins:" + Client.getWins() + " Losses:" + Client.getLosses());
             rosterText.draw(g, mainFrame);
 
             if (!inside) {
@@ -293,11 +298,15 @@ public class RosterPanel extends LeoContainer {
         } else {
             inside = false;
             //g.drawImage(Client.getImages().getImage(Constants.IMG_TEAM), getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
+            if(msgText != "") {
+                g.setFont(Client.getFont());
+                g.setColor(Color.white);
+                g.drawString(msgText, 4 + 20, 505 + 13);
+                msgText = "";
+            }
         }
 
         super.draw(g, mainFrame);
-
-
     }
 
 

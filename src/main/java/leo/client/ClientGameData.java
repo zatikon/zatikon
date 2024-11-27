@@ -884,6 +884,10 @@ public class ClientGameData {
         return teamLoadingPanel;
     }
 
+    public RosterPanel getRosterPanel() {
+        return rosterPanel;
+    }    
+
 
     /////////////////////////////////////////////////////////////////
     // Sets
