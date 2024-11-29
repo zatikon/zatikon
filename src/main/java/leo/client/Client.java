@@ -29,9 +29,9 @@ public class Client {
     //public static final int  SCREEN_WIDTH = 800; //moved to "leo/shared/Constants.java"
     //public static final int  SCREEN_HEIGHT = 600; //moved to "leo/shared/Constants.java"
     public static final String VERSION = getGameVersion();
-    public static final String PROTOCOL_VERSION = "1.1.5";
+    public static final String PROTOCOL_VERSION = "1.1.6";
     public static final String TITLE = "Zatikon ";
-    public static final String CREDITS = " Chronic Logic 2023";
+    public static final String CREDITS = " Chronic Logic 2024";
 //    public static final String SERVER_NAME = "localhost";
 //    public static final String SERVER_NAME = Optional.ofNullable(System.getProperty("server.name")).orElse("localhost");
     public static String serverName = "zatikon.chroniclogic.com";
