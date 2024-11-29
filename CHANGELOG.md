@@ -1,3 +1,12 @@
+# 1.1.6
+
+- Removed connection timing out in standalone mode
+- Changed the min AI level that will be reduced on a loss from 15 to 2
+- Disabled multi-player modes in standalone mode
+- Added pausing in standalone mode
+- Fix bug with flying gate guard
+- Added showing a players wins/losses on hovering over their name
+
 # 1.1.5
 
 - The warrior's whirlwind attack now always attacks the target first and then continues in a clockwise order. With the zealous relic Will only trigger on the first attack.
@@ -8,6 +17,7 @@
 - Handling password hashes fixed
 - AI game rebalanced to be much easier than before
 - Gold reward for AI game readjusted
+- Increased sleep and timeout counters
 
 # 1.1.4
 
