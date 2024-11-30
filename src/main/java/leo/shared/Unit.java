@@ -1752,10 +1752,8 @@ public class Unit {
                 break;
 
             case Action.GROW_RELIC_FLYING:
-                System.out.println("action fly");
                 if (getMaxRange() <= 1) {
                     if(id == UnitType.GATE_GUARD.value()) {
-                        System.out.println("action fly castle");
                         setMove(new ActionMoveCastle(this, (byte) 1, (byte) 0, TargetType.LOCATION_LINE_JUMP, (byte) 3));
                     } else {    
                         setMove(new ActionMove(this, (byte) 1, (byte) 0, TargetType.LOCATION_LINE_JUMP, (byte) 3));
