@@ -353,6 +353,7 @@ public class Unit {
     private Unit soulmate = null;
     //if true will prevent the zeal relic from activating
     private boolean noZeal = false;
+    protected short kills = 0;
 
     // Client related
     private final Unit link = null;
@@ -2122,6 +2123,10 @@ public class Unit {
         return sequence;
     }
 
+    public int getKills() {
+        return kills;
+    }
+
     public boolean isOpaque() {
         return opaque;
     }
@@ -2264,6 +2269,7 @@ public class Unit {
 
     public void setMurderer() {
         murderer = true;
+        kills++;   
     }
 
     public void forgive() {
