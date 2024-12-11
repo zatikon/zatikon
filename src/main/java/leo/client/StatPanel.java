@@ -48,7 +48,15 @@ public class StatPanel extends LeoComponent {
             Image image = Client.getImages().getImage(Constants.IMG_STAT_PANEL);
             g.drawImage(image, getScreenX(), getScreenY(), mainFrame);
 
+            // The stats
+            int posX, posY, mouseX, mouseY;
+            Image icon, back;
+            back = Client.getImages().getImage(Constants.IMG_DRAW);
+
             int lines = 1;
+
+            mouseX = Client.getGameData().getMouseX();
+            mouseY = Client.getGameData().getMouseY();
 
             // The name
             g.setColor(
@@ -56,17 +64,19 @@ public class StatPanel extends LeoComponent {
                             Color.red :
                             Color.white);
             g.drawString(unit.getName(), getScreenX() + SideBoard.MARGIN, getScreenY() + SideBoard.MARGIN + Client.FONT_HEIGHT);
+
+            posX = getScreenX() + SideBoard.MARGIN + 5;
+            posY = getScreenY() + ((SideBoard.MARGIN + Client.FONT_HEIGHT) * lines) - 11;
+
+            FontMetrics fontMetrics = g.getFontMetrics();
+            // Check for mouse over the icon
+            if (mouseX >= posX && mouseX <= (posX + fontMetrics.stringWidth(unit.getName())) && mouseY >= (posY - 2) && mouseY <= (posY + 15)) {
+                g.drawImage(back, posX - 110, posY - 3, mainFrame);
+                g.drawString("Kills " +  unit.getKills(), getScreenX() + SideBoard.MARGIN - 95, getScreenY() + ((SideBoard.MARGIN + Client.FONT_HEIGHT) * lines));
+            }
+
             g.setColor(Color.white);
             lines++;
-
-            // The stats
-            Image icon, back;
-            int posX, posY, mouseX, mouseY;
-
-            back = Client.getImages().getImage(Constants.IMG_DRAW);
-
-            mouseX = Client.getGameData().getMouseX();
-            mouseY = Client.getGameData().getMouseY();
 
             // Actions if applicable
             if (unit.getActionsMax() > 0) {
