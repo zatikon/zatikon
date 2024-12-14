@@ -281,9 +281,12 @@ public interface Action {
     short UNLOCK_UNITS = 125;
     short SET_GOLD = 126;
     short NOTHING = 127;
+
+    //Note by default server does not check actions < 50 the same way
     short SET_RANK = -20;
     short SET_WINS = -21;
     short SET_LOSSES = -22;
+    short PING = -23;
 
     /////////////////////////////////////////////////////////////////
     // Chat actions

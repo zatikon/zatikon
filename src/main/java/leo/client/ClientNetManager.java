@@ -33,6 +33,7 @@ public class ClientNetManager implements Runnable {
     private DataOutputStream dos;
     private boolean active = true;
     private final int player = 1;
+    private int counter = 0; 
 
 
     /////////////////////////////////////////////////////////////////
@@ -182,6 +183,21 @@ public class ClientNetManager implements Runnable {
 
         } catch (Exception e) {
             Logger.error("get army units " + e);
+            Client.getGameData().screenDisconnect();
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Check if still connected
+    /////////////////////////////////////////////////////////////////
+    public void requestPing() {
+        //System.out.println("Client sending ping");
+
+        try { // Send the ping
+            dos.writeShort(Action.PING);
+
+        } catch (Exception e) {
+            Logger.error("req practice " + e);
             Client.getGameData().screenDisconnect();
         }
     }
@@ -544,6 +560,10 @@ public class ClientNetManager implements Runnable {
                         Client.getGameData().offerDraw();
                     }
                     break;
+
+                case Action.PING:
+                    //System.out.println("Client receiving ping");
+                    break;                    
             }
         } catch (Exception e) {
             Logger.error("process: " + action + " " + actor + " " + target + " " + e);

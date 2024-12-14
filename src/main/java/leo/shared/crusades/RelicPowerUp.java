@@ -236,6 +236,8 @@ public class RelicPowerUp extends Unit {
                         (target instanceof UnitGateGuard) || 
                         (target instanceof UnitLancer) ||
                         (target instanceof UnitFanatic) ||
+                        (target instanceof UnitConfessor) ||
+                        (target instanceof UnitWarElephant) ||
                         (target.getMaxAttackRange() > 2)))
                     return false;
                 if (power == Action.GROW_CLOCKWORK && (target instanceof UnitGateGuard))

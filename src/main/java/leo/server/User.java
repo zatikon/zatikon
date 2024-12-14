@@ -553,7 +553,15 @@ public class User implements Runnable {
                     //Log.activity("Action: " + request + ", actor: " + actor + ", target: " + target);
                     game.interpretAction(player, request, actor, target);
                     clearIdle();
+                } else {
+                    if(request == Action.PING) {
+                        //System.out.println("server received ping");
+                        dos.writeShort(Action.PING);
+                        dos.writeShort(Action.NOTHING);
+                        dos.writeShort(Action.NOTHING);                        
+                    }
                 }
+
                 return;
             }
 
@@ -773,7 +781,7 @@ public class User implements Runnable {
 
                 case Action.QUIT:
                     disconnect = false;
-                    break;
+                    break;                   
 
                 default:
                     Log.error("An unknown request: " + request + " was received from "
