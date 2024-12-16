@@ -268,6 +268,8 @@ public class DNA {
     // Get a want
     /////////////////////////////////////////////////////////////////
     public short getUnit() {
+        //return 87; // 87 = possessed, 4 = pikemen
+        
         int choice = random.nextInt(total);
         int weight = 0;
         for (int i = 0; i < UNITS.length; i++) {
@@ -279,6 +281,8 @@ public class DNA {
     }
 
     public short getRelic() {
+        // return -33; //-33 zelous relic
+        
         int choice = random.nextInt(relicTotal);
         int weight = 0;
         for (int i = 0; i < RELICS.length; i++) {
