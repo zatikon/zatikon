@@ -11,6 +11,7 @@ package leo.server;
 import leo.shared.Log;
 import leo.shared.network.SocketProvider;
 
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -25,8 +26,9 @@ public class ChatServer implements Runnable {
     private final boolean useTls;
     private final Server server;
     private ServerSocket serverSocket;
+    private ChatUser user = null;
     private boolean ready = false;
-
+    private boolean running = true; // Control flag for the main loop
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -59,13 +61,18 @@ public class ChatServer implements Runnable {
 
         // Loop indefinitely, accepting socket connections
         int cycle = 0;
-        while (true) {
+        while (running) {
             try {
                 Socket socket = serverSocket.accept();
                 Log.system("Chat login received at: " + socket.getInetAddress());
-                ChatUser user = new ChatUser(server, socket);
+                user = new ChatUser(server, socket);
                 Thread.sleep(10);
+            } catch (InterruptedException e) {
+                // If interrupted (due to stop() being called), we exit the loop
+                Thread.currentThread().interrupt(); // Restore interrupt status
+                Log.system("ChatServer thread was interrupted and is stopping.");
             } catch (Exception e) {
+                Log.error("ChatServer error: " + e);
             }
         }
     }
@@ -73,4 +80,25 @@ public class ChatServer implements Runnable {
     public boolean isReady() {
         return ready;
     }
+
+    /////////////////////////////////////////////////////////////////
+    // Stop Method
+    /////////////////////////////////////////////////////////////////
+    public void stop() {
+        Log.system("Stopping chat server...");
+        running = false;
+        try {
+            if (user != null) user.close();
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close(); // Interrupts the accept() call
+            }
+        } catch (IOException e) {
+            Log.error("Error closing server socket during stop: " + e.getMessage());
+        }
+        try {
+            runner.join(); // Wait for the thread to finish
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore interrupt status
+        }
+    }      
 }

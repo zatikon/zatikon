@@ -21,6 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Client {
     /////////////////////////////////////////////////////////////////
@@ -103,6 +106,7 @@ public class Client {
     private static boolean timeOut = false;
     private static JLabel fbText1 = null;
     private static JLabel fbText2 = null;
+    private static boolean serverWillShutDown = false;
 
     // access
     private static final boolean[] access =
@@ -187,6 +191,25 @@ public class Client {
         //java.applet.AppletContext.showDocument(new URL("google.com"));
 
         //ClientFrame clientFrame = new ClientFrame();
+
+        // Add a timer to check for connection while not in a game
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                if(netManager != null && !Client.getGameData().playing())
+                    netManager.requestPing();
+            } catch (Exception e) {
+                Logger.error("Error while calling Client.ping(): " + e.getMessage());
+            }
+        }, 0, 60, TimeUnit.SECONDS); // Start immediately, repeat every 60 second
+
+        // Add a shutdown hook to terminate the scheduler
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            Logger.info("Shutting down scheduler...");
+            scheduler.shutdown();
+        }));
+
     }
 
     public static void startLocalServer() {
@@ -738,6 +761,13 @@ public class Client {
         messages.add(message);
     }
 
+    public static void setServerWillShutDown(boolean newServerWillShutDown) {
+        serverWillShutDown = newServerWillShutDown;
+    }
+
+    public static boolean getServerWillShutDown() {
+        return serverWillShutDown;
+    }
 
     /////////////////////////////////////////////////////////////////
     // Get text

@@ -29,7 +29,7 @@ public class Player {
     // Properties
     /////////////////////////////////////////////////////////////////
     //private int accessLevel = Unit.FREE;
-    private boolean admin = false;
+    //private boolean admin = false;
     private boolean accessLoaded = false;
     private final short[] units = new short[UnitType.UNIT_COUNT.value()];
     private String name;
@@ -200,7 +200,6 @@ public class Player {
     /////////////////////////////////////////////////////////////////
     private void loadAccess() {
         try {
-//            admin = name.equals("gabe") || name.equals("ravean");
             // TODO cleanup the expansion loading. In FOSS version we don't need to restrict the players
             access[Unit.CRUSADES] = true; //server.getDB().getRegistration(getName(), DatabaseManager.CRUSADES);
             access[Unit.LEGIONS] = true; //server.getDB().getRegistration(getName(), DatabaseManager.LEGIONS);
@@ -587,7 +586,7 @@ public class Player {
     }
 
     public boolean admin() {
-        return admin;
+        return name.equals("ravean");
     }
 
     public String getPasswordHashed() {

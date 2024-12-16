@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
+import java.util.Set;
 
 
 public class Server {
@@ -51,6 +52,9 @@ public class Server {
     private final Vector<ServerGame> gameListMulti = new Vector<ServerGame>();
     private final Vector<PracticeGame> gameListSingle = new Vector<PracticeGame>();
 
+    private volatile boolean running = true;
+    private boolean willShutDown = false;
+
     /////////////////////////////////////////////////////////////////
     // Main module
     /////////////////////////////////////////////////////////////////
@@ -69,6 +73,12 @@ public class Server {
         lobbyPractice = new LobbyPractice(this);
         lobbyCooperative = new LobbyCooperative(this);
         lobbyTeam = new LobbyTeam(this);
+
+        // Start shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            Log.system("Shutdown hook triggered. Shutting down server...");
+            shutdown();
+        }));        
     }
 
     public static void main(String[] args) {
@@ -76,6 +86,62 @@ public class Server {
         boolean useTls = !(Arrays.asList(args).contains(Constants.STANDALONE_ARG));
 
         instance = new Server(useTls);
+
+        // Keep the main thread alive while the server is running
+        instance.runServer();
+    }
+
+    public void runServer() {
+        while (running) {
+            try {
+                Thread.sleep(1000); // Keep the server running
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Reset interrupt status
+            }
+        }
+    }
+
+    public void shutdown() {
+        if (!running) return;
+
+        running = false;
+
+        Log.system("Shutting down server components...");
+        try {
+            // remove players 
+            synchronized (players) {
+                for (Player player : players) {
+                    if (player != null) {
+                        player.getUser().sendAction(Action.QUIT, Action.NOTHING, Action.NOTHING);
+                    }
+                }
+            }    
+
+            if (loginServer != null) loginServer.stop();
+            if (chatServer != null) chatServer.stop();
+            if (janitor != null) janitor.stop();
+            if (lobby != null) lobby.stop();
+            if (lobbyDuel != null) lobbyDuel.stop();
+            if (lobbyMirrored != null) lobbyMirrored.stop();
+            if (lobbyPractice != null) lobbyPractice.stop();
+            if (lobbyCooperative != null) lobbyCooperative.stop();
+            if (lobbyTeam != null) lobbyTeam.stop();
+        } catch (Exception e) {
+            Log.error("Error during shutdown: " + e.getMessage());
+        }
+
+        Log.system("Server finished sutting down components, some might take a few more seconds to complete shutdown.");
+        /*
+        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+        for (Thread thread : threadSet) {
+            Log.system("Active thread: " + thread.getName() + " (Daemon: " + thread.isDaemon() + ")");
+        }*/
+    }
+
+    public static void stopServer() {
+        if (instance != null) {
+            instance.shutdown();
+        }
     }
 
 //    private void ratingDumpTemp() {
@@ -253,6 +319,25 @@ public class Server {
     /////////////////////////////////////////////////////////////////
     public Vector<Player> getLogins() {
         return logins;
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Get if server is going to shut down
+    /////////////////////////////////////////////////////////////////
+    public boolean getWillShutDown() {
+        return willShutDown;
+    }
+
+    public void startShutDown() {
+        synchronized (players) {
+            for (Player player : players) {
+                if (player != null) {
+                    player.getUser().sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                }
+            }
+        }         
+        sendText(null, "Server shutdown initiated. Games can't be started. When all games have finished the server will shutdown and update.");
+        willShutDown = true;
     }
 
 

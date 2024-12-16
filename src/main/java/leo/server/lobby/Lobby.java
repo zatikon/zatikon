@@ -27,7 +27,7 @@ public class Lobby implements Runnable {
     private final Vector<Player> players = new Vector<Player>();
     private final Stack<Player> removes = new Stack<Player>();
     private final Server server;
-
+    private boolean running = true; // Control flag for the main loop
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -52,7 +52,7 @@ public class Lobby implements Runnable {
     // Main thread
     /////////////////////////////////////////////////////////////////
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 for (int i = 0; i < players.size(); i++) {
                     Player player = players.elementAt(i);
@@ -132,4 +132,18 @@ public class Lobby implements Runnable {
     private int compareRating(Player player1, Player player2) {
         return Math.abs(player1.getRating() - player2.getRating());
     }
+
+    /////////////////////////////////////////////////////////////////
+    // Stop the lobby thread
+    /////////////////////////////////////////////////////////////////
+    public void stop() {
+        Log.system("Stopping lobby thread...");
+        running = false; // Stop the loop
+        runner.interrupt(); // Interrupt the thread if it's sleeping
+        try {
+            // Optionally clear any resources or reset state if needed
+        } catch (Exception e) {
+            Log.error("Error while stopping the lobby thread: " + e);
+        }
+    }    
 }
