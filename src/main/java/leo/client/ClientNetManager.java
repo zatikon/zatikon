@@ -232,8 +232,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     private void process(short action, short actor, short target) throws Exception {
         try {
-
-            System.out.println("received: " + action + ", " + actor + ", " + target);
+            // System.out.println("received: " + action + ", " + actor + ", " + target);
 
             // If under 30, it's a unit
             if (action < 30 && action > -1 && Client.getGameData().playing()) {

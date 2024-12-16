@@ -78,7 +78,9 @@ public class LaunchGameButton extends LeoComponent {
             if (Client.getGameData().getArmy().depleted() && label != "Random" && label != "Mirror Random") {
                 Client.getGameData().screenEditCastle();
             } else {
-                if(label == "Single Player" || label == "Start Here!") {
+                if(Client.getServerWillShutDown() == true) {
+                    Client.getGameData().screenLoading("Server is shutting down for an update");
+                } else if(label == "Single Player" || label == "Start Here!") {
                     Client.getNetManager().requestPractice();
                     Client.getGameData().screenLoading("Loading the Artificial Opponent...");
                 } else if (label == "Cooperative") {

@@ -648,10 +648,8 @@ public class User implements Runnable {
                     break;
 
                 case Action.JOIN:
-                    if(server.getWillShutDown() == true) {
-                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                    if(server.getWillShutDown() == true)
                         break;
-                    }
                     if (initializeGame()) {
                         Log.activity("" + player.getName() + " has entered the lobby.");
                         server.sendState(getPlayer(), Action.CHAT_WAITING_CONS);
@@ -672,10 +670,9 @@ public class User implements Runnable {
                     break;
 
                 case Action.JOIN_DUEL:
-                    if(server.getWillShutDown() == true) {
-                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                    if(server.getWillShutDown() == true)
                         break;
-                    } else if (initializeDuelGame()) {
+                    if (initializeDuelGame()) {
                         server.sendState(getPlayer(), Action.CHAT_WAITING_RAND);
                         Log.activity(player.getName() + " has entered the duel lobby.");
                         waitingGame = Action.CHAT_WAITING_RAND;
@@ -685,10 +682,9 @@ public class User implements Runnable {
                     break;
 
                 case Action.JOIN_MIRRORED_DUEL:
-                    if(server.getWillShutDown() == true) {
-                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                    if(server.getWillShutDown() == true)
                         break;
-                    } else if (initializeMirrDuelGame()) {
+                    if (initializeMirrDuelGame()) {
                         server.sendState(getPlayer(), Action.CHAT_WAITING_RAND);
                         Log.activity(player.getName() + " has entered the mirrored duel lobby.");
                         waitingGame = Action.CHAT_WAITING_RAND;
@@ -699,22 +695,18 @@ public class User implements Runnable {
 
 
                 case Action.PRACTICE:
-                    if(server.getWillShutDown() == true) {
-                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                    if(server.getWillShutDown() == true)
                         break;
-                    } else {
-                        initializePracticeGame();
-                    }
+                    initializePracticeGame();
                     waiting = true;
                     cancelled = false;
                     break;
 
 
                 case Action.COOPERATIVE:
-                    if(server.getWillShutDown() == true) {
-                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
-                        break;
-                    } else if (initializeCooperativeGame()) {
+                    if(server.getWillShutDown() == true)
+                        break;  
+                    if (initializeCooperativeGame()) {
                         server.sendState(getPlayer(), Action.CHAT_WAITING_COOP);
                         waitingGame = Action.CHAT_WAITING_COOP;
                     }
@@ -724,10 +716,9 @@ public class User implements Runnable {
 
 
                 case Action.TEAM:
-                    if(server.getWillShutDown() == true) {
-                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
-                        break;
-                    } else if (initializeTeamGame()) {
+                       if(server.getWillShutDown() == true)
+                        break;  
+                    if (initializeTeamGame()) {
                         server.sendState(getPlayer(), Action.CHAT_WAITING_2V2);
                         waitingGame = Action.CHAT_WAITING_2V2;
                     }
@@ -736,11 +727,8 @@ public class User implements Runnable {
                     break;
 
                 case Action.SELECT_TEAM:
-                    if(server.getWillShutDown() == true) {
-                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                    if(server.getWillShutDown() == true)
                         break;
-                    }
-
                     server.addToNextTeamGame(getPlayer(), dis.readShort());
                     short check = dis.readShort();
                     if (check != Action.NOTHING)
@@ -748,10 +736,8 @@ public class User implements Runnable {
                     break;
 
                 case Action.START_TEAM_GAME:
-                    if(server.getWillShutDown() == true) {
-                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                    if(server.getWillShutDown() == true)
                         break;
-                    }                    
                     server.startTeamGame();
                     short check1 = dis.readShort();
                     short check2 = dis.readShort();
