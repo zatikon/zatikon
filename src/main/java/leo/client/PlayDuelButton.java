@@ -39,10 +39,14 @@ public class PlayDuelButton extends LeoComponent {
     public boolean clickAt(int x, int y) {
         try {
             Client.getImages().playSound(Constants.SOUND_BUTTON);
-            Client.setComputing(false);
             //Client.getGameData().initialize();
-            Client.getNetManager().requestDuel();
-            Client.getGameData().screenLoading("Searching for an opponent, please wait...");
+            if(Client.getServerWillShutDown() == true) {
+                Client.getGameData().screenLoading("Server is shutting down for an update");
+            } else {
+                Client.setComputing(false);
+                Client.getNetManager().requestDuel();
+                Client.getGameData().screenLoading("Searching for an opponent, please wait...");
+            }
             return true;
         } catch (Exception e) {
             Logger.error("PlayDuelButton.clickAt(): " + e);

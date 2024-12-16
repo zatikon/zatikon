@@ -287,6 +287,7 @@ public interface Action {
     short SET_WINS = -21;
     short SET_LOSSES = -22;
     short PING = -23;
+    short SERVER_WILL_SHUTDOWN = -24;
 
     /////////////////////////////////////////////////////////////////
     // Chat actions

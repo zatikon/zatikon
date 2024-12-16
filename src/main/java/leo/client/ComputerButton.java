@@ -42,7 +42,9 @@ public class ComputerButton extends LeoComponent {
         try {
             Client.getImages().playSound(Constants.SOUND_BUTTON);
             Client.setComputing(false);
-            if (Client.getGameData().getArmy().depleted()) {
+            if(Client.getServerWillShutDown() == true) {
+                Client.getGameData().screenLoading("Server is shutting down for an update");
+            } else if (Client.getGameData().getArmy().depleted()) {
                 Client.getGameData().screenEditCastle();
             } else { //Client.getNetManager().initializeGame();
                 //Client.getGameData().initialize();

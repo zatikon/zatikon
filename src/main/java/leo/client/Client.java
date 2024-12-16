@@ -106,6 +106,7 @@ public class Client {
     private static boolean timeOut = false;
     private static JLabel fbText1 = null;
     private static JLabel fbText2 = null;
+    private static boolean serverWillShutDown = false;
 
     // access
     private static final boolean[] access =
@@ -760,6 +761,13 @@ public class Client {
         messages.add(message);
     }
 
+    public static void setServerWillShutDown(boolean newServerWillShutDown) {
+        serverWillShutDown = newServerWillShutDown;
+    }
+
+    public static boolean getServerWillShutDown() {
+        return serverWillShutDown;
+    }
 
     /////////////////////////////////////////////////////////////////
     // Get text

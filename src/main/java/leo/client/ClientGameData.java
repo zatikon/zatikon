@@ -251,7 +251,7 @@ public class ClientGameData {
     // Set Screen to loading
     /////////////////////////////////////////////////////////////////
     public void screenLoading(String newText) {
-        //System.out.println("screen loading: " + newText);
+        System.out.println("screen loading: " + newText);
         mainBoard.clear();
         loadingPanel = new LoadingPanel();
         loadingPanel.setText(newText);

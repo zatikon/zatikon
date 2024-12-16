@@ -64,7 +64,7 @@ public class User implements Runnable {
         this.server = server;
         chatID = server.getChatID();
         socket = newSocket;
-        runner = new Thread(this, "UserThread");
+        runner = new Thread(this, "UserThread");      
         runner.start();
     }
 
@@ -83,7 +83,6 @@ public class User implements Runnable {
         }
         active = false;
         try {
-            if (chat != null) chat.close();
             socket.close();
         } catch (Exception e) {
             Log.error("User.close " + e);
@@ -105,6 +104,17 @@ public class User implements Runnable {
         }
     }
 
+    /////////////////////////////////////////////////////////////////
+    // Quit
+    /////////////////////////////////////////////////////////////////
+    public void quit() {
+        close();
+        if (player != null) {
+            server.sendText(player, "*** " + player.getChatName() + " has left the game ***");
+            server.remove(player);
+            player.save();
+        }
+    }
 
     /////////////////////////////////////////////////////////////////
     // Send an action
@@ -510,7 +520,7 @@ public class User implements Runnable {
 
                     server.sendState(getPlayer(), Action.CHAT_DISABLE);
 
-                    Thread.sleep(20000);
+                    Thread.sleep(1000);
                     if (!retired) {
                         quit();
                     }
@@ -522,20 +532,6 @@ public class User implements Runnable {
             }
         }
     }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Quit
-    /////////////////////////////////////////////////////////////////
-    public void quit() {
-        close();
-        if (player != null) {
-            server.sendText(player, "*** " + player.getChatName() + " has left the game ***");
-            server.remove(player);
-            player.save();
-        }
-    }
-
 
     /////////////////////////////////////////////////////////////////
     // Interpret the request
@@ -554,11 +550,14 @@ public class User implements Runnable {
                     game.interpretAction(player, request, actor, target);
                     clearIdle();
                 } else {
-                    if(request == Action.PING) {
+                    switch (request) {
+                    case Action.PING:
                         //System.out.println("server received ping");
                         dos.writeShort(Action.PING);
                         dos.writeShort(Action.NOTHING);
                         dos.writeShort(Action.NOTHING);                        
+                        break;
+
                     }
                 }
 
@@ -649,6 +648,10 @@ public class User implements Runnable {
                     break;
 
                 case Action.JOIN:
+                    if(server.getWillShutDown() == true) {
+                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                        break;
+                    }
                     if (initializeGame()) {
                         Log.activity("" + player.getName() + " has entered the lobby.");
                         server.sendState(getPlayer(), Action.CHAT_WAITING_CONS);
@@ -669,7 +672,10 @@ public class User implements Runnable {
                     break;
 
                 case Action.JOIN_DUEL:
-                    if (initializeDuelGame()) {
+                    if(server.getWillShutDown() == true) {
+                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                        break;
+                    } else if (initializeDuelGame()) {
                         server.sendState(getPlayer(), Action.CHAT_WAITING_RAND);
                         Log.activity(player.getName() + " has entered the duel lobby.");
                         waitingGame = Action.CHAT_WAITING_RAND;
@@ -679,7 +685,10 @@ public class User implements Runnable {
                     break;
 
                 case Action.JOIN_MIRRORED_DUEL:
-                    if (initializeMirrDuelGame()) {
+                    if(server.getWillShutDown() == true) {
+                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                        break;
+                    } else if (initializeMirrDuelGame()) {
                         server.sendState(getPlayer(), Action.CHAT_WAITING_RAND);
                         Log.activity(player.getName() + " has entered the mirrored duel lobby.");
                         waitingGame = Action.CHAT_WAITING_RAND;
@@ -690,7 +699,11 @@ public class User implements Runnable {
 
 
                 case Action.PRACTICE:
-                    if (initializePracticeGame()) {
+                    if(server.getWillShutDown() == true) {
+                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                        break;
+                    } else {
+                        initializePracticeGame();
                     }
                     waiting = true;
                     cancelled = false;
@@ -698,7 +711,10 @@ public class User implements Runnable {
 
 
                 case Action.COOPERATIVE:
-                    if (initializeCooperativeGame()) {
+                    if(server.getWillShutDown() == true) {
+                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                        break;
+                    } else if (initializeCooperativeGame()) {
                         server.sendState(getPlayer(), Action.CHAT_WAITING_COOP);
                         waitingGame = Action.CHAT_WAITING_COOP;
                     }
@@ -708,7 +724,10 @@ public class User implements Runnable {
 
 
                 case Action.TEAM:
-                    if (initializeTeamGame()) {
+                    if(server.getWillShutDown() == true) {
+                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                        break;
+                    } else if (initializeTeamGame()) {
                         server.sendState(getPlayer(), Action.CHAT_WAITING_2V2);
                         waitingGame = Action.CHAT_WAITING_2V2;
                     }
@@ -717,6 +736,11 @@ public class User implements Runnable {
                     break;
 
                 case Action.SELECT_TEAM:
+                    if(server.getWillShutDown() == true) {
+                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                        break;
+                    }
+
                     server.addToNextTeamGame(getPlayer(), dis.readShort());
                     short check = dis.readShort();
                     if (check != Action.NOTHING)
@@ -724,6 +748,10 @@ public class User implements Runnable {
                     break;
 
                 case Action.START_TEAM_GAME:
+                    if(server.getWillShutDown() == true) {
+                        //sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                        break;
+                    }                    
                     server.startTeamGame();
                     short check1 = dis.readShort();
                     short check2 = dis.readShort();
@@ -1262,6 +1290,8 @@ public class User implements Runnable {
     // Cancel out
     /////////////////////////////////////////////////////////////////
     public void cancel() throws Exception {
+        //System.out.println("player trying to cancel");
+
         try {
             cancelled = true;
             waiting = false;

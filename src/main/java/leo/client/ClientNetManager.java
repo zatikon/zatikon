@@ -191,9 +191,7 @@ public class ClientNetManager implements Runnable {
     // Check if still connected
     /////////////////////////////////////////////////////////////////
     public void requestPing() {
-        //System.out.println("Client sending ping");
-
-        try { // Send the ping
+        try {
             dos.writeShort(Action.PING);
 
         } catch (Exception e) {
@@ -201,7 +199,6 @@ public class ClientNetManager implements Runnable {
             Client.getGameData().screenDisconnect();
         }
     }
-
 
     /////////////////////////////////////////////////////////////////
     // Main loop
@@ -236,10 +233,10 @@ public class ClientNetManager implements Runnable {
     private void process(short action, short actor, short target) throws Exception {
         try {
 
-            //System.out.println("received: " + action + ", " + actor + ", " + target);
+            System.out.println("received: " + action + ", " + actor + ", " + target);
 
             // If under 30, it's a unit
-            if (action < 30 && Client.getGameData().playing()) {
+            if (action < 30 && action > -1 && Client.getGameData().playing()) {
                 Unit unit = Client.getGameData().getBattleField().getUnitAt(actor);
                 if (unit == null) {
                     Logger.error("process called on a null actor");
@@ -492,6 +489,12 @@ public class ClientNetManager implements Runnable {
                     Client.getGameData().cancelQueue();
                     break;
 
+                case Action.SERVER_WILL_SHUTDOWN:
+                    Client.setServerWillShutDown(true);
+                    //Client.getGameData().screenRoster();
+                    //Client.getGameData().screenMessage("Server is shutting down, can't start a new game.");
+                    break;
+
                 case Action.CLEAR_TEAM:
                     Client.getGameData().getTeamLoadingPanel().clearTeams();
                     break;
@@ -563,7 +566,7 @@ public class ClientNetManager implements Runnable {
 
                 case Action.PING:
                     //System.out.println("Client receiving ping");
-                    break;                    
+                    break;                 
             }
         } catch (Exception e) {
             Logger.error("process: " + action + " " + actor + " " + target + " " + e);

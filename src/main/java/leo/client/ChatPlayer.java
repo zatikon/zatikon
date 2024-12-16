@@ -107,7 +107,7 @@ public class ChatPlayer {
             return getName() + ", " + (rank == 0 ? "Unranked" : "#" + rank + " (Rating: " + getRating() + ")");
             //return getName() + ", " + "#" + rank + " (Rating: " + getRating() + ")";
         else
-            return getName() + " (demo)";
+            return getName() + ", Unranked";
     }
 
 

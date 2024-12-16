@@ -29,9 +29,10 @@ public class LoginServer implements Runnable {
     private final Thread runner;
     private final boolean useTls;
     private ServerSocket serverSocket;
+    private User user = null;
 
     private final Server server;
-
+    private boolean running = true; // Control flag for the main loop
     private boolean ready = false;
 
     /////////////////////////////////////////////////////////////////
@@ -68,14 +69,34 @@ public class LoginServer implements Runnable {
         ready = true;
 
         // Loop indefinitely, accepting socket connections
-        while (true) {
+        while (running) {
             try {
                 Socket socket = serverSocket.accept();
                 Log.system("Connection received at: " + socket.getInetAddress());
-                User user = new User(server, socket);
+                user = new User(server, socket);
                 Thread.sleep(10);
             } catch (Exception e) {
             }
-        }
+        } 
     }
+
+    /////////////////////////////////////////////////////////////////
+    // Stop Method
+    /////////////////////////////////////////////////////////////////
+    public void stop() {
+        Log.system("Stopping login server...");
+        running = false;
+        try {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close(); // Interrupts the accept() call
+            }
+        } catch (IOException e) {
+            Log.error("Error closing server socket during stop: " + e.getMessage());
+        }
+        try {
+            runner.join(); // Wait for the thread to finish
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore interrupt status
+        }
+    }    
 }

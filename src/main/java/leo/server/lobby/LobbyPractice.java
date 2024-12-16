@@ -34,7 +34,7 @@ public class LobbyPractice implements Runnable {
     private final Stack<Player> removes = new Stack<Player>();
     private final int tutorial_level = 1;
     private final Server server;
-
+    private boolean running = true; // Control flag for the main loop
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -50,7 +50,7 @@ public class LobbyPractice implements Runnable {
     // Add a player to the lobby
     /////////////////////////////////////////////////////////////////
     public void add(Player newPlayer) {
-        players.add(newPlayer);
+            players.add(newPlayer);
     }
 
 
@@ -58,7 +58,7 @@ public class LobbyPractice implements Runnable {
     // Main thread
     /////////////////////////////////////////////////////////////////
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 for (int i = 0; i < players.size(); i++) {
                     Player player = players.elementAt(i);
@@ -99,4 +99,18 @@ public class LobbyPractice implements Runnable {
     public void remove(Player player) {
         removes.add(player);
     }
+
+    /////////////////////////////////////////////////////////////////
+    // Stop the lobby thread
+    /////////////////////////////////////////////////////////////////
+    public void stop() {
+        Log.system("Stopping lobbyPractice thread...");
+        running = false; // Stop the loop
+        runner.interrupt(); // Interrupt the thread if it's sleeping
+        try {
+            // Optionally clear any resources or reset state if needed
+        } catch (Exception e) {
+            Log.error("Error while stopping the lobbyPractice thread: " + e);
+        }
+    }     
 }
