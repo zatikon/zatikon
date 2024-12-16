@@ -1752,9 +1752,12 @@ public class Unit {
                 break;
 
             case Action.GROW_RELIC_FLYING:
-
                 if (getMaxRange() <= 1) {
-                    setMove(new ActionMove(this, (byte) 1, (byte) 0, TargetType.LOCATION_LINE_JUMP, (byte) 3));
+                    if(id == UnitType.GATE_GUARD.value()) {
+                        setMove(new ActionMoveCastle(this, (byte) 1, (byte) 0, TargetType.LOCATION_LINE_JUMP, (byte) 3));
+                    } else {    
+                        setMove(new ActionMove(this, (byte) 1, (byte) 0, TargetType.LOCATION_LINE_JUMP, (byte) 3));
+                    }
                 } else {
                     setMove(new ActionMove(this, (byte) 1, (byte) 0, TargetType.LOCATION_LINE_JUMP, (byte) 2));
                 }

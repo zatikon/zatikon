@@ -1344,6 +1344,8 @@ public class User implements Runnable {
     // Check idle
     /////////////////////////////////////////////////////////////////
     public void checkIdle() {
+        if(Client.standalone)
+            return;
         idling += 100;
 
         // If waiting for a game, takes longer to idle
