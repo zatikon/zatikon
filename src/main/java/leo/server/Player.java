@@ -13,6 +13,11 @@ import leo.shared.*;
 import java.io.*;
 import java.util.Date;
 import java.util.Vector;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.util.Map;
+//import java.util.HashMap;
+import java.util.Iterator;
 
 public class Player {
 
@@ -78,7 +83,7 @@ public class Player {
             castleArchives[i] = new CastleArchive(archiveName);
         }
         try {
-            dbm.insert(name, passwordHashed, salt, getRating(), toBytes(), email);
+            dbm.insert(name, passwordHashed, salt, getRating(), toBytes(), email, toJson());
         } catch (Exception e) {
             Log.error("Player.constructor " + e);
         }
@@ -96,20 +101,109 @@ public class Player {
     public Player(DatabaseManager dbm, String username) throws Exception {
         this.dbm = dbm;
         try {
-            byte[] buf;
+            byte[] buf = null;
 
-            buf = getPlayerBytes(dbm, username);
-            if (buf == null) return;
+            // risky override!
+            name = username;
+
             email = dbm.getEmail(username);
             salt = dbm.getSalt(username);
             passwordHashed = dbm.getPasswordHashed(username);
+            eloRating = dbm.getRating(username);
+
+            //buf = getPlayerBytes(dbm, username);
+            Map<String, Object> playerData = getPlayerBytes(dbm, username);
+            if (playerData == null) return;
+
+            // Get json_data as a String and convert it to JSONObject
+            String jsonData = (String) playerData.get("json_data");
+            Log.activity("loaded json: " + jsonData); 
+            if (jsonData != null) {
+                JSONObject jsonObject = new JSONObject(jsonData);
+                // Read the json if it is not empty.
+                if (!jsonObject.isEmpty()) {
+
+                    int version = jsonObject.optInt("version", 0);
+                    winsToLower = jsonObject.optInt("winsToLower", 0);
+                    wins = jsonObject.optInt("wins", 0);
+                    lossesToHigher = jsonObject.optInt("lossesToHigher", 0);
+                    losses = jsonObject.optInt("losses", 0);
+                    gamesPlayed = jsonObject.optInt("gamesPlayed", 0);
+
+                    // AI stuff
+                    computerWins = jsonObject.optInt("computerWins", 0);
+                    computerLosses = jsonObject.optInt("computerLosses", 0);
+
+                    gold = jsonObject.optLong("gold", 0L);
+                    goldStamp = jsonObject.optLong("goldStamp", 0L);
+
+                    JSONArray currentCastleArray = jsonObject.getJSONArray("currentCastle");
+                    if (currentCastleArray != null) {
+                        for (int i = 0; i < currentCastleArray.length(); i++) {
+                            short unitId = (short) currentCastleArray.getInt(i); // Get each unit ID
+                            getStartingCastle().add(Unit.getUnit(unitId, getStartingCastle()));
+                        }
+                    }             
+
+                    // Retrieve the unlocked units object from the JSON
+                    JSONObject unlockedUnitsObject = jsonObject.getJSONObject("unlockedUnits");
+
+                    // Iterate through the keys and restore the units data
+                    Iterator<String> keys = unlockedUnitsObject.keys();
+                    while (keys.hasNext()) {
+                        String unitID = keys.next();
+                        short count = (short) unlockedUnitsObject.getInt(unitID);
+
+                        // Restore the unit data (e.g., in your units array)
+                        units[Short.parseShort(unitID)] = count;
+                    }
+
+                    // Get the castleArchives JSON object from the main JSON object
+                    JSONArray castleArchivesArray = jsonObject.optJSONArray("castleArchives");
+
+                    if(castleArchivesArray == null) {
+                        for (int i = 0; i < 10; i++) {
+                            castleArchives[i] = new CastleArchive("");
+                        }
+                    } else {
+                        // Iterate over the array of castle archives
+                        for (int i = 0; i < 10; i++) {
+                            JSONObject archiveObject = castleArchivesArray.optJSONObject(i);
+
+                            if (archiveObject != null) {
+                                // Retrieve the archive name and units array
+                                String archiveName = archiveObject.optString("archiveName", "");
+                                JSONArray archiveUnitsArray = archiveObject.optJSONArray("units");
+
+                                // Initialize the castle archive with the name
+                                castleArchives[i] = new CastleArchive(archiveName);
+
+                                // Iterate through the units in the array
+                                if(archiveUnitsArray != null) {
+                                    for (int a = 0; a < archiveUnitsArray.length(); a++) {
+                                        short archiveID = (short) archiveUnitsArray.optInt(a);  // Convert to short and add to the archive
+                                        castleArchives[i].add(archiveID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                loaded = true;
+                return;
+                } else { //use the old data
+                    buf = (byte[]) playerData.get("data");
+                    if (buf == null) return;
+                }
+            } else {  // Get the buf (player data) if json_data is empty
+                buf = (byte[]) playerData.get("data");
+                if (buf == null) return;
+            }
 
             ByteArrayInputStream bais = new ByteArrayInputStream(buf);
             DataInputStream dis = new DataInputStream(bais);
 
             int version = dis.readInt();
-
-            name = username;
+  
             dis.readUTF(); // discard username (backwards compat)
             dis.readUTF(); // discard password (same)
             winsToLower = dis.readInt();
@@ -172,16 +266,13 @@ public class Player {
    gold+=(losses*100);
    gold+=(computerWins*50);
 */
-            // risky override!
-            name = username;
-
             dis.close();
             bais.close();
             loaded = true;
 
             // wipe, this should be commented out
             //save();
-            eloRating = dbm.getRating(name);
+            
             //if(filename.equalsIgnoreCase("test")){eloRating = 1600;}
             //if(filename.equalsIgnoreCase("tes")){eloRating = 1400;}
         } catch (Exception e) {
@@ -215,10 +306,27 @@ public class Player {
         }
     }
 
+    ///////////////////////////////////////////////////////////////
+    // Get bytes and json_data from db
+    ///////////////////////////////////////////////////////////////
+    public Map<String, Object> getPlayerBytes(String filename) throws Exception {
+        return getPlayerBytes(dbm, filename);
+    }
+
+    public Map<String, Object> getPlayerBytes(DatabaseManager db, String filename) throws Exception {
+        try {
+            return db.getPlayer(filename);  // Call the updated getPlayer method
+        } catch (Exception e) {
+            Log.error("Player.getPlayerBytes");
+            throw e;
+        }
+    }
+
 
     /////////////////////////////////////////////////////////////////
-    // Get bytes from db
+    // Get bytes from db - OLD
     /////////////////////////////////////////////////////////////////
+    /*
     public byte[] getPlayerBytes(String filename) throws Exception {
         return getPlayerBytes(dbm, filename);
     }
@@ -230,7 +338,7 @@ public class Player {
             Log.error("Player.getPlayerBytes");
             throw e;
         }
-    }
+    }*/
 
 
     /////////////////////////////////////////////////////////////////
@@ -249,11 +357,87 @@ public class Player {
 
             // update the database
             byte[] buf = toBytes();
-            dbm.update(name, passwordHashed, salt, getRating(), buf, email);
+            String jsonData = toJson();
+            Log.activity("json: " + jsonData); 
+            dbm.update(name, passwordHashed, salt, getRating(), buf, email, jsonData);
 
         } catch (Exception e) {
             Log.error("Player.save " + e);
         }
+    }
+
+    public String toJson() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("version", VERSION);
+            jsonObject.put("winsToLower", winsToLower);
+            jsonObject.put("wins", wins);
+            jsonObject.put("lossesToHigher", lossesToHigher);
+            jsonObject.put("losses", losses);
+            jsonObject.put("gamesPlayed", gamesPlayed);
+
+            // AI stuff
+            jsonObject.put("computerWins", computerWins);
+            jsonObject.put("computerLosses", computerLosses);
+
+            jsonObject.put("gold", gold);
+            jsonObject.put("goldStamp", goldStamp);
+
+             // Send the barracks
+            JSONArray currentCastleArray = new JSONArray();
+            Vector<UndeployedUnit> barracks = startingCastle.getBarracks();
+            for (int i = 0; i < barracks.size(); i++) {
+                UndeployedUnit unit = barracks.get(i);  // Using get(i) instead of elementAt(i)
+                for (int c = 0; c < unit.count(); c++) {
+                    currentCastleArray.put(unit.getID());  // Add each unit ID to the array
+                }
+            }
+            jsonObject.put("currentCastle", currentCastleArray);
+
+
+            // Create a JSONObject to store the unlocked units
+            JSONObject unlockedUnitsObject = new JSONObject();
+
+            // Iterate through the units array and add the unit ID and count to the JSON object
+            for (short i = 0; i < units.length; i++) {
+                if (units[i] > 0) {
+                    unlockedUnitsObject.put(String.valueOf(i), units[i]);  // Add unit ID as key, count as value
+                }
+            }
+            jsonObject.put("unlockedUnits", unlockedUnitsObject);
+
+            // Create a JSONArray to store all castle archives
+            JSONArray castleArchivesArray = new JSONArray();
+
+            // Iterate through the castle archives and add them to the JSON array
+            for (int i = 0; i < 10; i++) {
+                JSONObject archiveObject = new JSONObject();
+                String archiveName = castleArchives[i].getName();
+                JSONArray archiveUnitsArray = new JSONArray();
+
+                // Add the units in the archive to the JSONArray
+                for (int a = 0; a < castleArchives[i].size(); a++) {
+                    archiveUnitsArray.put(castleArchives[i].get(a));  // Add unit ID to the array
+                }
+
+                // Set the archive name and units array in the archive object
+                archiveObject.put("archiveName", archiveName);
+                archiveObject.put("units", archiveUnitsArray);
+
+                // Add the archive object to the main JSONArray
+                castleArchivesArray.put(archiveObject);
+            }
+
+            // Add the castleArchivesObject to the main JSON object
+            jsonObject.put("castleArchives", castleArchivesArray);
+
+            // Convert to string and return
+            return jsonObject.toString();
+        } catch (Exception e) {
+            Log.error("Player.toJson " + e);
+        }
+    return null;        
     }
 
     /////////////////////////////////////////////////////////////////
@@ -502,6 +686,8 @@ public class Player {
     }
 
     public int getRank() {
+        if(gamesPlayed == 0)
+            return 0;
         return dbm.getRank(getRating());
     }
 

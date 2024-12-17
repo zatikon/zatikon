@@ -22,6 +22,8 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
+import java.util.HashMap;
 
 public class DatabaseManager {
 
@@ -68,6 +70,7 @@ public class DatabaseManager {
                       `keycodeLegions` varchar(64) default NULL,
                       `keycodeInquisition` varchar(64) default NULL,
                       `joined` varchar,
+                      `jsonData` json NOT NULL defaul '{}',
                       PRIMARY KEY  (`username`)
                     )""");
 
@@ -86,17 +89,19 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     // save a player
     /////////////////////////////////////////////////////////////////
-    public void update(String username, String hashedPassword, byte[] salt, int rating, byte[] buf, String email) throws Exception {
+    public void update(String username, String hashedPassword, byte[] salt, int rating, byte[] buf, String email, String jsonData) throws Exception {
         try {
+            //Log.activity("saving json: " + jsonData);
             // open a connection
             //Connection connection = initialize();
 
-            PreparedStatement ps = connection.prepareStatement("UPDATE players SET `rating` = ?, `data` = ?, `email` = ?, `password` = ?, `salt` = ? WHERE `username` = ?");
+            PreparedStatement ps = connection.prepareStatement("UPDATE players SET `rating` = ?, `email` = ?, `password` = ?, `salt` = ?, `jsonData` = ? WHERE `username` = ?");
             ps.setInt(1, rating);
-            ps.setObject(2, buf);
-            ps.setString(3, email);
-            ps.setString(4, hashedPassword);
-            ps.setBytes(5, salt);
+            //ps.setObject(2, buf);
+            ps.setString(2, email);
+            ps.setString(3, hashedPassword);
+            ps.setBytes(4, salt);
+            ps.setString(5, jsonData);
             ps.setString(6, username);
             ps.execute();
             ps.close();
@@ -136,7 +141,7 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     // insert a new player
     /////////////////////////////////////////////////////////////////
-    public void insert(String username, String hashedPassword, byte[] salt, int rating, byte[] buf, String email) throws Exception { //if (!validEmail(email)) return;
+    public void insert(String username, String hashedPassword, byte[] salt, int rating, byte[] buf, String email, String jsonData) throws Exception { //if (!validEmail(email)) return;
         try {
             //ByteArrayInputStream bais = new ByteArrayInputStream(buf);
 
@@ -144,7 +149,7 @@ public class DatabaseManager {
             //Connection connection = initialize();
 
             // TODO replace datetime with Java code
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO players VALUES (?, ?, ?, ?, ?, NULL, ?, NULL, NULL, datetime())");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO players VALUES (?, ?, ?, ?, ?, NULL, ?, NULL, NULL, datetime(), ?)");
             ps.setString(1, username);
             ps.setString(2, hashedPassword);
             ps.setBytes(3, salt);
@@ -152,6 +157,7 @@ public class DatabaseManager {
             //ps.setBinaryStream (5, bais, buf.length);
             ps.setObject(5, buf);
             ps.setString(6, email);
+            ps.setString(7, jsonData);
             ps.execute();
             ps.close();
 
@@ -202,7 +208,8 @@ public class DatabaseManager {
 
             Statement statement = connection.createStatement();
             //String q = "SELECT username,rating FROM players WHERE keycode IS NOT NULL ORDER BY RATING DESC LIMIT 0,20";
-            String q = "SELECT `username`, `rating` FROM `players` WHERE `rating` != 1000 ORDER BY `rating` DESC LIMIT 0,20";
+            //String q = "SELECT `username`, `rating` FROM `players` WHERE `rating` != 1000 ORDER BY `rating` DESC LIMIT 0,20";
+            String q = "SELECT `username`, `rating` FROM `players` WHERE json_extract(`jsonData`, '$.gamesPlayed') != 0 ORDER BY `rating` DESC LIMIT 20";
             statement.execute(q);
             ResultSet rs = statement.getResultSet();
 
@@ -283,12 +290,13 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     // Get the player data
     /////////////////////////////////////////////////////////////////
-    public byte[] getPlayer(String name) throws Exception {
+    public Map<String, Object> getPlayer(String name) throws Exception {
+        Map<String, Object> result = new HashMap<>(); // Declaration of result map
         byte[] buf = null;
         try { // open a connection
             //Connection connection = initialize();
 
-            PreparedStatement ps = connection.prepareStatement("SELECT `data` FROM `players` WHERE `username` = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT `data`, `jsonData` FROM `players` WHERE `username` = ?");
             ps.setString(1, name);
             ps.execute();
 
@@ -305,6 +313,11 @@ public class DatabaseManager {
                 baos.close();
                 is.close();
                 buf = baos.toByteArray();
+                result.put("data", buf);  // backward compatibility
+
+                // Retrieve JSON data
+                String jsonData = rs.getString("jsonData");
+                result.put("jsonData", jsonData);                
             }
             rs.close();
             ps.close();
@@ -314,7 +327,7 @@ public class DatabaseManager {
             Log.error("DatabaseManager.getPlayer");
             throw e;
         }
-        return buf;
+        return result;
     }
 
     public List<String> getPlayerList() throws Exception {
@@ -523,16 +536,18 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     public int getRank(int rating) {
         int rank = 0;
-        if (rating == 1000) {
-            return 0;
-        }
+        //if (rating == 1000) {
+        //    return 0;
+        //}
         try {
             // open a connection
             //Connection connection = initialize();
 
             Statement statement = connection.createStatement();
             //statement.execute("select count(*) + 1 as rank from players where rating > " + rating + " and keycode is not null");
-            statement.execute("SELECT count(*) + 1 as rank FROM players WHERE rating > " + rating + " AND rating != 1000");
+            //statement.execute("SELECT count(*) + 1 as rank FROM players WHERE rating > " + rating + " AND rating != 1000");
+            statement.execute("SELECT count(*) + 1 as rank FROM players WHERE rating > " + rating + " AND json_extract(jsonData, '$.gamesPlayed') != 0");
+
             ResultSet rs = statement.getResultSet();
 
             while (rs.next()) {
