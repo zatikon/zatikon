@@ -2610,6 +2610,34 @@ public class GameMedia {
         return grayedImages[image];
     }
 
+    public Image getTeamIcon(int team) {
+        short selectedImage = Constants.IMG_LOCKDOWN_3;
+        switch (team) {
+            case 2:
+                selectedImage = Constants.IMG_BIG_POOF_3;
+                break;
+            case 3:
+                selectedImage = Constants.IMG_STAR;
+                break;
+            case 4:
+                selectedImage = Constants.IMG_TARGET_10;
+                break;
+        }
+
+        Image icon = getImage(selectedImage);
+        icon = icon.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        /*
+        BufferedImage baseImage = (BufferedImage) image;
+        Graphics2D g2d = baseImage.createGraphics();
+
+        int x = baseImage.getWidth() - icon.getWidth(null);
+        int y = baseImage.getHeight() - icon.getHeight(null);
+        g2d.drawImage(icon, x, y, null);
+        g2d.dispose();*/
+
+        return icon;
+    }
+
     /////////////////////////////////////////////////////////////////
     // Get a prerotated image
     /////////////////////////////////////////////////////////////////
