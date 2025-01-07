@@ -376,16 +376,18 @@ public class BattleField {
             y += byY;
             short location = BattleField.getLocation(x, y);
             Unit obstacle = getUnitAt(location);
-            // exception for moving onto powerups
-            if (obstacle != null)
-                if (selectionType == TargetType.MOVE && obstacle.isPowerUp())
-                    addTarget(targets, location);
-            ////////////////////////////////////////
-            if (x >= 0 && x < Constants.BOARD_SIZE && y >= 0 && y < Constants.BOARD_SIZE)
+            // make sure it is on the board and not wrapping to the other side
+            if (x >= 0 && x < Constants.BOARD_SIZE && y >= 0 && y < Constants.BOARD_SIZE) {
+                // exception for moving onto powerups, 
+                if (obstacle != null)
+                    if (selectionType == TargetType.MOVE && obstacle.isPowerUp())
+                        addTarget(targets, location);
+
                 if ((location != unit.getCastle().getLocation() || units) && (obstacle == null && locations) || (obstacle != null && units))
                     if ((obstacle == null) || (obstacle != null && obstacle.targetable(unit) && (organic == obstacle.getOrganic(unit) || inorganic != obstacle.getOrganic(unit)) &&
                             (selectionType == TargetType.BOTH || obstacle.getID() == UnitType.ROCK.value() || (selectionType == TargetType.FRIENDLY && obstacle.getCastle() == castle) || (selectionType == TargetType.ENEMY && obstacle.getCastle() != castle))))
                         addTarget(targets, location);
+            }
 
             // If they don't jump, give them what they've got so far (unless obstacle is a powerup)
             if (!jumps && obstacle != null && !obstacle.isPowerUp()) return targets;
