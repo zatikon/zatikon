@@ -74,29 +74,40 @@ public class RosterPanel extends LeoContainer {
         // Constants.SCREEN_HEIGHT - (Constants.OFFSET*2));
 
 
-        BlogButton bb = new BlogButton(699, 37, 91, 17);
+        BlogButton bb = new BlogButton(699, 14, 91, 19); //37
         add(bb);
-        GuideButton gb = new GuideButton(699, 87, 91, 17);
+        GuideButton gb = new GuideButton(699, 43, 91, 19); //87
         add(gb);
-        ForumButton fb = new ForumButton(699, 137, 91, 17);
+        ForumButton fb = new ForumButton(699, 72, 91, 19);
         add(fb);
-        ExitButton eb = new ExitButton(699, 187, 91, 17);
+        ExitButton eb = new ExitButton(699, 101, 91, 19);
         add(eb);
 
-        ScoresButton sb = new ScoresButton(699, 276, 91, 17);
+        ScoresButton sb = new ScoresButton(699, 130, 91, 19); //276
         add(sb);
-        AccountButton ab = new AccountButton(699, 326, 91, 17);
+        AccountButton ab = new AccountButton(699, 159, 91, 19);
         add(ab);
-        ReferButton rb = new ReferButton(699, 376, 91, 17);
+        ReferButton rb = new ReferButton(699, 188, 91, 19);
         add(rb);
-        CreditsButton cb = new CreditsButton(699, 426, 91, 17);
+        CreditsButton cb = new CreditsButton(699, 217, 91, 19); //217
         add(cb);
 
-        MuteButton mb = new MuteButton(718, 500, 54, 34);
+        SettingsButton tb = new SettingsButton(699, 276, 91, 19, Constants.IMG_TEAM_ICONS_BUTTON, "teamIcon");
+        add(tb);        
+
+        MuteButton mb = new MuteButton(718, 480, 54, 34);
         add(mb);
+        SettingsButton mib = new SettingsButton(725, 515, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
+        add(mib);
+        SettingsButton psb = new SettingsButton(745, 515, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
+        add(psb);        
+
         MusicButton msb = new MusicButton(718, 545, 54, 34);
         add(msb);
-
+        SettingsButton mmb = new SettingsButton(725, 580, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
+        add(mmb);
+        SettingsButton pmb = new SettingsButton(745, 580, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
+        add(pmb);         
 
         // Create the buttons
         int buttonX = 5; //(Constants.SCREEN_WIDTH / 7) - 1;

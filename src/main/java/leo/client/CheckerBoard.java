@@ -606,20 +606,22 @@ public class CheckerBoard extends LeoComponent {
                     }
 
                     //draw team icon
-                    if (unit.getCastle() == Client.getGameData().getMyCastle()) {
-                        if (unit.getTeam() == Unit.TEAM_2) {
-                            g.drawImage(Client.getImages().getTeamIcon(2), x * Constants.SQUARE_SIZE + getScreenX() + stepX, y * Constants.SQUARE_SIZE + getScreenY() + stepY, mainFrame);
+                    if(Client.getShowTeamIcons()) {
+                        if (unit.getCastle() == Client.getGameData().getMyCastle()) {
+                            if (unit.getTeam() == Unit.TEAM_2) {
+                                g.drawImage(Client.getImages().getTeamIcon(2), x * Constants.SQUARE_SIZE + getScreenX() + stepX + Constants.SQUARE_SIZE - 15, y * Constants.SQUARE_SIZE + getScreenY() + stepY + Constants.SQUARE_SIZE - 15, mainFrame);
+                            } else {
+                                g.drawImage(Client.getImages().getTeamIcon(1), x * Constants.SQUARE_SIZE + getScreenX() + stepX + Constants.SQUARE_SIZE - 15, y * Constants.SQUARE_SIZE + getScreenY() + stepY + Constants.SQUARE_SIZE - 15, mainFrame);
+                            }
                         } else {
-                            g.drawImage(Client.getImages().getTeamIcon(1), x * Constants.SQUARE_SIZE + getScreenX() + stepX, y * Constants.SQUARE_SIZE + getScreenY() + stepY, mainFrame);
+                            if (unit.getTeam() == Unit.TEAM_2) {
+                                g.drawImage(Client.getImages().getTeamIcon(4), x * Constants.SQUARE_SIZE + getScreenX() + stepX + Constants.SQUARE_SIZE - 15, y * Constants.SQUARE_SIZE + getScreenY() + stepY + Constants.SQUARE_SIZE - 15, mainFrame);
+                            }
+                            else {
+                                g.drawImage(Client.getImages().getTeamIcon(3), x * Constants.SQUARE_SIZE + getScreenX() + stepX + Constants.SQUARE_SIZE - 15, y * Constants.SQUARE_SIZE + getScreenY() + stepY + Constants.SQUARE_SIZE - 15, mainFrame);
+                            }
                         }
-                    } else {
-                        if (unit.getTeam() == Unit.TEAM_2) {
-                            g.drawImage(Client.getImages().getTeamIcon(4), x * Constants.SQUARE_SIZE + getScreenX() + stepX, y * Constants.SQUARE_SIZE + getScreenY() + stepY, mainFrame);
-                        }
-                        else {
-                            g.drawImage(Client.getImages().getTeamIcon(3), x * Constants.SQUARE_SIZE + getScreenX() + stepX, y * Constants.SQUARE_SIZE + getScreenY() + stepY, mainFrame);
-                        }
-                    }                    
+                    }                   
                 }
 
                 if (unit.getLink() != null) {

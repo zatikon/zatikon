@@ -893,10 +893,17 @@ public static final int IMG_NEWUNIT11_ENEMY  = 478;*/
 
     public static final int IMG_END_GAME_VICTORY = 703;
     public static final int IMG_END_GAME_DEFEAT = 704;
+    public static final int IMG_TEAM_ICON_1 = 705;
+    public static final int IMG_TEAM_ICON_2 = 706;
+    public static final int IMG_TEAM_ICON_3 = 707;
+    public static final int IMG_TEAM_ICON_4 = 708;
 
+    public static final int IMG_TEAM_ICONS_BUTTON = 709;
+    public static final int IMG_PLUS_BUTTON = 710;
+    public static final int IMG_MINUS_BUTTON = 711;
 
     //  Lastly...
-    public static final int IMG_COUNT = 705;
+    public static final int IMG_COUNT = 712;
 
     ////////////////////////////////////////////////////
     // Sounds

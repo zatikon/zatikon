@@ -29,6 +29,9 @@ public class Settings {
     private boolean musicstate = false;
     private boolean soundstate = false;
     private String password = "";
+    private boolean teamIconsState = false;
+    private Short musicvolume = 5;
+    private Short soundvolume = 5;
 
     private static final String SETTINGS_PATH = Constants.LOCAL_DIR + "/settings.toml";
 
@@ -54,7 +57,9 @@ public class Settings {
             config.set("username", username);
             config.set("musicstate", musicstate);
             config.set("soundstate", soundstate);
-
+            config.set("teamIconsState", teamIconsState);
+            config.set("musicvolume", musicvolume);
+            config.set("soundvolume", soundvolume);
             // Write obfuscated password
             byte[] obfuscatedPassword = xorObfuscate(password.getBytes());
             String base64Password = Base64.getEncoder().encodeToString(obfuscatedPassword);
@@ -78,6 +83,9 @@ public class Settings {
                 username = config.getOrElse("username", username);
                 musicstate = config.getOrElse("musicstate", musicstate);
                 soundstate = config.getOrElse("soundstate", soundstate);
+                teamIconsState = config.getOrElse("teamIconsState", teamIconsState);
+                musicvolume = config.getOrElse("musicvolume", musicvolume);
+                soundvolume = config.getOrElse("soundvolume", soundvolume);
 
                 // Read obfuscated value
                 String passwordBase64 = config.getOrElse("password", password);
@@ -119,6 +127,14 @@ public class Settings {
     public void setMusicState(boolean state) {
         musicstate = state;
     }
+    
+    public Short getMusicVolume() {
+        return musicvolume;
+    }
+
+    public void setMusicVolume(Short state) {
+        musicvolume = state;
+    }
 
     public boolean getSoundState() {
         return soundstate;
@@ -126,6 +142,22 @@ public class Settings {
 
     public void setSoundState(boolean state) {
         soundstate = state;
+    }
+
+    public Short getSoundVolume() {
+        return soundvolume;
+    }
+    
+    public void setSoundVolume(Short state) {
+        soundvolume = state;
+    }      
+
+    public boolean getTeamIconsState() {
+        return teamIconsState;
+    }
+
+    public void setTeamIconsState(boolean state) {
+        teamIconsState = state;
     }
 
     public String getUserPassword() {

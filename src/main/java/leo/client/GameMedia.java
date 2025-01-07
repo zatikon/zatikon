@@ -310,6 +310,13 @@ public class GameMedia {
             url = artLoader.getResource(Constants.ART_LOC + "waiting_teamicon.png");
             images[Constants.IMG_WAITING_TEAM_ICON] = ImageIO.read(url);
 
+            url = artLoader.getResource(Constants.ART_LOC + "team_icons.png");
+            images[Constants.IMG_TEAM_ICONS_BUTTON] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "plus.png");
+            images[Constants.IMG_PLUS_BUTTON] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "minus.png");
+            images[Constants.IMG_MINUS_BUTTON] = ImageIO.read(url);             
+
         } catch (Exception e) {
             Logger.error("preload: " + url + " " + e);
         }
@@ -2295,7 +2302,16 @@ public class GameMedia {
             images[Constants.IMG_SHIELD_1] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "shield2.png");
             images[Constants.IMG_SHIELD_2] = ImageIO.read(url);
-  
+
+            url = artLoader.getResource(Constants.ART_LOC + "team_icon_1.png");
+            images[Constants.IMG_TEAM_ICON_1] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "team_icon_2.png");
+            images[Constants.IMG_TEAM_ICON_2] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "team_icon_3.png");
+            images[Constants.IMG_TEAM_ICON_3] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "team_icon_4.png");
+            images[Constants.IMG_TEAM_ICON_4] = ImageIO.read(url);                    
+
   /*
   url = artLoader.getResource(Constants.ART_LOC + "endGameScreenVictory.jpg");
   images[Constants.IMG_END_GAME_VICTORY] = ImageIO.read(url);
@@ -2611,21 +2627,21 @@ public class GameMedia {
     }
 
     public Image getTeamIcon(int team) {
-        short selectedImage = Constants.IMG_LOCKDOWN_3;
+        short selectedImage = Constants.IMG_TEAM_ICON_1;
         switch (team) {
             case 2:
-                selectedImage = Constants.IMG_BIG_POOF_3;
+                selectedImage = Constants.IMG_TEAM_ICON_2;
                 break;
             case 3:
-                selectedImage = Constants.IMG_STAR;
+                selectedImage = Constants.IMG_TEAM_ICON_3;
                 break;
             case 4:
-                selectedImage = Constants.IMG_TARGET_10;
+                selectedImage = Constants.IMG_TEAM_ICON_4;
                 break;
         }
 
         Image icon = getImage(selectedImage);
-        icon = icon.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        //icon = icon.getScaledInstance(17, 17, Image.SCALE_SMOOTH);
         /*
         BufferedImage baseImage = (BufferedImage) image;
         Graphics2D g2d = baseImage.createGraphics();
