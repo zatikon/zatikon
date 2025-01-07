@@ -95,18 +95,18 @@ public class RosterPanel extends LeoContainer {
         SettingsButton tb = new SettingsButton(699, 276, 91, 19, Constants.IMG_TEAM_ICONS_BUTTON, "teamIcon");
         add(tb);        
 
-        MuteButton mb = new MuteButton(718, 480, 54, 34);
+        MuteButton mb = new MuteButton(718, 482, 54, 34);
         add(mb);
-        SettingsButton mib = new SettingsButton(725, 515, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
+        SettingsButton mib = new SettingsButton(725, 517, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
         add(mib);
-        SettingsButton psb = new SettingsButton(745, 515, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
+        SettingsButton psb = new SettingsButton(745, 517, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
         add(psb);        
 
-        MusicButton msb = new MusicButton(718, 545, 54, 34);
+        MusicButton msb = new MusicButton(718, 540, 54, 34);
         add(msb);
-        SettingsButton mmb = new SettingsButton(725, 580, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
+        SettingsButton mmb = new SettingsButton(725, 575, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
         add(mmb);
-        SettingsButton pmb = new SettingsButton(745, 580, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
+        SettingsButton pmb = new SettingsButton(745, 575, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
         add(pmb);         
 
         // Create the buttons
