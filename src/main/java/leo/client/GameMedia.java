@@ -2637,6 +2637,9 @@ public class GameMedia {
         return rotatedImages[image];
     }
 
+    public int getSoundCount() {
+        return soundCount;
+    }
 
     public void soundStarted() {
         ++soundCount;
