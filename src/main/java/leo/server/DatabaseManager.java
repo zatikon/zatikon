@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class DatabaseManager {
 
@@ -70,7 +71,7 @@ public class DatabaseManager {
                       `keycodeLegions` varchar(64) default NULL,
                       `keycodeInquisition` varchar(64) default NULL,
                       `joined` varchar,
-                      `jsonData` json NOT NULL defaul '{}',
+                      `jsonData` json NOT NULL default '{}',
                       PRIMARY KEY  (`username`)
                     )""");
 
@@ -213,17 +214,48 @@ public class DatabaseManager {
             statement.execute(q);
             ResultSet rs = statement.getResultSet();
 
-            scores.append("<center><b>Top 20 Players</b></center>");
-            scores.append("<ol style='padding-left: 0; margin-left: 10px;'>");
+            // Store the Top 20 Players in a list
+            ArrayList<String> topPlayers = new ArrayList<>();
             while (rs.next()) {
-                scores.append("<li>");
-                scores.append(rs.getString("username"));
-                scores.append(": " + rs.getString("rating"));
-                scores.append("</li>");
+                topPlayers.add(rs.getString("username") + ": " + rs.getString("rating"));
             }
-            scores.append("</ol>");
-
             rs.close();
+
+            q = "SELECT `username`, (json_extract(jsonData, '$.computerWins') - json_extract(jsonData, '$.computerLosses') / 2) AS rating FROM `players` ORDER BY rating DESC LIMIT 20";
+            statement.execute(q);
+            rs = statement.getResultSet();
+
+            // Store the AI Top 20 Players in a list
+            ArrayList<String> aiPlayers = new ArrayList<>();
+            while (rs.next()) {
+                aiPlayers.add(rs.getString("username") + ": " + (rs.getString("rating") + 1));
+            }
+            rs.close();
+
+            //scores.append("<table style='width: 100%;'>"); // border-spacing: 10px;
+            scores.append("<table style='width: 100%; border-spacing: 0px; border-collapse: collapse;'>"); //font-size: 12px;
+            scores.append("<tr><td style='padding: 0px; padding-right: 15px; text-align: left;'><b>PvP Top 20 Players</b></td><td style='padding: 0px; text-align: left;'><b>AI Top 20 Players</b></td></tr>");
+            // Ensure both lists have the same number of rows
+            int maxRows = Math.max(topPlayers.size(), aiPlayers.size());
+            for (int i = 0; i < maxRows; i++) {
+                scores.append("<tr>");
+                // Add Top 20 Player
+                scores.append("<td style='padding: 0px; text-align: left;'>");
+                if (i < topPlayers.size()) {
+                    scores.append((i + 1) + ". " + topPlayers.get(i));
+                }
+                scores.append("</td>");
+                // Add AI Top 20 Player
+                scores.append("<td style='padding: 0px; text-align: left;'>");
+                if (i < aiPlayers.size()) {
+                    scores.append((i + 1) + ". " + aiPlayers.get(i));
+                }
+                scores.append("</td>");
+                scores.append("</tr>");
+            }
+
+            scores.append("</table>");
+
 
             //connection.close();
         } catch (Exception e) {

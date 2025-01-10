@@ -117,7 +117,7 @@ public class Player {
 
             // Get json_data as a String and convert it to JSONObject
             String jsonData = (String) playerData.get("json_data");
-            Log.activity("loaded json: " + jsonData); 
+            //Log.activity("loaded json: " + jsonData); 
             if (jsonData != null) {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 // Read the json if it is not empty.
@@ -358,7 +358,7 @@ public class Player {
             // update the database
             byte[] buf = toBytes();
             String jsonData = toJson();
-            Log.activity("json: " + jsonData); 
+            //Log.activity("json: " + jsonData); 
             dbm.update(name, passwordHashed, salt, getRating(), buf, email, jsonData);
 
         } catch (Exception e) {
