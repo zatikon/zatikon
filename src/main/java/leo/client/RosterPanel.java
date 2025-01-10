@@ -45,10 +45,20 @@ public class RosterPanel extends LeoContainer {
 
         noob = true;
 
-        MuteButton mb = new MuteButton(718, 500, 54, 34);
+        SettingsButton mb = new SettingsButton(718, 517, 19, 19, Constants.IMG_MUTE, "soundButton");
         add(mb);
-        MusicButton msb = new MusicButton(718, 545, 54, 34);
+        SettingsButton mib = new SettingsButton(725, 517, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
+        add(mib);
+        SettingsButton psb = new SettingsButton(745, 517, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
+        add(psb);        
+
+        //MusicButton msb = new MusicButton(718, 540, 54, 34);
+        SettingsButton msb = new SettingsButton(718, 575, 19, 19, Constants.IMG_MUSIC, "musicButton");
         add(msb);
+        SettingsButton mmb = new SettingsButton(725, 575, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
+        add(mmb);
+        SettingsButton pmb = new SettingsButton(745, 575, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
+        add(pmb);   
 
         // Play
         LaunchGameButton computerButton = new LaunchGameButton(
@@ -73,7 +83,24 @@ public class RosterPanel extends LeoContainer {
         // Constants.SCREEN_WIDTH - (Constants.OFFSET*2),
         // Constants.SCREEN_HEIGHT - (Constants.OFFSET*2));
 
+        BlogButton bb = new BlogButton(699, 37, 91, 17);
+        add(bb);
+        GuideButton gb = new GuideButton(699, 87, 91, 17);
+        add(gb);
+        ForumButton fb = new ForumButton(699, 137, 91, 17);
+        add(fb);
+        ExitButton eb = new ExitButton(699, 187, 91, 17);
+        add(eb);
 
+        ScoresButton sb = new ScoresButton(699, 276, 91, 17);
+        add(sb);
+        AccountButton ab = new AccountButton(699, 326, 91, 17);
+        add(ab);
+        ReferButton rb = new ReferButton(699, 376, 91, 17);
+        add(rb);
+        CreditsButton cb = new CreditsButton(699, 426, 91, 17);
+        add(cb);
+        /*
         BlogButton bb = new BlogButton(699, 14, 91, 19); //37
         add(bb);
         GuideButton gb = new GuideButton(699, 43, 91, 19); //87
@@ -90,23 +117,23 @@ public class RosterPanel extends LeoContainer {
         ReferButton rb = new ReferButton(699, 188, 91, 19);
         add(rb);
         CreditsButton cb = new CreditsButton(699, 217, 91, 19); //217
-        add(cb);
+        add(cb);*/
 
-        SettingsButton tb = new SettingsButton(699, 276, 91, 19, Constants.IMG_TEAM_ICONS_BUTTON, "teamIcon");
+        SettingsButton tb = new SettingsButton(699, 495, 91, 19, Constants.IMG_TEAM_ICONS_BUTTON, "teamIcon");
         add(tb);        
 
-        MuteButton mb = new MuteButton(718, 482, 54, 34);
+        SettingsButton mb = new SettingsButton(719, 529, 51, 19, Constants.IMG_MUTE, "soundButton");
         add(mb);
-        SettingsButton mib = new SettingsButton(725, 517, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
+        SettingsButton mib = new SettingsButton(698, 529, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
         add(mib);
-        SettingsButton psb = new SettingsButton(745, 517, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
+        SettingsButton psb = new SettingsButton(772, 529, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
         add(psb);        
 
-        MusicButton msb = new MusicButton(718, 540, 54, 34);
+        SettingsButton msb = new SettingsButton(719, 563, 51, 19, Constants.IMG_MUSIC, "musicButton");
         add(msb);
-        SettingsButton mmb = new SettingsButton(725, 575, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
+        SettingsButton mmb = new SettingsButton(698, 563, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
         add(mmb);
-        SettingsButton pmb = new SettingsButton(745, 575, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
+        SettingsButton pmb = new SettingsButton(772, 563, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
         add(pmb);         
 
         // Create the buttons

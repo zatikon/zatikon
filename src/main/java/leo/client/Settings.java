@@ -29,8 +29,8 @@ public class Settings {
     private boolean soundstate = false;
     private String password = "";
     private boolean teamIconsState = false;
-    private Short musicvolume = 5;
-    private Short soundvolume = 5;
+    private Short musicvolume = 3;
+    private Short soundvolume = 3;
 
     private static final String SETTINGS_PATH = Constants.LOCAL_DIR + "/settings.toml";
 

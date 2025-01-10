@@ -1,3 +1,9 @@
+# 1.1.6.1
+
+- Updated Sound and Music to fix problems with playback
+- Added volume controls for Sound and Music
+- Added option for unit icons to show team instead of just colors
+
 # 1.1.6
 
 - Removed connection timing out in standalone mode

@@ -314,7 +314,15 @@ public class GameMedia {
             url = artLoader.getResource(Constants.ART_LOC + "plus.png");
             images[Constants.IMG_PLUS_BUTTON] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "minus.png");
-            images[Constants.IMG_MINUS_BUTTON] = ImageIO.read(url);             
+            images[Constants.IMG_MINUS_BUTTON] = ImageIO.read(url);
+
+            // sound
+            url = artLoader.getResource(Constants.ART_LOC + "sound.png");
+            images[Constants.IMG_MUTE] = ImageIO.read(url);
+
+            // music
+            url = artLoader.getResource(Constants.ART_LOC + "music.png");
+            images[Constants.IMG_MUSIC] = ImageIO.read(url);                       
 
         } catch (Exception e) {
             Logger.error("preload: " + url + " " + e);
@@ -331,12 +339,12 @@ public class GameMedia {
         URL[] urls = new URL[1];
 
         try {
-
             /////////////////////////////////////////////////////////
             // Sounds
             /////////////////////////////////////////////////////////
             loadSounds();
             Client.setMusicVolume(Client.settings().getMusicVolume());
+
             /////////////////////////////////////////////////////////
             // Art
             /////////////////////////////////////////////////////////
@@ -360,7 +368,6 @@ public class GameMedia {
 
             // load an empty
             images[Constants.IMG_POOF] = images[Constants.IMG_SPLAT];
-
 
             // miss
             url = artLoader.getResource(Constants.ART_LOC + "miss.png");
@@ -2182,23 +2189,6 @@ public class GameMedia {
             // images[Constants.IMG_COOPERATIVE] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "cooperativered.png");
             images[Constants.IMG_COOPERATIVE_RED] = ImageIO.read(url);
-
-
-            // mute
-            url = artLoader.getResource(Constants.ART_LOC + "mute.png");
-            images[Constants.IMG_MUTE] = ImageIO.read(url);
-            url = artLoader.getResource(Constants.ART_LOC + "mutehighlight.png");
-            images[Constants.IMG_MUTE_HIGHLIGHT] = ImageIO.read(url);
-            url = artLoader.getResource(Constants.ART_LOC + "muted.png");
-            images[Constants.IMG_MUTED] = ImageIO.read(url);
-
-            // music
-            url = artLoader.getResource(Constants.ART_LOC + "music.png");
-            images[Constants.IMG_MUSIC] = ImageIO.read(url);
-            url = artLoader.getResource(Constants.ART_LOC + "musichighlight.png");
-            images[Constants.IMG_MUSIC_HIGHLIGHT] = ImageIO.read(url);
-            url = artLoader.getResource(Constants.ART_LOC + "musicoff.png");
-            images[Constants.IMG_MUSIC_OFF] = ImageIO.read(url);
 
             // new url buttons
             url = artLoader.getResource(Constants.ART_LOC + "forum.png");

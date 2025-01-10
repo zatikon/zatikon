@@ -82,7 +82,7 @@ public class OggClip implements Runnable {
     }
 
     private void initOpenAL() {
-        Logger.error("OggClip(); Initialize OpenAL");
+        //Logger.error("OggClip(); Initialize OpenAL");
         // Initialize OpenAL context only once
         try (MemoryStack stack = MemoryStack.stackPush()) {
             // Get default device name
@@ -99,7 +99,7 @@ public class OggClip implements Runnable {
             ALC10.alcMakeContextCurrent(context);
             AL.createCapabilities(ALC.createCapabilities(device));
 
-            Logger.info("OpenAL initialized.");
+            //Logger.info("OpenAL initialized.");
         } catch (Exception e) {
             Logger.error("Failed to initialize OpenAL: " + e);
         }
@@ -174,7 +174,7 @@ public class OggClip implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void play() {
         try {
-            Logger.info("OggClip(); playing: " + this.soundName);
+            //Logger.info("OggClip(); playing: " + this.soundName);
             Thread runner = new Thread(this, "MusicPlayThread-" + System.currentTimeMillis());
             runner.start();
         } catch (Exception e) {
@@ -201,23 +201,23 @@ public class OggClip implements Runnable {
     }
 
     public void pause() {
-        Logger.info("pausing ogg");
+        //Logger.info("pausing ogg");
         AL10.alSourcePause(sourceID);
     }
 
     public void resume() {
-        Logger.info("resume ogg");
+        //Logger.info("resume ogg");
         AL10.alSourcePlay(sourceID);
     }
 
     public void stop() {
-        Logger.info("stopping ogg");
+        //Logger.info("stopping ogg");
         AL10.alSourceStop(sourceID);
         AL10.alSourceRewind(sourceID);
     }
 
     public void close() {
-        Logger.info("closing ogg");
+        //Logger.info("closing ogg");
         AL10.alSourceStop(sourceID);
         AL10.alDeleteSources(sourceID);
     }

@@ -3,6 +3,7 @@
 //      Desc:   Play a happy, buffered sound
 //      Date:   2/4/2003 - Gabe Jones
 //      TODO:
+//      Notes: OpenAL must already be initalized. This is done by OggClip
 ///////////////////////////////////////////////////////////////////////
 package leo.client;
 
@@ -35,8 +36,6 @@ public class Sound implements Runnable {
     private byte[] buffer;
     private int playcount;
     private int bufferID;
-    //private int sourceID;
-    //private boolean isPlaying;
     private AudioFormat format;
     private int sampleRate;
     private String soundName;
@@ -67,30 +66,6 @@ public class Sound implements Runnable {
 
         } catch (Exception e) {
             Logger.error("Sound(): " + e);
-        }
-    }
-
-    private void initOpenAL() {
-        Logger.error("Sound(): Initialize OpenAL");
-        // Initialize OpenAL context only once
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            // Get default device name
-            String deviceName = ALC10.alcGetString(0, ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
-
-            // Open the device
-            device = ALC10.alcOpenDevice(deviceName);
-            if (device == MemoryUtil.NULL) {
-                throw new IllegalStateException("Failed to open the default OpenAL device.");
-            }
-
-            // Create the context
-            context = ALC10.alcCreateContext(device, (IntBuffer) null);
-            ALC10.alcMakeContextCurrent(context);
-            AL.createCapabilities(ALC.createCapabilities(device));
-
-            Logger.info("OpenAL initialized.");
-        } catch (Exception e) {
-            Logger.error("Failed to initialize OpenAL: " + e);
         }
     }
 
@@ -160,7 +135,7 @@ public class Sound implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void play() {
         try {
-            Logger.info("Sound(): playing: " + this.soundName + " playcount: " + playcount + "/" + Client.getImages().getSoundCount());
+            //Logger.info("Sound(): playing: " + this.soundName + " playcount: " + playcount + "/" + Client.getImages().getSoundCount());
             if (playcount < GameMedia.MAX_SOUND_INDIVIDUAL && Client.getImages().belowMaxSounds()) {
                 Thread runner = new Thread(this, "SoundPlayThread-" + System.currentTimeMillis());
                 runner.start();

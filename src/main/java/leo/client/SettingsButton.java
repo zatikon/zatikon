@@ -23,6 +23,7 @@ public class SettingsButton extends LeoComponent {
     /////////////////////////////////////////////////////////////////   
     private BufferedImage highlightedImg = null;
     private BufferedImage disabledImg = null;
+    private BufferedImage disabledHighlightedImg = null;
     private int img;
     private String label;
 
@@ -35,6 +36,7 @@ public class SettingsButton extends LeoComponent {
         label = name;
         createHighlightedImage();
         createGrayscaleImage();
+        createHighlightedGrayscaleImage();
     }
 
 
@@ -46,6 +48,12 @@ public class SettingsButton extends LeoComponent {
             Client.toggleShowTeamIcons();
             Client.getImages().playSound(Constants.SOUND_BUTTON);
             return true;
+        } else if (label == "soundButton") {
+            Client.getImages().playSound(Constants.SOUND_BUTTON);
+            Client.mute(!Client.mute());
+            if(!Client.mute())
+                Client.getImages().playSound(Constants.SOUND_BUTTON);
+            return true;            
         } else if (label == "soundPlus" && Client.getSoundVolume() < 5) {
             Client.setSoundVolume((short) (Client.getSoundVolume() + 1));
             Client.getImages().playSound(Constants.SOUND_BUTTON);
@@ -53,6 +61,15 @@ public class SettingsButton extends LeoComponent {
         } else if (label == "soundMinus" && Client.getSoundVolume() > 1) {
             Client.setSoundVolume((short) (Client.getSoundVolume() - 1));
             Client.getImages().playSound(Constants.SOUND_BUTTON);
+            return true;
+        } else if (label == "musicButton") {
+            Client.getImages().playSound(Constants.SOUND_BUTTON);
+            Client.musicOff(!Client.musicOff());
+            if (Client.musicOff()) {
+                Client.getImages().pauseMusic();
+            } else {
+                Client.getImages().resumeMusic();
+            }            
             return true;
         } else if (label == "musicPlus" && Client.getMusicVolume() < 5) {
             Client.setMusicVolume((short) (Client.getMusicVolume() + 1));
@@ -79,6 +96,17 @@ public class SettingsButton extends LeoComponent {
             } else {
                 g.drawImage(disabledImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
             }
+        } else if (label == "soundButton") {
+            if (isWithin(Client.getGameData().getMouseX(), Client.getGameData().getMouseY())) {
+                if(!Client.mute())
+                    g.drawImage(highlightedImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
+                else
+                    g.drawImage(disabledHighlightedImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
+            } else if(!Client.mute()) {
+                g.drawImage(Client.getImages().getImage(img), getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
+            } else {
+                g.drawImage(disabledImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
+            }            
         } else if (label == "soundPlus") {
             if (isWithin(Client.getGameData().getMouseX(), Client.getGameData().getMouseY()) && Client.getSoundVolume() < 5) {
                 g.drawImage(highlightedImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
@@ -94,7 +122,18 @@ public class SettingsButton extends LeoComponent {
                 g.drawImage(Client.getImages().getImage(img), getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
             } else {
                 g.drawImage(disabledImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
-            }                
+            }
+        } else if (label == "musicButton") {
+            if (isWithin(Client.getGameData().getMouseX(), Client.getGameData().getMouseY())) {
+                if(!Client.musicOff())
+                    g.drawImage(highlightedImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
+                else
+                    g.drawImage(disabledHighlightedImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);                    
+            } else if(!Client.musicOff()) {
+                g.drawImage(Client.getImages().getImage(img), getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
+            } else {
+                g.drawImage(disabledImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
+            }                             
         } else if (label == "musicPlus") {
             if (isWithin(Client.getGameData().getMouseX(), Client.getGameData().getMouseY()) && Client.getMusicVolume() < 5) {
                 g.drawImage(highlightedImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
@@ -115,21 +154,16 @@ public class SettingsButton extends LeoComponent {
     }
 
     public void createGrayscaleImage() {
-
         if(disabledImg != null) {
             return;
         }
         //create darkened and greyscale version of image
-        disabledImg = new BufferedImage(
-            Client.getImages().getImage(img).getWidth(null),
-            Client.getImages().getImage(img).getHeight(null),
-            BufferedImage.TYPE_INT_ARGB
-        );
+        disabledImg = new BufferedImage(Client.getImages().getImage(img).getWidth(null), Client.getImages().getImage(img).getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D gImg = disabledImg.createGraphics();
         gImg.drawImage(Client.getImages().getImage(img), 0, 0, null);
         gImg.dispose();
-
+        /*
         // Create a grayscale color conversion operation
         ColorConvertOp grayscaleOp = new ColorConvertOp(
             ColorSpace.getInstance(ColorSpace.CS_GRAY), 
@@ -137,7 +171,7 @@ public class SettingsButton extends LeoComponent {
         );
 
         // Apply the grayscale conversion to the image
-        grayscaleOp.filter(disabledImg, disabledImg);
+        grayscaleOp.filter(disabledImg, disabledImg); */
 
         // Apply darkening
         RescaleOp darkenOp = new RescaleOp(0.5f, 0, null); // Scale by 0.5 to darken
@@ -145,23 +179,45 @@ public class SettingsButton extends LeoComponent {
     }
 
     public void createHighlightedImage() {
-
         if(highlightedImg != null) {
             return;
         }
-        //create darkened and greyscale version of image
-        highlightedImg = new BufferedImage(
-            Client.getImages().getImage(img).getWidth(null),
-            Client.getImages().getImage(img).getHeight(null),
-            BufferedImage.TYPE_INT_ARGB
-        );
+        //create highlighted version of image
+        highlightedImg = new BufferedImage(Client.getImages().getImage(img).getWidth(null), Client.getImages().getImage(img).getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D gImg = highlightedImg.createGraphics();
         gImg.drawImage(Client.getImages().getImage(img), 0, 0, null);
         gImg.dispose();
 
         // Apply darkening
-        RescaleOp darkenOp = new RescaleOp(1.25f, 0, null); // Scale by 1.5 to brighten
+        RescaleOp darkenOp = new RescaleOp(1.5f, 0, null); // Scale by 1.5 to brighten
         darkenOp.filter(highlightedImg, highlightedImg);
-    }   
+    }
+
+    public void createHighlightedGrayscaleImage() {
+        if(disabledHighlightedImg != null) {
+            return;
+        }
+        //create darkened and greyscale version of image
+        disabledHighlightedImg = new BufferedImage(Client.getImages().getImage(img).getWidth(null), Client.getImages().getImage(img).getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D gImg = disabledHighlightedImg.createGraphics();
+        gImg.drawImage(Client.getImages().getImage(img), 0, 0, null);
+        gImg.dispose();
+        
+        /*
+        // Create a grayscale color conversion operation
+        ColorConvertOp grayscaleOp = new ColorConvertOp(
+            ColorSpace.getInstance(ColorSpace.CS_GRAY), 
+            null
+        );
+
+        // Apply the grayscale conversion to the image
+        grayscaleOp.filter(disabledHighlightedImg, disabledHighlightedImg);
+        */
+        
+        // Apply darkening
+        RescaleOp darkenOp = new RescaleOp(0.75f, 0, null); // Scale by 0.5 to darken
+        darkenOp.filter(disabledHighlightedImg, disabledHighlightedImg);
+    }  
 }
