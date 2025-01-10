@@ -1,604 +1,228 @@
+///////////////////////////////////////////////////////////////////////
+//      Name:   OggClip.java
+//      Desc:   Play an Ogg through OpenAL
+//      Date:   1/9/25
+//      TODO:
+///////////////////////////////////////////////////////////////////////
 package leo.client;
 
-import com.jcraft.jogg.Packet;
-import com.jcraft.jogg.Page;
-import com.jcraft.jogg.StreamState;
-import com.jcraft.jogg.SyncState;
-import com.jcraft.jorbis.Block;
-import com.jcraft.jorbis.Comment;
-import com.jcraft.jorbis.DspState;
-import com.jcraft.jorbis.Info;
+import leo.shared.Log;
 import org.tinylog.Logger;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL10;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALC10;
+
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 
 import javax.sound.sampled.*;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
+import java.io.BufferedInputStream;
 
-/**
- * Simple Clip like player for OGG's. Code is mostly taken from the example provided with
- * JOrbis.
- *
- * @author kevin
- */
-public class OggClip {
-    private final int BUFSIZE = 4096 * 2;
-    private int convsize = BUFSIZE * 2;
-    private final byte[] convbuffer = new byte[convsize];
-    private SyncState oy;
-    private StreamState os;
-    private Page og;
-    private Packet op;
-    private Info vi;
-    private Comment vc;
-    private DspState vd;
-    private Block vb;
-    private SourceDataLine outputLine;
-    private int rate;
-    private int channels;
-    private BufferedInputStream bitStream = null;
-    private byte[] buffer = null;
-    private int bytes = 0;
-    private Thread player = null;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
-    private float balance;
-    private float gain = -1;
-    private boolean paused;
-    private float oldGain;
+public class OggClip implements Runnable {
 
-    /**
-     * Create a new clip based on a reference into the class path
-     *
-     * @param ref The reference into the class path which the ogg can be read from
-     * @throws IOException Indicated a failure to find the resource
-     */
-    public OggClip(String ref) throws IOException {
+    /////////////////////////////////////////////////////////////////
+    // Properties
+    /////////////////////////////////////////////////////////////////
+    private static long device;
+    private static long context;
+    
+    private byte[] buffer;
+    private int bufferID;
+    private int sourceID;
+    private AudioFormat format;
+    private int sampleRate;
+    private String soundName;
+
+    /////////////////////////////////////////////////////////////////
+    // Constructor
+    /////////////////////////////////////////////////////////////////
+    public OggClip(URL url) {
+        this.soundName = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
+        //Logger.info("OggClip(); construct: " + this.soundName);
         try {
-            init(Thread.currentThread().getContextClassLoader().getResourceAsStream(ref));
-        } catch (IOException e) {
-            throw new IOException("Couldn't find: " + ref);
-        }
-    }
-
-    /**
-     * Create a new clip based on a reference into the class path
-     *
-     * @param in The stream from which the ogg can be read from
-     * @throws IOException Indicated a failure to read from the stream
-     */
-    public OggClip(InputStream in) throws IOException {
-        init(in);
-    }
-
-    /**
-     * Set the default gain value (default volume)
-     */
-    public void setDefaultGain() {
-        setGain(-1);
-    }
-
-    /**
-     * Attempt to set the global gain (volume ish) for the play back. If the control is not supported
-     * this method has no effect. 1.0 will set maximum gain, 0.0 minimum gain
-     *
-     * @param gain The gain value
-     */
-    public void setGain(float gain) {
-        if (gain != -1) {
-            if ((gain < 0) || (gain > 1)) {
-                throw new IllegalArgumentException("Volume must be between 0.0 and 1.0");
+            // Load the audio data from the JAR file
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream(url.getPath().substring(url.getPath().lastIndexOf("!") + 1))));
+            if (audioStream == null) {
+                throw new IOException("Resource not found: " + url.getPath().substring(url.getPath().lastIndexOf("!") + 1));
             }
-        }
 
-        this.gain = gain;
+            // Get the format of the audio
+            format = audioStream.getFormat();
 
-        if (outputLine == null) {
-            return;
-        }
-
-        try {
-            FloatControl control = (FloatControl) outputLine.getControl(FloatControl.Type.MASTER_GAIN);
-            if (gain == -1) {
-                control.setValue(0);
-            } else {
-                float max = control.getMaximum();
-                float min = control.getMinimum(); // negative values all seem to be zero?
-                float range = max - min;
-
-                control.setValue(min + (range * gain));
+            if(soundName.toLowerCase().endsWith(".ogg")) {
+                AudioFormat targetFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format.getSampleRate(), 16, format.getChannels(), format.getChannels() * 2, format.getSampleRate(), false);
+                audioStream = AudioSystem.getAudioInputStream(targetFormat, audioStream);
+                format = audioStream.getFormat();
             }
-        } catch (IllegalArgumentException e) {
-            // gain not supported
-            e.printStackTrace();
+
+            sampleRate = (int) format.getSampleRate();
+
+            // Read the audio data into a byte array
+            buffer = audioStream.readAllBytes();
+
+            //Logger.info("OggClip(); Audio loaded: Format = " + format + ", Buffer size = " + buffer.length);
+
+            // If OpenAL isn't initialized yet, initialize it
+            if (device == 0) {
+                initOpenAL();
+            }
+
+            // Load the sound into a buffer
+            loadSound();
+
+        } catch (Exception e) {
+            Logger.error("OggClip(); " + e);
         }
     }
 
-    /**
-     * Attempt to set the balance between the two speakers. -1.0 is full left speak, 1.0 if full right speaker.
-     * Anywhere in between moves between the two speakers. If the control is not supported
-     * this method has no effect
-     *
-     * @param balance The balance value
-     */
-    public void setBalance(float balance) {
-        this.balance = balance;
+    private void initOpenAL() {
+        Logger.error("OggClip(); Initialize OpenAL");
+        // Initialize OpenAL context only once
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            // Get default device name
+            String deviceName = ALC10.alcGetString(0, ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
 
-        if (outputLine == null) {
-            return;
-        }
+            // Open the device
+            device = ALC10.alcOpenDevice(deviceName);
+            if (device == MemoryUtil.NULL) {
+                throw new IllegalStateException("Failed to open the default OpenAL device.");
+            }
 
-        try {
-            FloatControl control = (FloatControl) outputLine.getControl(FloatControl.Type.BALANCE);
-            control.setValue(balance);
-        } catch (IllegalArgumentException e) {
-            // balance not supported
+            // Create the context
+            context = ALC10.alcCreateContext(device, (IntBuffer) null);
+            ALC10.alcMakeContextCurrent(context);
+            AL.createCapabilities(ALC.createCapabilities(device));
+
+            Logger.info("OpenAL initialized.");
+        } catch (Exception e) {
+            Logger.error("Failed to initialize OpenAL: " + e);
         }
     }
 
-    /**
-     * Check the state of the play back
-     *
-     * @return True if the playback has been stopped
-     */
-    private boolean checkState() {
-        while (paused && (player != null)) {
-            synchronized (player) {
-                if (player != null) {
-                    try {
-                        player.wait();
-                    } catch (InterruptedException e) {
-                        // ignored
-                    }
+    private void loadSound() {
+        // Generate a new buffer for this sound
+        bufferID = AL10.alGenBuffers();
+
+        // Determine the OpenAL format based on the audio data
+        int alFormat = getALFormat(format);
+
+        // Load the audio data into OpenAL buffer
+        ByteBuffer byteBuffer = MemoryUtil.memAlloc(buffer.length);
+        byteBuffer.put(buffer).flip();
+        AL10.alBufferData(bufferID, alFormat, byteBuffer, sampleRate);
+
+        //alBufferData(bufferID, alFormat, MemoryUtil.memAlloc(buffer.length).put(buffer).flip(), sampleRate);
+
+        // Check for OpenAL errors
+        int error = AL10.alGetError();
+        if (error != AL10.AL_NO_ERROR) {
+            Logger.error("OpenAL Error during buffer loading: " + error);
+        }
+
+        // Create a new source for this sound
+        sourceID = AL10.alGenSources();
+        AL10.alSourcei(sourceID, AL10.AL_BUFFER, bufferID);
+        
+        //set to loop
+        AL10.alSourcei(sourceID, AL10.AL_LOOPING, AL10.AL_TRUE);
+
+        // Turn off positional sound
+        AL10.alSourcei(sourceID, AL10.AL_SOURCE_RELATIVE, AL10.AL_TRUE);
+
+        //Logger.info("OggClip(); buffered: " + this.soundName + " rate " + sampleRate);
+    }
+
+    private int getALFormat(AudioFormat format) {
+        // Determine the OpenAL format based on the AudioFormat
+        boolean isSigned = format.getEncoding() == AudioFormat.Encoding.PCM_SIGNED;
+        int channels = format.getChannels();
+        int sampleSizeInBits = format.getSampleSizeInBits();
+
+        if (channels == 1) { // Mono
+            if (sampleSizeInBits == 8) {
+                return AL10.AL_FORMAT_MONO8; // OpenAL treats all 8-bit as unsigned
+            } else if (sampleSizeInBits == 16) {
+                if (isSigned) {
+                    return AL10.AL_FORMAT_MONO16;
+                } else {
+                    throw new IllegalArgumentException("16-bit unsigned is not supported.");
+                }
+            }
+        } else if (channels == 2) { // Stereo
+            if (sampleSizeInBits == 8) {
+                return AL10.AL_FORMAT_STEREO8; // OpenAL treats all 8-bit as unsigned
+            } else if (sampleSizeInBits == 16) {
+                if (isSigned) {
+                    return AL10.AL_FORMAT_STEREO16;
+                } else {
+                    throw new IllegalArgumentException("16-bit unsigned is not supported.");
                 }
             }
         }
 
-        return stopped();
+        throw new IllegalArgumentException("Unsupported audio format: " + format);
     }
 
-    /**
-     * Pause the play back
-     */
-    public void pause() {
-        paused = true;
-        oldGain = gain;
-        setGain(0);
-    }
-
-    /**
-     * Check if the stream is paused
-     *
-     * @return True if the stream is paused
-     */
-    public boolean isPaused() {
-        return paused;
-    }
-
-    /**
-     * Resume the play back
-     */
-    public void resume() {
-        if (!paused) {
-            play();
-            return;
-        }
-
-        paused = false;
-
-        synchronized (player) {
-            if (player != null) {
-                player.notify();
-            }
-        }
-        setGain(oldGain);
-    }
-
-    /**
-     * Check if the clip has been stopped
-     *
-     * @return True if the clip has been stopped
-     */
-    public boolean stopped() {
-        return ((player == null) || (!player.isAlive()));
-    }
-
-    /**
-     * Initialise the ogg clip
-     *
-     * @param in The stream we're going to read from
-     * @throws IOException Indicates a failure to read from the stream
-     */
-    private void init(InputStream in) throws IOException {
-        if (in == null) {
-            throw new IOException("Couldn't find input source");
-        }
-        bitStream = new BufferedInputStream(in);
-        bitStream.mark(Integer.MAX_VALUE);
-    }
-
-    /**
-     * Play the clip once
-     */
+    /////////////////////////////////////////////////////////////////
+    // Play the sound
+    /////////////////////////////////////////////////////////////////
     public void play() {
-        stop();
-
         try {
-            bitStream.reset();
-        } catch (IOException e) {
-            // ignore if no mark
+            Logger.info("OggClip(); playing: " + this.soundName);
+            Thread runner = new Thread(this, "MusicPlayThread-" + System.currentTimeMillis());
+            runner.start();
+        } catch (Exception e) {
+            Logger.error("Sound.play(): " + e);
         }
-
-        player = new Thread("OggClipPlayThread") {
-            public void run() {
-                try {
-                    playStream(Thread.currentThread());
-                } catch (InternalException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    bitStream.reset();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        player.setDaemon(true);
-        player.start();
     }
 
-    /**
-     * Loop the clip - maybe for background music
-     */
-    public void loop() {
-        stop();
-
+    public void run() {
         try {
-            bitStream.reset();
-        } catch (IOException e) {
-            // ignore if no mark
-        }
+            // Play the sound
+            AL10.alSourcePlay(sourceID);
 
-        player = new Thread("OggClipLoopThread") {
-            public void run() {
-                while (player == Thread.currentThread()) {
-                    try {
-                        playStream(Thread.currentThread());
-                    } catch (InternalException e) {
-                        e.printStackTrace();
-                        player = null;
-                    }
-
-                    try {
-                        bitStream.reset();
-                    } catch (IOException e) {
-                    }
-                }
+            // Wait for the sound to finish
+            while (AL10.alGetSourcei(sourceID, AL10.AL_SOURCE_STATE) == AL10.AL_PLAYING) {
+                Thread.sleep(100);
             }
-        };
-        player.setDaemon(true);
-        player.start();
+
+            // Clean up after playing the sound
+            AL10.alSourceStop(sourceID);
+            //AL10.alDeleteSources(sourceID);
+        } catch (Exception e) {
+            Logger.error("Sound.run(): " + e);
+        }
     }
 
-    /**
-     * Stop the clip playing
-     */
+    public void pause() {
+        Logger.info("pausing ogg");
+        AL10.alSourcePause(sourceID);
+    }
+
+    public void resume() {
+        Logger.info("resume ogg");
+        AL10.alSourcePlay(sourceID);
+    }
+
     public void stop() {
-        if (stopped()) {
-            return;
-        }
-
-        player = null;
-        outputLine.drain();
+        Logger.info("stopping ogg");
+        AL10.alSourceStop(sourceID);
+        AL10.alSourceRewind(sourceID);
     }
 
-    /**
-     * Close the stream being played from
-     */
     public void close() {
-        try {
-            if (bitStream != null)
-                bitStream.close();
-        } catch (IOException e) {
-        }
+        Logger.info("closing ogg");
+        AL10.alSourceStop(sourceID);
+        AL10.alDeleteSources(sourceID);
     }
+    public void setVolume(int volume) {
+        AL10.alSourcef(sourceID, AL10.AL_GAIN, volume / 5.0f);
+    }   
 
-    /*
-     * Taken from the JOrbis Player
-     */
-    private void initJavaSound(int channels, int rate) {
-        try {
-            AudioFormat audioFormat = new AudioFormat(rate, 16,
-                    channels, true, // PCM_Signed
-                    false // littleEndian
-            );
-            DataLine.Info info = new DataLine.Info(SourceDataLine.class,
-                    audioFormat, AudioSystem.NOT_SPECIFIED);
-            if (!AudioSystem.isLineSupported(info)) {
-                throw new Exception("Line " + info + " not supported.");
-            }
-
-            try {
-                outputLine = (SourceDataLine) AudioSystem.getLine(info);
-                // outputLine.addLineListener(this);
-                outputLine.open(audioFormat);
-            } catch (LineUnavailableException ex) {
-                throw new Exception("Unable to open the sourceDataLine: " + ex);
-            } catch (IllegalArgumentException ex) {
-                throw new Exception("Illegal Argument: " + ex);
-            }
-
-            this.rate = rate;
-            this.channels = channels;
-
-            setBalance(balance);
-            setGain(gain);
-        } catch (Exception ee) {
-            Logger.error("OggClip.initJavaSound(): " + ee);
-        }
-    }
-
-    /*
-     * Taken from the JOrbis Player
-     */
-    private SourceDataLine getOutputLine(int channels, int rate) {
-        if (outputLine == null || this.rate != rate
-                || this.channels != channels) {
-            if (outputLine != null) {
-                outputLine.drain();
-                outputLine.stop();
-                outputLine.close();
-            }
-            initJavaSound(channels, rate);
-            outputLine.start();
-        }
-        return outputLine;
-    }
-
-    /*
-     * Taken from the JOrbis Player
-     */
-    private void initJOrbis() {
-        oy = new SyncState();
-        os = new StreamState();
-        og = new Page();
-        op = new Packet();
-
-        vi = new Info();
-        vc = new Comment();
-        vd = new DspState();
-        vb = new Block(vd);
-
-        buffer = null;
-        bytes = 0;
-
-        oy.init();
-    }
-
-    /*
-     * Taken from the JOrbis Player
-     */
-    private void playStream(Thread me) throws InternalException {
-        boolean chained = false;
-
-        initJOrbis();
-
-        while (true) {
-            if (checkState()) {
-                return;
-            }
-
-            int eos = 0;
-
-            int index = oy.buffer(BUFSIZE);
-            buffer = oy.data;
-            try {
-                bytes = bitStream.read(buffer, index, BUFSIZE);
-            } catch (Exception e) {
-                throw new InternalException(e);
-            }
-            oy.wrote(bytes);
-
-            if (chained) {
-                chained = false;
-            } else {
-                if (oy.pageout(og) != 1) {
-                    if (bytes < BUFSIZE)
-                        break;
-                    throw new InternalException("Input does not appear to be an Ogg bitstream.");
-                }
-            }
-            os.init(og.serialno());
-            os.reset();
-
-            vi.init();
-            vc.init();
-
-            if (os.pagein(og) < 0) {
-                // error; stream version mismatch perhaps
-                throw new InternalException("Error reading first page of Ogg bitstream data.");
-            }
-
-            if (os.packetout(op) != 1) {
-                // no page? must not be vorbis
-                throw new InternalException("Error reading initial header packet.");
-            }
-
-            if (vi.synthesis_headerin(vc, op) < 0) {
-                // error case; not a vorbis header
-                throw new InternalException("This Ogg bitstream does not contain Vorbis audio data.");
-            }
-
-            int i = 0;
-
-            while (i < 2) {
-                while (i < 2) {
-                    if (checkState()) {
-                        return;
-                    }
-
-                    int result = oy.pageout(og);
-                    if (result == 0)
-                        break; // Need more data
-                    if (result == 1) {
-                        os.pagein(og);
-                        while (i < 2) {
-                            result = os.packetout(op);
-                            if (result == 0)
-                                break;
-                            if (result == -1) {
-                                throw new InternalException("Corrupt secondary header.  Exiting.");
-                            }
-                            vi.synthesis_headerin(vc, op);
-                            i++;
-                        }
-                    }
-                }
-
-                index = oy.buffer(BUFSIZE);
-                buffer = oy.data;
-                try {
-                    bytes = bitStream.read(buffer, index, BUFSIZE);
-                } catch (Exception e) {
-                    throw new InternalException(e);
-                }
-                if (bytes == 0 && i < 2) {
-                    throw new InternalException("End of file before finding all Vorbis headers!");
-                }
-                oy.wrote(bytes);
-            }
-
-            convsize = BUFSIZE / vi.channels;
-
-            vd.synthesis_init(vi);
-            vb.init(vd);
-
-            float[][][] _pcmf = new float[1][][];
-            int[] _index = new int[vi.channels];
-
-            getOutputLine(vi.channels, vi.rate);
-
-            while (eos == 0) {
-                while (eos == 0) {
-                    if (player != me) {
-                        return;
-                    }
-
-                    int result = oy.pageout(og);
-                    if (result == 0)
-                        break; // need more data
-                    if (result == -1) { // missing or corrupt data at this page
-                        // position
-                        // System.err.println("Corrupt or missing data in
-                        // bitstream;
-                        // continuing...");
-                    } else {
-                        os.pagein(og);
-
-                        if (og.granulepos() == 0) { //
-                            chained = true; //
-                            eos = 1; //
-                            break; //
-                        } //
-
-                        while (true) {
-                            if (checkState()) {
-                                return;
-                            }
-
-                            result = os.packetout(op);
-                            if (result == 0)
-                                break; // need more data
-                            if (result == -1) { // missing or corrupt data at
-                                // this page position
-                                // no reason to complain; already complained
-                                // above
-
-                                // System.err.println("no reason to complain;
-                                // already complained above");
-                            } else {
-                                // we have a packet. Decode it
-                                int samples;
-                                if (vb.synthesis(op) == 0) { // test for
-                                    // success!
-                                    vd.synthesis_blockin(vb);
-                                }
-                                while ((samples = vd.synthesis_pcmout(_pcmf,
-                                        _index)) > 0) {
-                                    if (checkState()) {
-                                        return;
-                                    }
-
-                                    float[][] pcmf = _pcmf[0];
-                                    int bout = (samples < convsize ? samples
-                                            : convsize);
-
-                                    // convert doubles to 16 bit signed ints
-                                    // (host order) and
-                                    // interleave
-                                    for (i = 0; i < vi.channels; i++) {
-                                        int ptr = i * 2;
-                                        // int ptr=i;
-                                        int mono = _index[i];
-                                        for (int j = 0; j < bout; j++) {
-                                            int val = (int) (pcmf[i][mono + j] * 32767.);
-                                            if (val > 32767) {
-                                                val = 32767;
-                                            }
-                                            if (val < -32768) {
-                                                val = -32768;
-                                            }
-                                            if (val < 0)
-                                                val = val | 0x8000;
-                                            convbuffer[ptr] = (byte) (val);
-                                            convbuffer[ptr + 1] = (byte) (val >>> 8);
-                                            ptr += 2 * (vi.channels);
-                                        }
-                                    }
-                                    outputLine.write(convbuffer, 0, 2
-                                            * vi.channels * bout);
-                                    vd.synthesis_read(bout);
-                                }
-                            }
-                        }
-                        if (og.eos() != 0)
-                            eos = 1;
-                    }
-                }
-
-                if (eos == 0) {
-                    index = oy.buffer(BUFSIZE);
-                    buffer = oy.data;
-                    try {
-                        bytes = bitStream.read(buffer, index, BUFSIZE);
-                    } catch (Exception e) {
-                        throw new InternalException(e);
-                    }
-                    if (bytes == -1) {
-                        break;
-                    }
-                    oy.wrote(bytes);
-                    if (bytes == 0)
-                        eos = 1;
-                }
-            }
-
-            os.clear();
-            vb.clear();
-            vd.clear();
-            vi.clear();
-        }
-
-        oy.clear();
-    }
-
-    private class InternalException extends Exception {
-        public InternalException(Exception e) {
-            super(e);
-        }
-
-        public InternalException(String msg) {
-            super(msg);
-        }
-    }
 }

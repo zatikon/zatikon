@@ -18,7 +18,7 @@ import org.tinylog.Logger;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
+//import java.io.BufferedInputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -67,8 +67,7 @@ public class GameMedia {
 
             // The background music
             url = soundLoader.getResource(Constants.SOUND_LOC + "music.ogg");
-            music = new OggClip(new BufferedInputStream(url.openStream()));
-            //music = new OggClip(AudioSystem.getAudioInputStream(url.openStream()));
+            music = new OggClip(url);
 
             int loadingSound;
 
@@ -337,7 +336,7 @@ public class GameMedia {
             // Sounds
             /////////////////////////////////////////////////////////
             loadSounds();
-
+            Client.setMusicVolume(Client.settings().getMusicVolume());
             /////////////////////////////////////////////////////////
             // Art
             /////////////////////////////////////////////////////////
@@ -2536,6 +2535,14 @@ public class GameMedia {
         }
     }
 
+    public void setMusicVol(int vol) {
+        try {
+            music.setVolume(vol);
+        } catch (Exception e) {
+            Logger.error("GameMedia.setMusicVol(): " + e);
+        }
+    }
+
     public void clean() {
         try {
             for (int i = 0; i < images.length; i++) {
@@ -2562,6 +2569,7 @@ public class GameMedia {
     public Sound getSound(short index) {
         return sounds[index];
     }
+
 
     /////////////////////////////////////////////////////////////////
     // Get a particular image, also checks for gray images

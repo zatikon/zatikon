@@ -957,6 +957,7 @@ public class Client {
 
     public static void setMusicVolume(Short vol) {
         settings.setMusicVolume(vol);
+        getImages().setMusicVol(vol);
     }    
 
     public static void toggleShowTeamIcons() {

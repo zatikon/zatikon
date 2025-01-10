@@ -1,4 +1,3 @@
-//all working except popping sound, loading as file instead of urls
 ///////////////////////////////////////////////////////////////////////
 //      Name:   Sound.java
 //      Desc:   Play a happy, buffered sound
@@ -36,7 +35,7 @@ public class Sound implements Runnable {
     private byte[] buffer;
     private int playcount;
     private int bufferID;
-    private int sourceID;
+    //private int sourceID;
     //private boolean isPlaying;
     private AudioFormat format;
     private int sampleRate;
@@ -47,33 +46,22 @@ public class Sound implements Runnable {
     /////////////////////////////////////////////////////////////////
     public Sound(URL url) {
         this.soundName = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
-        Logger.error("Sound(): construct: " + this.soundName);
+        //Logger.info("Sound(): construct: " + this.soundName);
         try {
             // Load the audio data from the JAR file
-            try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(
-                    new BufferedInputStream(getClass().getResourceAsStream(
-                            url.getPath().substring(url.getPath().lastIndexOf("!") + 1))))) {
-                if (audioStream == null) {
-                    throw new IOException("Resource not found: " + url.getPath().substring(url.getPath().lastIndexOf("!") + 1));
-                }
-
-                // Get the format of the audio
-                format = audioStream.getFormat();
-                sampleRate = (int) format.getSampleRate();
-
-                // Read the audio data into a byte array
-                buffer = audioStream.readAllBytes();
-
-                Logger.info("Sound(): Audio loaded: Format = " + format + ", Buffer size = " + buffer.length);
-            } catch (UnsupportedAudioFileException | IOException e) {
-                Logger.error("Error loading audio: " + e);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream(url.getPath().substring(url.getPath().lastIndexOf("!") + 1))));
+            if (audioStream == null) {
+                throw new IOException("Resource not found: " + url.getPath().substring(url.getPath().lastIndexOf("!") + 1));
             }
 
-            // If OpenAL isn't initialized yet, initialize it
-            if (device == 0) {
-                initOpenAL();
-            }
+            // Get the format of the audio
+            format = audioStream.getFormat();
+            sampleRate = (int) format.getSampleRate();
 
+            // Read the audio data into a byte array
+            buffer = audioStream.readAllBytes();
+
+            //Logger.info("Sound(): Audio loaded: Format = " + format + ", Buffer size = " + buffer.length);
             // Load the sound into a buffer
             loadSound();
 
@@ -127,13 +115,13 @@ public class Sound implements Runnable {
         }
 
         // Create a new source for this sound
-        sourceID = AL10.alGenSources();
-        AL10.alSourcei(sourceID, AL10.AL_BUFFER, bufferID);
+        //sourceID = AL10.alGenSources();
+        //AL10.alSourcei(sourceID, AL10.AL_BUFFER, bufferID);
 
         // Turn off positional sound
-        AL10.alSourcei(sourceID, AL10.AL_SOURCE_RELATIVE, AL10.AL_TRUE);
+        //AL10.alSourcei(sourceID, AL10.AL_SOURCE_RELATIVE, AL10.AL_TRUE);
 
-        Logger.info("Sound(): buffered: " + this.soundName + " rate " + sampleRate);
+        //Logger.info("Sound(): buffered: " + this.soundName + " rate " + sampleRate);
     }
 
     private int getALFormat(AudioFormat format) {
@@ -185,33 +173,25 @@ public class Sound implements Runnable {
         }
     }
 
-    /////////////////////////////////////////////////////////////////
-    // Run the sound playback in a new thread
-    /////////////////////////////////////////////////////////////////
     public void run() {
+        int localSourceID = AL10.alGenSources(); // Create a new source for this playback instance
         try {
-            // If already playing, stop the sound and reset the source
-            /*
-            if (isPlaying) {
-                Logger.info("Sound(): is already playing" + this.soundName);
-                // Stop the source and reset if necessary
-                alSourceStop(sourceID);
-                alSourceRewind(sourceID);
-                isPlaying = false;
-            }*/
+            // Attach the buffer to this local source
+            AL10.alSourcei(localSourceID, AL10.AL_BUFFER, bufferID);
+            AL10.alSourcei(localSourceID, AL10.AL_SOURCE_RELATIVE, AL10.AL_TRUE);
+            AL10.alSourcef(localSourceID, AL10.AL_GAIN, Client.settings().getSoundVolume() / 5.0f);
 
             // Play the sound
-            AL10.alSourcePlay(sourceID);
-            //isPlaying = true;
+            AL10.alSourcePlay(localSourceID);
 
             // Wait for the sound to finish
-            while (AL10.alGetSourcei(sourceID, AL10.AL_SOURCE_STATE) == AL10.AL_PLAYING) {
+            while (AL10.alGetSourcei(localSourceID, AL10.AL_SOURCE_STATE) == AL10.AL_PLAYING) {
                 Thread.sleep(10);
             }
 
             // Clean up after playing the sound
-            AL10.alSourceStop(sourceID);
-            AL10.alSourceRewind(sourceID);
+            AL10.alSourceStop(localSourceID);
+            AL10.alDeleteSources(localSourceID); // Delete the local source
             --playcount;
             Client.getImages().soundFinished();
 

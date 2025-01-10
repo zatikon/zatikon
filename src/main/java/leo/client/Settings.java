@@ -18,7 +18,6 @@ import java.io.*;
 import java.util.Base64;
 
 
-
 public class Settings {
 
     /////////////////////////////////////////////////////////////////
@@ -84,8 +83,8 @@ public class Settings {
                 musicstate = config.getOrElse("musicstate", musicstate);
                 soundstate = config.getOrElse("soundstate", soundstate);
                 teamIconsState = config.getOrElse("teamIconsState", teamIconsState);
-                musicvolume = config.getOrElse("musicvolume", musicvolume);
-                soundvolume = config.getOrElse("soundvolume", soundvolume);
+                musicvolume = config.getShortOrElse("musicvolume", musicvolume);
+                soundvolume = config.getShortOrElse("soundvolume", soundvolume);
 
                 // Read obfuscated value
                 String passwordBase64 = config.getOrElse("password", password);
