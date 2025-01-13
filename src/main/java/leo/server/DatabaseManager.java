@@ -92,7 +92,7 @@ public class DatabaseManager {
     /////////////////////////////////////////////////////////////////
     public void update(String username, String hashedPassword, byte[] salt, int rating, byte[] buf, String email, String jsonData) throws Exception {
         try {
-            //Log.activity("saving json: " + jsonData);
+            //Logger.info("saving json: " + jsonData);
             // open a connection
             //Connection connection = initialize();
 
@@ -228,7 +228,9 @@ public class DatabaseManager {
             // Store the AI Top 20 Players in a list
             ArrayList<String> aiPlayers = new ArrayList<>();
             while (rs.next()) {
-                aiPlayers.add(rs.getString("username") + ": " + (rs.getString("rating") + 1));
+                if(rs.getString("rating") != null) {
+                    aiPlayers.add(rs.getString("username") + ": " + (Integer.parseInt(rs.getString("rating")) + 1));
+                }
             }
             rs.close();
 
@@ -259,12 +261,37 @@ public class DatabaseManager {
 
             //connection.close();
         } catch (Exception e) {
-            Log.error("DatabaseManager.topScores");
+            Logger.error("DatabaseManager.topScores");
             throw e;
         }
         return scores.toString();
     }
 
+    ////////////////////////////////
+    // updateDatabase Update all the players in the DB by loading and saving them (DB transition)
+    ////////////////////////////////
+    /*
+    public void updateDatabase() {
+        Player tempPlayer;
+
+        try {
+            Logger.info("loading all players");
+            var list = getPlayerList();
+            Logger.info("players: " + list);
+            for (var player: list) {
+                try {
+                    tempPlayer = new Player(this, player);
+                    tempPlayer.save();
+                    Logger.info("Processed player: " + player);
+                } catch (Exception e) {
+                    Logger.error("DatabaseManager error loading: " + player + " - " + e);
+                } 
+            }
+        } catch (Exception e) {
+            Logger.error("DatabaseManager.RewritePlayers" + e);
+            //throw e;
+        }        
+    }*/
 
     ////////////////////////////////
     // Scoredump (Ratings transition)
@@ -300,6 +327,7 @@ public class DatabaseManager {
             //throw e;
         }
     }*/
+
 
     public int getRating(String userName) {
         try {
@@ -350,6 +378,7 @@ public class DatabaseManager {
                 // Retrieve JSON data
                 String jsonData = rs.getString("jsonData");
                 result.put("jsonData", jsonData);                
+                //Logger.info("load player " + name + ": " + jsonData);
             }
             rs.close();
             ps.close();

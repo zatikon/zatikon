@@ -116,13 +116,12 @@ public class Player {
             if (playerData == null) return;
 
             // Get json_data as a String and convert it to JSONObject
-            String jsonData = (String) playerData.get("json_data");
+            String jsonData = (String) playerData.get("jsonData");
             //Log.activity("loaded json: " + jsonData); 
             if (jsonData != null) {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 // Read the json if it is not empty.
                 if (!jsonObject.isEmpty()) {
-
                     int version = jsonObject.optInt("version", 0);
                     winsToLower = jsonObject.optInt("winsToLower", 0);
                     wins = jsonObject.optInt("wins", 0);
@@ -191,10 +190,12 @@ public class Player {
                 loaded = true;
                 return;
                 } else { //use the old data
+                    //Log.activity("json is empty, loading the old data");
                     buf = (byte[]) playerData.get("data");
                     if (buf == null) return;
                 }
             } else {  // Get the buf (player data) if json_data is empty
+                //Log.activity("json is null, loading the old data");
                 buf = (byte[]) playerData.get("data");
                 if (buf == null) return;
             }
@@ -297,7 +298,7 @@ public class Player {
             access[Unit.LEGIONS] = true; //server.getDB().getRegistration(getName(), DatabaseManager.LEGIONS);
             access[Unit.INQUISITION] = true; //server.getDB().getRegistration(getName(), DatabaseManager.INQUISITION);
 
-            Log.activity("loadAccess for " + getName() + " C: " + access[Unit.CRUSADES] + ", L: " + access[Unit.LEGIONS]);
+            //Log.activity("loadAccess for " + getName() + " C: " + access[Unit.CRUSADES] + ", L: " + access[Unit.LEGIONS]);
 
             accessLoaded = true;
 
