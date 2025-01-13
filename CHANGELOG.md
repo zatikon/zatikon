@@ -6,6 +6,10 @@
 
 # 1.1.6
 
+- Restricted Zealous relic for War Elephant and Confessor
+- added client side connection check
+- Added graceful server shutdown with feedback
+- Added a per unit kill counter on hover of the units name
 - Removed connection timing out in standalone mode
 - Changed the min AI level that will be reduced on a loss from 15 to 2
 - Disabled multi-player modes in standalone mode
