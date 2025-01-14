@@ -34,7 +34,7 @@ public class Player {
     // Properties
     /////////////////////////////////////////////////////////////////
     //private int accessLevel = Unit.FREE;
-    private boolean admin = false;
+    //private boolean admin = false;
     private boolean accessLoaded = false;
     private final short[] units = new short[UnitType.UNIT_COUNT.value()];
     private String name;
@@ -60,6 +60,7 @@ public class Player {
 
     private final boolean usingELO = true;
     private int eloRating = 1000;
+    private boolean admin = false;
     // access
     private final boolean[] access =
             {true,           // free
@@ -106,6 +107,8 @@ public class Player {
             // risky override!
             name = username;
 
+            //check if this player is an admin from the database
+            admin = dbm.getAdmin(username);
             email = dbm.getEmail(username);
             salt = dbm.getSalt(username);
             passwordHashed = dbm.getPasswordHashed(username);
@@ -292,7 +295,6 @@ public class Player {
     /////////////////////////////////////////////////////////////////
     private void loadAccess() {
         try {
-//            admin = name.equals("gabe") || name.equals("ravean");
             // TODO cleanup the expansion loading. In FOSS version we don't need to restrict the players
             access[Unit.CRUSADES] = true; //server.getDB().getRegistration(getName(), DatabaseManager.CRUSADES);
             access[Unit.LEGIONS] = true; //server.getDB().getRegistration(getName(), DatabaseManager.LEGIONS);

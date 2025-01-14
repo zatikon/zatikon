@@ -45,7 +45,7 @@ public class ChatUser implements Runnable {
         try {
             socket = newSocket;
             //socket.setSoTimeout(0);
-            runner = new Thread(this, "ChatUserThread");
+            runner = new Thread(this, "ChatUserThread");            
             runner.start();
         } catch (Exception e) {
             Log.error("ChatUser.constructor " + e);
@@ -249,6 +249,12 @@ public class ChatUser implements Runnable {
 
             user.sendText("Welcome to Zatikon!");
             user.sendText(" ");
+
+            //check if a server shutdown has been initiated, if so inform the client.
+            if(server.getWillShutDown()) {
+                user.sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                user.sendText("Server shutdown initiated. Games can't be started. When all games have finished the server will shutdown and update.");    
+            }
 
             try {
                 BufferedReader in = new BufferedReader(new FileReader("MOTD.txt"));
@@ -530,6 +536,12 @@ public class ChatUser implements Runnable {
                     Log.chat("Whisper " + user.getPlayer().getName() + " to " + gotPlayer.getName() + ": " + messageBuffer);
                 }
             } else if (action == Action.CHAT_BROADCAST) {
+                System.out.println("message: " + messageBuffer.toString());
+                //start server shutdown
+                if(user.getPlayer().admin() && messageBuffer.toString().equals("#shutdown")) {
+                    server.startShutDown();
+                    return;
+                }
                 Vector<Player> players = server.getPlayers();
                 Iterator<Player> it = players.iterator();
                 while (it.hasNext()) {

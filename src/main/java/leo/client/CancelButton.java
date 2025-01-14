@@ -38,7 +38,10 @@ public class CancelButton extends LeoComponent {
         pushed = true;
         Client.getImages().playSound(Constants.SOUND_BUTTON);
         Client.setComputing(false);
-        Client.getNetManager().sendAction(Action.CANCEL);
+        if(Client.getServerWillShutDown() == true)
+            Client.getGameData().cancelQueue();
+        else
+            Client.getNetManager().sendAction(Action.CANCEL);
         return true;
     }
 

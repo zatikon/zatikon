@@ -34,14 +34,14 @@ public class LobbyTeam implements Runnable {
     private Player T2P2 = null;
     private boolean mutexBlock = false;    // Thread safe!
     private boolean mutexBlock2 = false;
-
+    private boolean running = true; // Control flag for the main loop
 
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
     public LobbyTeam(Server server) {
         this.server = server;
-        runner = new Thread(this, "LobbyTeamThread");
+        runner = new Thread(this, "LobbyTeamThread");      
         runner.start();
     }
 
@@ -119,7 +119,7 @@ public class LobbyTeam implements Runnable {
     // Main thread
     /////////////////////////////////////////////////////////////////
     public void run() {
-        while (true) {
+        while (running) {
             try {
 
                 // Check for players who have cancelled out of the lobby
@@ -285,4 +285,18 @@ public class LobbyTeam implements Runnable {
         // Release mutex
         mutexBlock2 = false;
     }
+
+    /////////////////////////////////////////////////////////////////
+    // Stop the lobby thread
+    /////////////////////////////////////////////////////////////////
+    public void stop() {
+        Log.system("Stopping lobbyTeam thread...");
+        running = false; // Stop the loop
+        runner.interrupt(); // Interrupt the thread if it's sleeping
+        try {
+            // Optionally clear any resources or reset state if needed
+        } catch (Exception e) {
+            Log.error("Error while stopping the lobbyTeam thread: " + e);
+        }
+    }     
 }

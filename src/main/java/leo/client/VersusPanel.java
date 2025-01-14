@@ -37,7 +37,7 @@ public class VersusPanel extends LeoComponent {
         else if (Client.getGameData().getEnemyRating() > 0)
             text = "You will be playing against " + Client.getGameData().getEnemyName() + " (rank #" + Client.getGameData().getEnemyRating() + ")";
         else
-            text = "You will be playing against " + Client.getGameData().getEnemyName() + " (demo)";
+            text = "You will be playing against " + Client.getGameData().getEnemyName() + " (unranked)";
         g.setFont(Client.getFontBig());
 
         int atX = getScreenX() + (getWidth() / 2) - (g.getFontMetrics().stringWidth(text) / 2);

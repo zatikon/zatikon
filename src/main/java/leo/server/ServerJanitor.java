@@ -23,7 +23,7 @@ public class ServerJanitor implements Runnable {
     /////////////////////////////////////////////////////////////////
     private final Thread runner;
     private final Server server;
-
+    private boolean running = true; // Control flag for the main loop
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -45,13 +45,16 @@ public class ServerJanitor implements Runnable {
         // Loop indefinately, checking idle users
         int cycle = 0;
         int timer;
-        while (true) {
+        int countdown = 11;
+
+        while (running) {
             try {
                 players = server.getPlayers();
                 for (int i = 0; i < players.size(); i++) {
                     Player player = (Player) players.elementAt(i);
                     player.getUser().checkIdle();
                 }
+
                 // Timer = how many ping calls between rank/rating updates
                 timer = ((players.size()) / 100) + 1;
                 if (cycle > timer) {
@@ -66,11 +69,41 @@ public class ServerJanitor implements Runnable {
                 } else {
                     cycle++;
                 }
-                server.getDB().ping();
-                Thread.sleep(60000);
+
+                if(server.getWillShutDown() == true) {
+                    if((server.gameListSingle().size() + server.gameListMulti().size()) == 0) {
+                        countdown--;
+                        server.sendText(null, "Server shutting down in " + countdown + " seconds");
+                        if(countdown == 0) {
+                            Server.stopServer();
+                            break;
+                        }
+                        Thread.sleep(1000);
+                    } else {
+                        server.sendText(null, "Server is shutting down. New games can't be started. When all games are finished server will shutdown for an update.");
+                    }
+
+                }
+                if(countdown > 10) {
+                    server.getDB().ping();
+                    Thread.sleep(60000);
+                }
+            } catch (InterruptedException e) {
+                // If interrupted (due to stop() being called), we exit the loop
+                //Thread.currentThread().interrupt(); // Restore the interrupt status
+                Log.system("ServerJanitor thread was interrupted and is stopping.");
+                break;
             } catch (Exception e) {
                 Log.error("Janitor: " + e);
             }
         }
     }
+
+    /////////////////////////////////////////////////////////////////
+    // Stop the janitor thread
+    /////////////////////////////////////////////////////////////////
+    public void stop() {
+        running = false;  // Set the control flag to false to exit the loop
+        runner.interrupt();  // Interrupt the thread, in case it's sleeping
+    }   
 }
