@@ -60,6 +60,7 @@ public class Player {
 
     private final boolean usingELO = true;
     private int eloRating = 1000;
+    private boolean admin = false;
     // access
     private final boolean[] access =
             {true,           // free
@@ -106,6 +107,8 @@ public class Player {
             // risky override!
             name = username;
 
+            //check if this player is an admin from the database
+            admin = dbm.getAdmin(username);
             email = dbm.getEmail(username);
             salt = dbm.getSalt(username);
             passwordHashed = dbm.getPasswordHashed(username);
@@ -773,7 +776,7 @@ public class Player {
     }
 
     public boolean admin() {
-        return name.equals("ravean");
+        return admin;
     }
 
     public String getPasswordHashed() {

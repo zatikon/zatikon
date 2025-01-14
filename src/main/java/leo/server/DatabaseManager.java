@@ -72,6 +72,7 @@ public class DatabaseManager {
                       `keycodeInquisition` varchar(64) default NULL,
                       `joined` varchar,
                       `jsonData` json NOT NULL default '{}',
+                      `admin` int default 0,
                       PRIMARY KEY  (`username`)
                     )""");
 
@@ -566,6 +567,32 @@ public class DatabaseManager {
             throw e;
         }
         return email;
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Get the player admin data
+    /////////////////////////////////////////////////////////////////
+    public boolean getAdmin(String name) throws Exception {
+        boolean admin = false;
+        try { // open a connection
+            //Connection connection = initialize();
+
+            PreparedStatement statement = connection.prepareStatement("SELECT admin FROM players WHERE username = ?");
+            statement.setString(1, name);
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+
+            while (rs.next()) {
+                admin = (rs.getInt("admin") == 1);
+            }
+            rs.close();
+
+            //connection.close();
+        } catch (Exception e) {
+            Log.error("DatabaseManager.getEmail");
+            throw e;
+        }
+        return admin;
     }
 
     public byte[] getSalt(String name) throws Exception {

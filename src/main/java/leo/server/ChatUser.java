@@ -250,6 +250,12 @@ public class ChatUser implements Runnable {
             user.sendText("Welcome to Zatikon!");
             user.sendText(" ");
 
+            //check if a server shutdown has been initiated, if so inform the client.
+            if(server.getWillShutDown()) {
+                user.sendAction(Action.SERVER_WILL_SHUTDOWN, Action.NOTHING, Action.NOTHING);
+                user.sendText("Server shutdown initiated. Games can't be started. When all games have finished the server will shutdown and update.");    
+            }
+
             try {
                 BufferedReader in = new BufferedReader(new FileReader("MOTD.txt"));
                 String line;

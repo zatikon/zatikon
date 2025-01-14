@@ -79,7 +79,7 @@ public class LaunchGameButton extends LeoComponent {
                 Client.getGameData().screenEditCastle();
             } else {
                 if(Client.getServerWillShutDown() == true) {
-                    Client.getGameData().screenLoading("Server is shutting down for an update");
+                    Client.getGameData().screenLoading("Can't start a new game, the server is shutting down for an update.");
                 } else if(label == "Single Player" || label == "Start Here!") {
                     Client.getNetManager().requestPractice();
                     Client.getGameData().screenLoading("Loading the Artificial Opponent...");
