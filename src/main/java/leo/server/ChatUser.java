@@ -45,7 +45,7 @@ public class ChatUser implements Runnable {
         try {
             socket = newSocket;
             //socket.setSoTimeout(0);
-            runner = new Thread(this, "ChatUserThread");
+            runner = new Thread(this, "ChatUserThread");            
             runner.start();
         } catch (Exception e) {
             Log.error("ChatUser.constructor " + e);
@@ -530,6 +530,12 @@ public class ChatUser implements Runnable {
                     Log.chat("Whisper " + user.getPlayer().getName() + " to " + gotPlayer.getName() + ": " + messageBuffer);
                 }
             } else if (action == Action.CHAT_BROADCAST) {
+                System.out.println("message: " + messageBuffer.toString());
+                //start server shutdown
+                if(user.getPlayer().admin() && messageBuffer.toString().equals("#shutdown")) {
+                    server.startShutDown();
+                    return;
+                }
                 Vector<Player> players = server.getPlayers();
                 Iterator<Player> it = players.iterator();
                 while (it.hasNext()) {
