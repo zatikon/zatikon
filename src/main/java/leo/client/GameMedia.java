@@ -18,7 +18,7 @@ import org.tinylog.Logger;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
+//import java.io.BufferedInputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -67,8 +67,7 @@ public class GameMedia {
 
             // The background music
             url = soundLoader.getResource(Constants.SOUND_LOC + "music.ogg");
-            music = new OggClip(new BufferedInputStream(url.openStream()));
-            //music = new OggClip(AudioSystem.getAudioInputStream(url.openStream()));
+            music = new OggClip(url);
 
             int loadingSound;
 
@@ -310,6 +309,21 @@ public class GameMedia {
             url = artLoader.getResource(Constants.ART_LOC + "waiting_teamicon.png");
             images[Constants.IMG_WAITING_TEAM_ICON] = ImageIO.read(url);
 
+            url = artLoader.getResource(Constants.ART_LOC + "team_icons.png");
+            images[Constants.IMG_TEAM_ICONS_BUTTON] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "plus.png");
+            images[Constants.IMG_PLUS_BUTTON] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "minus.png");
+            images[Constants.IMG_MINUS_BUTTON] = ImageIO.read(url);
+
+            // sound
+            url = artLoader.getResource(Constants.ART_LOC + "sound.png");
+            images[Constants.IMG_MUTE] = ImageIO.read(url);
+
+            // music
+            url = artLoader.getResource(Constants.ART_LOC + "music.png");
+            images[Constants.IMG_MUSIC] = ImageIO.read(url);                       
+
         } catch (Exception e) {
             Logger.error("preload: " + url + " " + e);
         }
@@ -325,11 +339,11 @@ public class GameMedia {
         URL[] urls = new URL[1];
 
         try {
-
             /////////////////////////////////////////////////////////
             // Sounds
             /////////////////////////////////////////////////////////
             loadSounds();
+            Client.setMusicVolume(Client.settings().getMusicVolume());
 
             /////////////////////////////////////////////////////////
             // Art
@@ -354,7 +368,6 @@ public class GameMedia {
 
             // load an empty
             images[Constants.IMG_POOF] = images[Constants.IMG_SPLAT];
-
 
             // miss
             url = artLoader.getResource(Constants.ART_LOC + "miss.png");
@@ -2177,23 +2190,6 @@ public class GameMedia {
             url = artLoader.getResource(Constants.ART_LOC + "cooperativered.png");
             images[Constants.IMG_COOPERATIVE_RED] = ImageIO.read(url);
 
-
-            // mute
-            url = artLoader.getResource(Constants.ART_LOC + "mute.png");
-            images[Constants.IMG_MUTE] = ImageIO.read(url);
-            url = artLoader.getResource(Constants.ART_LOC + "mutehighlight.png");
-            images[Constants.IMG_MUTE_HIGHLIGHT] = ImageIO.read(url);
-            url = artLoader.getResource(Constants.ART_LOC + "muted.png");
-            images[Constants.IMG_MUTED] = ImageIO.read(url);
-
-            // music
-            url = artLoader.getResource(Constants.ART_LOC + "music.png");
-            images[Constants.IMG_MUSIC] = ImageIO.read(url);
-            url = artLoader.getResource(Constants.ART_LOC + "musichighlight.png");
-            images[Constants.IMG_MUSIC_HIGHLIGHT] = ImageIO.read(url);
-            url = artLoader.getResource(Constants.ART_LOC + "musicoff.png");
-            images[Constants.IMG_MUSIC_OFF] = ImageIO.read(url);
-
             // new url buttons
             url = artLoader.getResource(Constants.ART_LOC + "forum.png");
             images[Constants.IMG_FORUM] = ImageIO.read(url);
@@ -2295,7 +2291,16 @@ public class GameMedia {
             images[Constants.IMG_SHIELD_1] = ImageIO.read(url);
             url = artLoader.getResource(Constants.ART_LOC + "shield2.png");
             images[Constants.IMG_SHIELD_2] = ImageIO.read(url);
-  
+
+            url = artLoader.getResource(Constants.ART_LOC + "team_icon_1.png");
+            images[Constants.IMG_TEAM_ICON_1] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "team_icon_2.png");
+            images[Constants.IMG_TEAM_ICON_2] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "team_icon_3.png");
+            images[Constants.IMG_TEAM_ICON_3] = ImageIO.read(url);
+            url = artLoader.getResource(Constants.ART_LOC + "team_icon_4.png");
+            images[Constants.IMG_TEAM_ICON_4] = ImageIO.read(url);                    
+
   /*
   url = artLoader.getResource(Constants.ART_LOC + "endGameScreenVictory.jpg");
   images[Constants.IMG_END_GAME_VICTORY] = ImageIO.read(url);
@@ -2520,6 +2525,14 @@ public class GameMedia {
         }
     }
 
+    public void setMusicVol(int vol) {
+        try {
+            music.setVolume(vol);
+        } catch (Exception e) {
+            Logger.error("GameMedia.setMusicVol(): " + e);
+        }
+    }
+
     public void clean() {
         try {
             for (int i = 0; i < images.length; i++) {
@@ -2546,6 +2559,7 @@ public class GameMedia {
     public Sound getSound(short index) {
         return sounds[index];
     }
+
 
     /////////////////////////////////////////////////////////////////
     // Get a particular image, also checks for gray images
@@ -2610,6 +2624,34 @@ public class GameMedia {
         return grayedImages[image];
     }
 
+    public Image getTeamIcon(int team) {
+        short selectedImage = Constants.IMG_TEAM_ICON_1;
+        switch (team) {
+            case 2:
+                selectedImage = Constants.IMG_TEAM_ICON_2;
+                break;
+            case 3:
+                selectedImage = Constants.IMG_TEAM_ICON_3;
+                break;
+            case 4:
+                selectedImage = Constants.IMG_TEAM_ICON_4;
+                break;
+        }
+
+        Image icon = getImage(selectedImage);
+        //icon = icon.getScaledInstance(17, 17, Image.SCALE_SMOOTH);
+        /*
+        BufferedImage baseImage = (BufferedImage) image;
+        Graphics2D g2d = baseImage.createGraphics();
+
+        int x = baseImage.getWidth() - icon.getWidth(null);
+        int y = baseImage.getHeight() - icon.getHeight(null);
+        g2d.drawImage(icon, x, y, null);
+        g2d.dispose();*/
+
+        return icon;
+    }
+
     /////////////////////////////////////////////////////////////////
     // Get a prerotated image
     /////////////////////////////////////////////////////////////////
@@ -2637,6 +2679,9 @@ public class GameMedia {
         return rotatedImages[image];
     }
 
+    public int getSoundCount() {
+        return soundCount;
+    }
 
     public void soundStarted() {
         ++soundCount;

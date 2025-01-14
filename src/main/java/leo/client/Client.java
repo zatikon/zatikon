@@ -116,7 +116,6 @@ public class Client {
                     false   // inquisitions
             };
     public static boolean standalone = false;
-
     private static Server server = null;
 
 
@@ -968,6 +967,31 @@ public class Client {
 
     public static boolean demo() {
         return demo;
+    }
+
+    public static boolean getShowTeamIcons() {
+        return settings.getTeamIconsState();
+    }
+
+    public static Short getSoundVolume() {
+        return settings.getSoundVolume();
+    }
+
+    public static void setSoundVolume(Short vol) {
+        settings.setSoundVolume(vol);
+    }    
+
+    public static Short getMusicVolume() {
+        return settings.getMusicVolume();
+    }
+
+    public static void setMusicVolume(Short vol) {
+        settings.setMusicVolume(vol);
+        getImages().setMusicVol(vol);
+    }    
+
+    public static void toggleShowTeamIcons() {
+        settings.setTeamIconsState(!settings.getTeamIconsState());
     }
 
     /////////////////////////////////////////////////////////////////

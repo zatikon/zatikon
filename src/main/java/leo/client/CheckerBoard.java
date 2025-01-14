@@ -558,10 +558,12 @@ public class CheckerBoard extends LeoComponent {
                                 g.drawImage(Client.getImages().getImage(Constants.IMG_BLUE), x * Constants.SQUARE_SIZE + getScreenX() + stepX, y * Constants.SQUARE_SIZE + getScreenY() + stepY, mainFrame);
                             }
                         } else {
-                            if (unit.getTeam() == Unit.TEAM_2)
+                            if (unit.getTeam() == Unit.TEAM_2) {
                                 g.drawImage(Client.getImages().getImage(Constants.IMG_YELLOW), x * Constants.SQUARE_SIZE + getScreenX() + stepX, y * Constants.SQUARE_SIZE + getScreenY() + stepY, mainFrame);
-                            else
+                            }
+                            else {
                                 g.drawImage(Client.getImages().getImage(Constants.IMG_RED), x * Constants.SQUARE_SIZE + getScreenX() + stepX, y * Constants.SQUARE_SIZE + getScreenY() + stepY, mainFrame);
+                            }
                         }
                         g.setComposite(toriginal);
                     }
@@ -598,13 +600,28 @@ public class CheckerBoard extends LeoComponent {
                         g.setComposite(original);
                     }
 
-
                     // Draw gold border for buffed units
                     if (unit.boss()) {
                         g.drawImage(Client.getImages().getImage(Constants.IMG_BORDER), x * Constants.SQUARE_SIZE + getScreenX() + stepX, y * Constants.SQUARE_SIZE + getScreenY() + stepY, mainFrame);
                     }
 
-
+                    //draw team icon
+                    if(Client.getShowTeamIcons()) {
+                        if (unit.getCastle() == Client.getGameData().getMyCastle()) {
+                            if (unit.getTeam() == Unit.TEAM_2) {
+                                g.drawImage(Client.getImages().getTeamIcon(2), x * Constants.SQUARE_SIZE + getScreenX() + stepX + Constants.SQUARE_SIZE - 15, y * Constants.SQUARE_SIZE + getScreenY() + stepY + Constants.SQUARE_SIZE - 15, mainFrame);
+                            } else {
+                                g.drawImage(Client.getImages().getTeamIcon(1), x * Constants.SQUARE_SIZE + getScreenX() + stepX + Constants.SQUARE_SIZE - 15, y * Constants.SQUARE_SIZE + getScreenY() + stepY + Constants.SQUARE_SIZE - 15, mainFrame);
+                            }
+                        } else {
+                            if (unit.getTeam() == Unit.TEAM_2) {
+                                g.drawImage(Client.getImages().getTeamIcon(4), x * Constants.SQUARE_SIZE + getScreenX() + stepX + Constants.SQUARE_SIZE - 15, y * Constants.SQUARE_SIZE + getScreenY() + stepY + Constants.SQUARE_SIZE - 15, mainFrame);
+                            }
+                            else {
+                                g.drawImage(Client.getImages().getTeamIcon(3), x * Constants.SQUARE_SIZE + getScreenX() + stepX + Constants.SQUARE_SIZE - 15, y * Constants.SQUARE_SIZE + getScreenY() + stepY + Constants.SQUARE_SIZE - 15, mainFrame);
+                            }
+                        }
+                    }                   
                 }
 
                 if (unit.getLink() != null) {
