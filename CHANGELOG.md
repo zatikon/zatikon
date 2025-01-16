@@ -1,11 +1,8 @@
-# 1.1.6.1
+# 1.1.6
 
 - Updated Sound and Music to fix problems with playback
 - Added volume controls for Sound and Music
 - Added option for unit icons to show team instead of just colors
-
-# 1.1.6
-
 - Restricted Zealous relic for War Elephant and Confessor
 - added client side connection check
 - Added graceful server shutdown with feedback
