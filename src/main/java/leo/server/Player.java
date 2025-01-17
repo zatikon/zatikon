@@ -117,6 +117,7 @@ public class Player {
 
             //buf = getPlayerBytes(dbm, username);
             Map<String, Object> playerData = getPlayerBytes(dbm, username);
+            
             if (playerData == null) return;
 
             // Get json_data as a String and convert it to JSONObject
@@ -136,7 +137,7 @@ public class Player {
                     // AI stuff
                     computerWins = jsonObject.optInt("computerWins", 0);
                     computerLosses = jsonObject.optInt("computerLosses", 0);
-                    //Logger.info("new wins/losses: " + computerWins + "/" + computerLosses);
+                    Logger.info("new wins/losses: " + computerWins + "/" + computerLosses);
 
                     gold = jsonObject.optLong("gold", 0L);
                     goldStamp = jsonObject.optLong("goldStamp", 0L);
@@ -193,18 +194,22 @@ public class Player {
                         }
                     }
                 loaded = true;
-                //buf = (byte[]) playerData.get("data");
+                buf = (byte[]) playerData.get("data");
                 return;
                 } else { //use the old data
                     //Log.activity("json is empty, loading the old data");
-                    buf = (byte[]) playerData.get("data");
-                    if (buf == null) return;
+                    //buf = (byte[]) playerData.get("data");
+                    //if (buf == null) return;
                 }
             } else {  // Get the buf (player data) if json_data is empty
                 //Log.activity("json is null, loading the old data");
-                buf = (byte[]) playerData.get("data");
-                if (buf == null) return;
+                //buf = (byte[]) playerData.get("data");
+                //if (buf == null) return;
             }
+
+            // load the old way
+            buf = (byte[]) playerData.get("data");
+            if (buf == null) return;
 
             ByteArrayInputStream bais = new ByteArrayInputStream(buf);
             DataInputStream dis = new DataInputStream(bais);
@@ -223,7 +228,7 @@ public class Player {
             computerWins = dis.readInt();
             computerLosses = dis.readInt();
 
-            //Logger.info("Cwins/Closses: " + computerWins + "/" + computerLosses + "pwins/Ploss " + wins + "/" + losses);
+            Logger.info("Cwins/Closses: " + computerWins + "/" + computerLosses + "pwins/Ploss " + wins + "/" + losses);
             // Current Castle
             int size = dis.readInt();
 

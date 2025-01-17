@@ -115,8 +115,8 @@ public class DatabaseManager {
         try {
             Logger.info("migrating db from " + currentVersion +" to " + DB_VERSION);
 
-            if(currentVersion == "") { //if no version is available it means the db is probably 1.1.5
-
+            if(currentVersion.equals("")) { //if no version is available it means the db is probably 1.1.5
+                Logger.info("no version is available it means the db is probably 1.1.5");
                 // Add jsonData column
                 connection.createStatement().execute("ALTER TABLE `players` ADD COLUMN `jsonData` TEXT NOT NULL DEFAULT '{}';");
 
