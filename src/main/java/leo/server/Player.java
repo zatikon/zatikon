@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.util.Map;
 //import java.util.HashMap;
 import java.util.Iterator;
+import org.tinylog.Logger;
 
 public class Player {
 
@@ -116,6 +117,7 @@ public class Player {
 
             //buf = getPlayerBytes(dbm, username);
             Map<String, Object> playerData = getPlayerBytes(dbm, username);
+            
             if (playerData == null) return;
 
             // Get json_data as a String and convert it to JSONObject
@@ -135,6 +137,7 @@ public class Player {
                     // AI stuff
                     computerWins = jsonObject.optInt("computerWins", 0);
                     computerLosses = jsonObject.optInt("computerLosses", 0);
+                    //Logger.info("new wins/losses: " + computerWins + "/" + computerLosses);
 
                     gold = jsonObject.optLong("gold", 0L);
                     goldStamp = jsonObject.optLong("goldStamp", 0L);
@@ -194,14 +197,45 @@ public class Player {
                 return;
                 } else { //use the old data
                     //Log.activity("json is empty, loading the old data");
-                    buf = (byte[]) playerData.get("data");
-                    if (buf == null) return;
+                    //buf = (byte[]) playerData.get("data");
+                    //if (buf == null) return;
                 }
             } else {  // Get the buf (player data) if json_data is empty
                 //Log.activity("json is null, loading the old data");
-                buf = (byte[]) playerData.get("data");
-                if (buf == null) return;
+                //buf = (byte[]) playerData.get("data");
+                //if (buf == null) return;
             }
+        } catch (Exception e) {
+            Log.error("Player.constructor 2");
+            throw e;
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Constructor 3
+    /////////////////////////////////////////////////////////////////
+    public Player(DatabaseManager dbm, String username, boolean nonJson) throws Exception {
+        this.dbm = dbm;
+        try {
+            byte[] buf = null;
+
+            // risky override!
+            name = username;
+
+            //check if this player is an admin from the database
+            admin = dbm.getAdmin(username);
+            email = dbm.getEmail(username);
+            salt = dbm.getSalt(username);
+            passwordHashed = dbm.getPasswordHashed(username);
+            eloRating = dbm.getRating(username);
+
+            //buf = getPlayerBytes(dbm, username);
+            Map<String, Object> playerData = getPlayerBytes(dbm, username);
+            
+            if (playerData == null) return;
+            // load the old way
+            buf = (byte[]) playerData.get("data");
+            if (buf == null) return;
 
             ByteArrayInputStream bais = new ByteArrayInputStream(buf);
             DataInputStream dis = new DataInputStream(bais);
@@ -220,6 +254,7 @@ public class Player {
             computerWins = dis.readInt();
             computerLosses = dis.readInt();
 
+            Logger.info("Cwins/Closses: " + computerWins + "/" + computerLosses + "pwins/Ploss " + wins + "/" + losses);
             // Current Castle
             int size = dis.readInt();
 
@@ -283,7 +318,7 @@ public class Player {
             Log.error("Player.constructor 2");
             throw e;
         }
-    }
+    }    
 
 //    public Player(DatabaseManager dbm, String username) throws Exception {
 //        this(dbm, username);

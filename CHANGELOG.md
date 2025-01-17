@@ -1,3 +1,8 @@
+# 1.1.7
+
+- Added auto database migration for standalone mode
+- Minor UI fixes
+
 # 1.1.6
 
 - Updated Sound and Music to fix problems with playback

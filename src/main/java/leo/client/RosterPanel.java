@@ -24,6 +24,7 @@ public class RosterPanel extends LeoContainer {
     public static final int MARGIN = 6;
     private static final Color GOLD = new Color(255, 255, 175);
     private final RosterText rosterText;
+    private final RosterText rosterText2;
     private boolean inside = false;
 
     /////////////////////////////////////////////////////////////////
@@ -45,20 +46,22 @@ public class RosterPanel extends LeoContainer {
 
         noob = true;
 
-        SettingsButton mb = new SettingsButton(718, 517, 19, 19, Constants.IMG_MUTE, "soundButton");
+        SettingsButton tb = new SettingsButton(699, 495, 91, 19, Constants.IMG_TEAM_ICONS_BUTTON, "teamIcon");
+        add(tb);
+
+        SettingsButton mb = new SettingsButton(719, 529, 51, 19, Constants.IMG_MUTE, "soundButton");
         add(mb);
-        SettingsButton mib = new SettingsButton(725, 517, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
+        SettingsButton mib = new SettingsButton(698, 529, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
         add(mib);
-        SettingsButton psb = new SettingsButton(745, 517, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
+        SettingsButton psb = new SettingsButton(772, 529, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
         add(psb);        
 
-        //MusicButton msb = new MusicButton(718, 540, 54, 34);
-        SettingsButton msb = new SettingsButton(718, 575, 19, 19, Constants.IMG_MUSIC, "musicButton");
+        SettingsButton msb = new SettingsButton(719, 563, 51, 19, Constants.IMG_MUSIC, "musicButton");
         add(msb);
-        SettingsButton mmb = new SettingsButton(725, 575, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
+        SettingsButton mmb = new SettingsButton(698, 563, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
         add(mmb);
-        SettingsButton pmb = new SettingsButton(745, 575, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
-        add(pmb);   
+        SettingsButton pmb = new SettingsButton(772, 563, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
+        add(pmb);
 
         // Play
         LaunchGameButton computerButton = new LaunchGameButton(
@@ -67,6 +70,7 @@ public class RosterPanel extends LeoContainer {
         add(computerButton);
 
         rosterText = null;
+        rosterText2 = null;
     }
 
 
@@ -194,7 +198,8 @@ public class RosterPanel extends LeoContainer {
                 this, buttonX, 405, 38, 38, Constants.IMG_BUY_RED, "Buy New Unit",
                 "Buy a randomly selected, new unit for your army for 100 gold.", false);
         add(buyButton);
-        rosterText = new RosterText(this, "Wins: " + Client.getWins() + " Losses: " + Client.getLosses(), 4, 455, 186, 142);         
+        rosterText = new RosterText(this, "Wins: " + Client.getWins() + " Losses: " + Client.getLosses(), 4, 455, 186, 142);
+        rosterText2 = new RosterText(this, "", 4, 455, 186, 142);
     }
 
 
@@ -337,9 +342,12 @@ public class RosterPanel extends LeoContainer {
             inside = false;
             //g.drawImage(Client.getImages().getImage(Constants.IMG_TEAM), getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
             if(msgText != "") {
-                g.setFont(Client.getFont());
-                g.setColor(Color.white);
-                g.drawString(msgText, 4 + 20, 505 + 13);
+                rosterText2.setText(msgText);
+                rosterText2.draw(g, mainFrame);
+
+                //g.setFont(Client.getFont());
+                //g.setColor(Color.white);
+                //g.drawString(msgText, 4 + 20, 505 + 13);
                 msgText = "";
             }
         }

@@ -62,9 +62,6 @@ public class Server {
     public Server(boolean useTls) {
         dbm = new DatabaseManager();
 
-        //dbm.updateDatabase();  //loads and save all the players in order to update their format in the DB
-        //TopTen.main();
-
         Log.system("Booting Zatikon Server ver. " + Client.VERSION);
         loginServer = new LoginServer(this, Client.LOGIN_PORT, useTls);
         chatServer = new ChatServer(this, Client.CHAT_PORT, useTls);

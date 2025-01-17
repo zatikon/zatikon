@@ -32,7 +32,7 @@ public class DatabaseManager {
     // Constants
     /////////////////////////////////////////////////////////////////
     private static final String DB_DRIVER = "org.sqlite.JDBC";
-
+    public static final String DB_VERSION = "1.1.6";
     private static final String DB_PATH = Optional
             .ofNullable(System.getProperty("server.db.path"))
             .orElse(Constants.LOCAL_DIR + File.separator + "zatikon.db");
@@ -59,7 +59,8 @@ public class DatabaseManager {
 
     private void prepare() {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("""
+            boolean tableExists = connection.getMetaData().getTables(null, null, "players", null).next();
+            connection.createStatement().execute("""
                     CREATE TABLE if not exists `players` (
                       `username` varchar(20) NOT NULL default '',
                       `password` varchar(64) NOT NULL default '',
@@ -76,10 +77,28 @@ public class DatabaseManager {
                       PRIMARY KEY  (`username`)
                     )""");
 
-
-            preparedStatement.execute();
-
             connection.createStatement().execute("create table if not exists `referrals` (email varchar, username varchar, registered int, primary key (username))");
+            connection.createStatement().execute("create table if not exists `metadata` (metakey varchar, metavalue varchar, primary key (metakey))");
+
+            //if the player table did not exist then it is created at the latest version so set that in the metadata
+            if(!tableExists) {
+                try {
+                    setDbVersion(DB_VERSION);
+                } catch (Exception e) {
+                    Logger.error("Failed to fetch DB version", e);
+                }                
+            }
+
+            try {
+                String version = getDbVersion();
+                Logger.info("db version: " + version);
+                if(!DB_VERSION.equals(version)) {
+                    migrateDb(version);
+                }
+            } catch (Exception e) {
+                Logger.error("Failed to fetch DB version", e);
+            }
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -87,6 +106,104 @@ public class DatabaseManager {
 
     }
 
+    ////////////////////////////////
+    // Migrate the DB to a new version
+    ////////////////////////////////
+    
+    public void migrateDb(String currentVersion) {
+        try {
+            Logger.info("migrating db from " + currentVersion +" to " + DB_VERSION);
+
+            if(currentVersion.equals("")) { //if no version is available it means the db is probably 1.1.5
+                Logger.info("no version is available it means the db is probably 1.1.5");
+
+                // Add jsonData column
+                try {
+                    connection.createStatement().execute("ALTER TABLE `players` ADD COLUMN `jsonData` TEXT NOT NULL DEFAULT '{}';");
+                } catch (Exception e) {
+                    Logger.error("DatabaseManager.migrateDb" + e);
+                }
+                // Add admin column
+                 try {
+                    connection.createStatement().execute("ALTER TABLE `players` ADD COLUMN `admin` INTEGER DEFAULT 0;");
+                } catch (Exception e) {
+                    Logger.error("DatabaseManager.migrateDb" + e);
+                }                
+                //update the player data
+                movePlayerDataToJson();
+                setDbVersion(DB_VERSION);
+            }
+        } catch (Exception e) {
+            Logger.error("DatabaseManager.migrateDb" + e);
+        }        
+    }
+
+    ////////////////////////////////
+    // movePlayerDataToJson Update all the players in the DB by loading and saving them (DB transition)
+    ////////////////////////////////
+    
+    public void movePlayerDataToJson() {
+        Player tempPlayer;
+
+        try {
+            Logger.info("loading all players");
+            var list = getPlayerList();
+            //Logger.info("players: " + list);
+            for (var player: list) {
+                try {
+                    tempPlayer = new Player(this, player, true);
+                    tempPlayer.save();
+                    Logger.info("Processed player: " + player);
+                } catch (Exception e) {
+                    Logger.error("DatabaseManager error loading: " + player + " - " + e);
+                } 
+            }
+        } catch (Exception e) {
+            Logger.error("DatabaseManager.updateDatabase" + e);
+        }        
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Set/Update the db version
+    /////////////////////////////////////////////////////////////////
+    public void setDbVersion(String newVersion) throws Exception {
+        try {
+            var ps = connection.prepareStatement("INSERT INTO `metadata` (metakey, metavalue) VALUES (?, ?) ON CONFLICT(metakey) DO UPDATE SET `metavalue` = ?");
+            ps.setString(1, "version");
+            ps.setString(2, newVersion);
+            ps.setString(3, newVersion);
+            ps.execute();
+            ps.close();
+
+        } catch (Exception e) {
+            Log.error("DatabaseManager.dbVersion");
+            throw e;
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Get the db version
+    /////////////////////////////////////////////////////////////////
+    public String getDbVersion() throws Exception {
+        String result = "";
+        try {
+            var statement = connection.prepareStatement("SELECT `metavalue` FROM `metadata` WHERE `metakey` = ?");
+            statement.setString(1, "version");
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+
+            while (rs.next()) {
+                result = rs.getString("metavalue");
+            }
+            rs.close();
+
+            //connection.close();
+        } catch (Exception e) {
+            Log.error("DatabaseManager.getDbVersion");
+            throw e;
+        }
+        return result;
+    }
 
     /////////////////////////////////////////////////////////////////
     // save a player
@@ -267,32 +384,6 @@ public class DatabaseManager {
         }
         return scores.toString();
     }
-
-    ////////////////////////////////
-    // updateDatabase Update all the players in the DB by loading and saving them (DB transition)
-    ////////////////////////////////
-    /*
-    public void updateDatabase() {
-        Player tempPlayer;
-
-        try {
-            Logger.info("loading all players");
-            var list = getPlayerList();
-            Logger.info("players: " + list);
-            for (var player: list) {
-                try {
-                    tempPlayer = new Player(this, player);
-                    tempPlayer.save();
-                    Logger.info("Processed player: " + player);
-                } catch (Exception e) {
-                    Logger.error("DatabaseManager error loading: " + player + " - " + e);
-                } 
-            }
-        } catch (Exception e) {
-            Logger.error("DatabaseManager.RewritePlayers" + e);
-            //throw e;
-        }        
-    }*/
 
     ////////////////////////////////
     // Scoredump (Ratings transition)
