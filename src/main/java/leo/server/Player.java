@@ -136,7 +136,7 @@ public class Player {
                     // AI stuff
                     computerWins = jsonObject.optInt("computerWins", 0);
                     computerLosses = jsonObject.optInt("computerLosses", 0);
-                    Logger.info("new wins/losses: " + computerWins + "/" + computerLosses);
+                    //Logger.info("new wins/losses: " + computerWins + "/" + computerLosses);
 
                     gold = jsonObject.optLong("gold", 0L);
                     goldStamp = jsonObject.optLong("goldStamp", 0L);
