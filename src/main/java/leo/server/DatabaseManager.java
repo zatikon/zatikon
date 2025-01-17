@@ -60,7 +60,7 @@ public class DatabaseManager {
     private void prepare() {
         try {
             boolean tableExists = connection.getMetaData().getTables(null, null, "players", null).next();
-            PreparedStatement preparedStatement = connection.prepareStatement("""
+            connection.createStatement().execute("""
                     CREATE TABLE if not exists `players` (
                       `username` varchar(20) NOT NULL default '',
                       `password` varchar(64) NOT NULL default '',
@@ -77,7 +77,6 @@ public class DatabaseManager {
                       PRIMARY KEY  (`username`)
                     )""");
 
-            preparedStatement.execute();
             connection.createStatement().execute("create table if not exists `referrals` (email varchar, username varchar, registered int, primary key (username))");
             connection.createStatement().execute("create table if not exists `metadata` (metakey varchar, metavalue varchar, primary key (metakey))");
 
@@ -93,7 +92,7 @@ public class DatabaseManager {
             try {
                 String version = getDbVersion();
                 Logger.info("db version: " + version);
-                if(!version.equals(DB_VERSION)) {
+                if(!DB_VERSION.equals(version)) {
                     migrateDb(version);
                 }
             } catch (Exception e) {
@@ -117,19 +116,25 @@ public class DatabaseManager {
 
             if(currentVersion.equals("")) { //if no version is available it means the db is probably 1.1.5
                 Logger.info("no version is available it means the db is probably 1.1.5");
-                // Add jsonData column
-                connection.createStatement().execute("ALTER TABLE `players` ADD COLUMN `jsonData` TEXT NOT NULL DEFAULT '{}';");
 
+                // Add jsonData column
+                try {
+                    connection.createStatement().execute("ALTER TABLE `players` ADD COLUMN `jsonData` TEXT NOT NULL DEFAULT '{}';");
+                } catch (Exception e) {
+                    Logger.error("DatabaseManager.migrateDb" + e);
+                }
                 // Add admin column
-                connection.createStatement().execute("ALTER TABLE `players` ADD COLUMN `admin` INTEGER DEFAULT 0;");
-                
+                 try {
+                    connection.createStatement().execute("ALTER TABLE `players` ADD COLUMN `admin` INTEGER DEFAULT 0;");
+                } catch (Exception e) {
+                    Logger.error("DatabaseManager.migrateDb" + e);
+                }                
                 //update the player data
                 movePlayerDataToJson();
                 setDbVersion(DB_VERSION);
             }
         } catch (Exception e) {
             Logger.error("DatabaseManager.migrateDb" + e);
-            //throw e;
         }        
     }
 
@@ -146,7 +151,7 @@ public class DatabaseManager {
             //Logger.info("players: " + list);
             for (var player: list) {
                 try {
-                    tempPlayer = new Player(this, player);
+                    tempPlayer = new Player(this, player, true);
                     tempPlayer.save();
                     Logger.info("Processed player: " + player);
                 } catch (Exception e) {
@@ -155,7 +160,6 @@ public class DatabaseManager {
             }
         } catch (Exception e) {
             Logger.error("DatabaseManager.updateDatabase" + e);
-            //throw e;
         }        
     }
 

@@ -137,7 +137,7 @@ public class Player {
                     // AI stuff
                     computerWins = jsonObject.optInt("computerWins", 0);
                     computerLosses = jsonObject.optInt("computerLosses", 0);
-                    Logger.info("new wins/losses: " + computerWins + "/" + computerLosses);
+                    //Logger.info("new wins/losses: " + computerWins + "/" + computerLosses);
 
                     gold = jsonObject.optLong("gold", 0L);
                     goldStamp = jsonObject.optLong("goldStamp", 0L);
@@ -194,7 +194,6 @@ public class Player {
                         }
                     }
                 loaded = true;
-                buf = (byte[]) playerData.get("data");
                 return;
                 } else { //use the old data
                     //Log.activity("json is empty, loading the old data");
@@ -206,7 +205,34 @@ public class Player {
                 //buf = (byte[]) playerData.get("data");
                 //if (buf == null) return;
             }
+        } catch (Exception e) {
+            Log.error("Player.constructor 2");
+            throw e;
+        }
+    }
 
+    /////////////////////////////////////////////////////////////////
+    // Constructor 3
+    /////////////////////////////////////////////////////////////////
+    public Player(DatabaseManager dbm, String username, boolean nonJson) throws Exception {
+        this.dbm = dbm;
+        try {
+            byte[] buf = null;
+
+            // risky override!
+            name = username;
+
+            //check if this player is an admin from the database
+            admin = dbm.getAdmin(username);
+            email = dbm.getEmail(username);
+            salt = dbm.getSalt(username);
+            passwordHashed = dbm.getPasswordHashed(username);
+            eloRating = dbm.getRating(username);
+
+            //buf = getPlayerBytes(dbm, username);
+            Map<String, Object> playerData = getPlayerBytes(dbm, username);
+            
+            if (playerData == null) return;
             // load the old way
             buf = (byte[]) playerData.get("data");
             if (buf == null) return;
@@ -292,7 +318,7 @@ public class Player {
             Log.error("Player.constructor 2");
             throw e;
         }
-    }
+    }    
 
 //    public Player(DatabaseManager dbm, String username) throws Exception {
 //        this(dbm, username);
