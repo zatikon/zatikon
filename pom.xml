@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lwjgl.version>3.3.6</lwjgl.version>
-        <lwjgl.natives>natives-linux</lwjgl.natives>       
+        <lwjgl.natives>natives-linux</lwjgl.natives> <!-- natives-linux or natives-macos or natives-windows -->      
     </properties>
 
     <dependencyManagement>

@@ -52,8 +52,8 @@ public class RosterText extends LeoComponent {
             }
 
             // Draw the title
-            g.setColor(Color.white);
-            g.setFont(Client.getFontBold());
+            //g.setColor(Color.white);
+            //g.setFont(Client.getFontBold());
 
             // set back to normal font font land
             g.setFont(Client.getFont());
