@@ -1,4 +1,4 @@
-name: Main branch - JAR
+name: Main branch - Linux JAR
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn --batch-mode package --file pom.xml
+      run: mvn --batch-mode package --file pom.xml -Dlwjgl.natives=natives-windows
 
 #    - name: Copy to staging
 #      run: mkdir staging && cp target/zatikon-*.jar staging

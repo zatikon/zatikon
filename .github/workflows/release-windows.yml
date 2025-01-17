@@ -27,7 +27,7 @@ jobs:
         run: mvn --batch-mode --file pom.xml versions:set '-DnewVersion=${{ steps.get-version.outputs.version }}'
 
       - name: Build with Maven
-        run: mvn --batch-mode --file pom.xml package
+        run: mvn --batch-mode --file pom.xml package -Dlwjgl.natives=natives-windows
 
       - name: Set up package directories
         run: mkdir target/jpack

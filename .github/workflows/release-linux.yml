@@ -1,4 +1,4 @@
-name: Release build - JAR
+name: Release build - Linux JAR
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
         run: mvn --batch-mode --file pom.xml versions:set '-DnewVersion=${{ steps.get-version.outputs.version }}'
 
       - name: Build with Maven
-        run: mvn --batch-mode --file pom.xml package
+        run: mvn --batch-mode --file pom.xml package -Dlwjgl.natives=natives-linux
 
       - name: Generate SHA256 checksum
         run: sha256sum target/zatikon-${{ steps.get-version.outputs.version }}.jar > target/zatikon-${{ steps.get-version.outputs.version }}.sha256
