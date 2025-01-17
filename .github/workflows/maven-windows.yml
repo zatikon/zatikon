@@ -22,7 +22,7 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn --batch-mode package --file pom.xml -Dlwjgl.natives=natives-windows
+      run: mvn -Dlwjgl.natives=natives-windows --batch-mode --file pom.xml package
 
     - name: Set up package directories
       run: mkdir target/jpack
