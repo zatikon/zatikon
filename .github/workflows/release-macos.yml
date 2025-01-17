@@ -1,4 +1,4 @@
-name: macOS Build
+name: Release build - macOS dmg
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
         run: cp target/zatikon-*.jar target/jpack/zatikon.jar
 
       - name: Package into dmg
-        run: jpackage --type dmg --name Zatikon --input target/jpack/ --main-jar zatikon.jar --main-class leo.client.Client --dest exepack --app-version '${{ steps.get-version.outputs.version }}' --icon src/main/resources/icons/zatikon.icns --mac-package-identifier com.chroniclogic.Zatikon --mac-package-name Zatikon --mac-app-category public.app-category.board-games
+        run: jpackage --type dmg --name Zatikon --input target/jpack/ --main-jar zatikon.jar --main-class leo.client.Client --dest dmgpack --app-version '${{ steps.get-version.outputs.version }}' --icon src/main/resources/icons/zatikon.icns --mac-package-identifier com.chroniclogic.Zatikon --mac-package-name Zatikon --mac-app-category public.app-category.board-games
 
       - name: Upload
         uses: actions/upload-artifact@v4
