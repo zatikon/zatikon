@@ -2495,7 +2495,7 @@ public class GameMedia {
     /////////////////////////////////////////////////////////////////
     public void playMusic() {
         try {
-            if (!Client.mute() && !Client.musicOff()) music.play();
+            if (!Client.musicOff()) music.play();
         } catch (Exception e) {
             Logger.error("GameMedia.playMusic(): " + e);
         }
@@ -2503,7 +2503,7 @@ public class GameMedia {
 
     public void stopMusic() {
         try {
-            if (!Client.mute() && !Client.musicOff()) music.stop();
+            if (!Client.musicOff()) music.stop();
         } catch (Exception e) {
             Logger.error("GameMedia.stopMusic(): " + e);
         }
