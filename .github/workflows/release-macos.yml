@@ -1,4 +1,4 @@
-name: Release build - JAR
+name: macOS Build
 
 on:
   push:
@@ -7,9 +7,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -31,19 +31,19 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --file pom.xml package
 
-      - name: Generate SHA256 checksum
-        run: sha256sum target/zatikon-${{ steps.get-version.outputs.version }}.jar > target/zatikon-${{ steps.get-version.outputs.version }}.sha256
+      - name: Set up package directories
+        run: mkdir target/jpack
+
+      - name: Copy the jar
+        run: cp target/zatikon-*.jar target/jpack/zatikon.jar
+
+      - name: Package into dmg
+        run: jpackage --type dmg --name Zatikon --input target/jpack/ --main-jar zatikon.jar --main-class leo.client.Client --dest exepack --app-version '${{ steps.get-version.outputs.version }}' --icon src/main/resources/icons/zatikon.icns --mac-package-identifier com.chroniclogic.Zatikon --mac-package-name Zatikon --mac-app-category public.app-category.board-games
 
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: zatikon-${{ steps.get-version.outputs.version }}
-          path: target/zatikon-*.jar
+          path: dmgpack
 
-# Well it's cool it can be deployed but I don't need that now
-#    - name: Publish package
-#      run: mvn --batch-mode deploy
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-# What I need is to create a release on Github and publish latest version on Flathub. TODO: that.
