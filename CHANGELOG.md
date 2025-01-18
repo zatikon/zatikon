@@ -1,3 +1,10 @@
+# 1.1.8
+
+- Fixed Windows version crashing on launch
+- Fixed hover on players showing the wrong stats
+- Fixed new players not being saved
+- Changed new player intro screen
+
 # 1.1.7
 
 - Added auto database migration for standalone mode
