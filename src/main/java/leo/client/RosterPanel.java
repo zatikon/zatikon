@@ -24,7 +24,6 @@ public class RosterPanel extends LeoContainer {
     public static final int MARGIN = 6;
     private static final Color GOLD = new Color(255, 255, 175);
     private final RosterText rosterText;
-    private final RosterText rosterText2;
     private boolean inside = false;
 
     /////////////////////////////////////////////////////////////////
@@ -63,14 +62,66 @@ public class RosterPanel extends LeoContainer {
         SettingsButton pmb = new SettingsButton(772, 563, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
         add(pmb);
 
+        // Create the buttons
+        int buttonX = 5; //(Constants.SCREEN_WIDTH / 7) - 1;
+        //int buttonHeight = 154;
+        //int buttonY = Constants.SCREEN_HEIGHT - buttonHeight;
+
         // Play
         LaunchGameButton computerButton = new LaunchGameButton(
-                this, 25, 101, 38, 38, Constants.IMG_SINGLE_RED, "Start Here!",
-                "Play a single player game against the Artificial Opponent using your presently configured army. Each game you win, the difficulty increases. Every two you lose, it decreases.", false);
+                this, buttonX, 69, 38, 38, Constants.IMG_SINGLE_RED, "Start Here!",
+                "Play a single player game against the Artificial Opponent using your presently configured army. Each game you win, the difficulty increases. Every two you lose, it decreases.", false, "");
         add(computerButton);
 
-        rosterText = null;
-        rosterText2 = null;
+        // Coop
+        LaunchGameButton coopButton = new LaunchGameButton(
+                this, buttonX, 111, 38, 38, Constants.IMG_COOPERATIVE_RED, "Cooperative",
+                "Enter a queue to play in a cooperative game with another player against the Artificial Opponent.", true, "COMPLETE THE TUTORIAL FIRST!");
+        add(coopButton);
+
+        // Play 2v2
+        LaunchGameButton teamButton = new LaunchGameButton(
+                this, buttonX, 153, 38, 38, Constants.IMG_TEAM, "2 vs 2",
+                "Enter a queue to play a 2 vs 2 team game using your presently configured armies. At least four players must be in queue for the match to begin.", true, "COMPLETE THE TUTORIAL FIRST!");
+        add(teamButton);
+
+        // play Constructed
+        LaunchGameButton playButton = new LaunchGameButton(
+                this, buttonX, 195, 38, 38, Constants.IMG_CONSTRUCTED_RED, "Constructed",
+                "Enter a queue to play another player in a one-on-one match using your presently configured armies.", true, "COMPLETE THE TUTORIAL FIRST!");
+        add(playButton);
+
+        // Duel with Random Armies
+        LaunchGameButton duelButton = new LaunchGameButton(
+                this, buttonX, 237, 38, 38, Constants.IMG_RANDOM_RED, "Random",
+                "Enter a queue to play another player in a one-on-one match using randomly generated armies.", true, "COMPLETE THE TUTORIAL FIRST!");
+        add(duelButton);
+
+        // Duel with Mirrored Random Armies
+        LaunchGameButton mirroredButton = new LaunchGameButton(
+                this, buttonX, 279, 38, 38, Constants.IMG_RANDOM_RED, "Mirrored Random",
+                "Enter a queue to play another player in a one-on-one match using the same randomly generated armies.", true, "COMPLETE THE TUTORIAL FIRST!");
+        add(mirroredButton);
+
+        // edit army
+        LaunchGameButton editButton = new LaunchGameButton(
+                this, buttonX, 321, 38, 38, Constants.IMG_EDIT_RED, "Edit Army",
+                "Enter the army editor, where you can configure your army and buy and sell units.", true, "COMPLETE THE TUTORIAL FIRST!");
+        add(editButton);
+
+        // Army Archive
+        LaunchGameButton archiveButton = new LaunchGameButton(
+                this, buttonX, 363, 38, 38, Constants.IMG_ARCHIVE_RED, "Army Archive",
+                "Save and load army configurations.", true, "COMPLETE THE TUTORIAL FIRST!");
+        add(archiveButton);
+
+        // Buy Unit
+        LaunchGameButton buyButton = new LaunchGameButton(
+                this, buttonX, 405, 38, 38, Constants.IMG_BUY_RED, "Buy New Unit",
+                "Buy a randomly selected, new unit for your army for 100 gold.", true, "COMPLETE THE TUTORIAL FIRST!");
+        add(buyButton);
+
+        rosterText = new RosterText(this, "Wins: " + Client.getWins() + " Losses: " + Client.getLosses(), 4, 455, 186, 142);
     }
 
 
@@ -104,24 +155,6 @@ public class RosterPanel extends LeoContainer {
         add(rb);
         CreditsButton cb = new CreditsButton(699, 426, 91, 17);
         add(cb);
-        /*
-        BlogButton bb = new BlogButton(699, 14, 91, 19); //37
-        add(bb);
-        GuideButton gb = new GuideButton(699, 43, 91, 19); //87
-        add(gb);
-        ForumButton fb = new ForumButton(699, 72, 91, 19);
-        add(fb);
-        ExitButton eb = new ExitButton(699, 101, 91, 19);
-        add(eb);
-
-        ScoresButton sb = new ScoresButton(699, 130, 91, 19); //276
-        add(sb);
-        AccountButton ab = new AccountButton(699, 159, 91, 19);
-        add(ab);
-        ReferButton rb = new ReferButton(699, 188, 91, 19);
-        add(rb);
-        CreditsButton cb = new CreditsButton(699, 217, 91, 19); //217
-        add(cb);*/
 
         SettingsButton tb = new SettingsButton(699, 495, 91, 19, Constants.IMG_TEAM_ICONS_BUTTON, "teamIcon");
         add(tb);        
@@ -142,64 +175,63 @@ public class RosterPanel extends LeoContainer {
 
         // Create the buttons
         int buttonX = 5; //(Constants.SCREEN_WIDTH / 7) - 1;
-        int buttonHeight = 154;
-        int buttonY = Constants.SCREEN_HEIGHT - buttonHeight;
+        //int buttonHeight = 154;
+        //int buttonY = Constants.SCREEN_HEIGHT - buttonHeight;
 
         // Play AI
         LaunchGameButton computerButton = new LaunchGameButton(
                 this, buttonX, 69, 38, 38, Constants.IMG_SINGLE_RED, "Single Player",
-                "Play a single player game against the Artificial Opponent using your presently configured army. Each game you win, the difficulty increases. Every two you lose, it decreases.", false);
+                "Play a single player game against the Artificial Opponent using your presently configured army. Each game you win, the difficulty increases. Every two you lose, it decreases.", false, "");
         add(computerButton);
 
         // Coop
         LaunchGameButton coopButton = new LaunchGameButton(
                 this, buttonX, 111, 38, 38, Constants.IMG_COOPERATIVE_RED, "Cooperative",
-                "Enter a queue to play in a cooperative game with another player against the Artificial Opponent.", Client.standalone);
+                "Enter a queue to play in a cooperative game with another player against the Artificial Opponent.", Client.standalone, "ONLINE ONLY.");
         add(coopButton);
 
         // Play 2v2
         LaunchGameButton teamButton = new LaunchGameButton(
                 this, buttonX, 153, 38, 38, Constants.IMG_TEAM, "2 vs 2",
-                "Enter a queue to play a 2 vs 2 team game using your presently configured armies. At least four players must be in queue for the match to begin.", Client.standalone);
+                "Enter a queue to play a 2 vs 2 team game using your presently configured armies. At least four players must be in queue for the match to begin.", Client.standalone, "ONLINE ONLY.");
         add(teamButton);
 
         // play Constructed
         LaunchGameButton playButton = new LaunchGameButton(
                 this, buttonX, 195, 38, 38, Constants.IMG_CONSTRUCTED_RED, "Constructed",
-                "Enter a queue to play another player in a one-on-one match using your presently configured armies.", Client.standalone);
+                "Enter a queue to play another player in a one-on-one match using your presently configured armies.", Client.standalone, "ONLINE ONLY.");
         add(playButton);
 
         // Duel with Random Armies
         LaunchGameButton duelButton = new LaunchGameButton(
                 this, buttonX, 237, 38, 38, Constants.IMG_RANDOM_RED, "Random",
-                "Enter a queue to play another player in a one-on-one match using randomly generated armies.", Client.standalone);
+                "Enter a queue to play another player in a one-on-one match using randomly generated armies.", Client.standalone, "ONLINE ONLY.");
         add(duelButton);
 
         // Duel with Mirrored Random Armies
         LaunchGameButton mirroredButton = new LaunchGameButton(
                 this, buttonX, 279, 38, 38, Constants.IMG_RANDOM_RED, "Mirrored Random",
-                "Enter a queue to play another player in a one-on-one match using the same randomly generated armies.", Client.standalone);
+                "Enter a queue to play another player in a one-on-one match using the same randomly generated armies.", Client.standalone, "ONLINE ONLY.");
         add(mirroredButton);
 
         // edit army
         LaunchGameButton editButton = new LaunchGameButton(
                 this, buttonX, 321, 38, 38, Constants.IMG_EDIT_RED, "Edit Army",
-                "Enter the army editor, where you can configure your army and buy and sell units.", false);
+                "Enter the army editor, where you can configure your army and buy and sell units.", false, "");
         add(editButton);
 
         // Army Archive
         LaunchGameButton archiveButton = new LaunchGameButton(
                 this, buttonX, 363, 38, 38, Constants.IMG_ARCHIVE_RED, "Army Archive",
-                "Save and load army configurations.", false);
+                "Save and load army configurations.", false, "");
         add(archiveButton);
 
         // Buy Unit
         LaunchGameButton buyButton = new LaunchGameButton(
                 this, buttonX, 405, 38, 38, Constants.IMG_BUY_RED, "Buy New Unit",
-                "Buy a randomly selected, new unit for your army for 100 gold.", false);
+                "Buy a randomly selected, new unit for your army for 100 gold.", false, "");
         add(buyButton);
         rosterText = new RosterText(this, "Wins: " + Client.getWins() + " Losses: " + Client.getLosses(), 4, 455, 186, 142);
-        rosterText2 = new RosterText(this, "", 4, 455, 186, 142);
     }
 
 
@@ -342,13 +374,13 @@ public class RosterPanel extends LeoContainer {
             inside = false;
             //g.drawImage(Client.getImages().getImage(Constants.IMG_TEAM), getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
             if(msgText != "") {
-                rosterText2.setText(msgText);
-                rosterText2.draw(g, mainFrame);
+                rosterText.setText(msgText);
+                rosterText.draw(g, mainFrame);
 
                 //g.setFont(Client.getFont());
                 //g.setColor(Color.white);
                 //g.drawString(msgText, 4 + 20, 505 + 13);
-                msgText = "";
+                //msgText = "";
             }
         }
 
