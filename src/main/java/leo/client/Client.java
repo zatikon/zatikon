@@ -38,8 +38,9 @@ public class Client {
 //    public static final String SERVER_NAME = "localhost";
 //    public static final String SERVER_NAME = Optional.ofNullable(System.getProperty("server.name")).orElse("localhost");
     public static String serverName = "zatikon.chroniclogic.com";
-    public static final int LOGIN_PORT = 6000;
-    public static final int CHAT_PORT = 6001;
+    // ports are modifiable through property, until they're unified and can be passed in hostname:port format on login
+    public static final int LOGIN_PORT = Optional.of(Integer.parseInt(System.getProperty("server.port"))).orElse(6000);
+    public static final int CHAT_PORT = Optional.of(Integer.parseInt(System.getProperty("server.chat_port"))).orElse(LOGIN_PORT + 1);
     //public static final int  BOARD_SIZE = 11; //moved to "leo/shared/Constants.java"
     //public static final int  SQUARE_SIZE = SCREEN_HEIGHT/BOARD_SIZE; //moved to "leo/shared/Constants.java"
     //public static final int  OFFSET  = (SCREEN_HEIGHT%BOARD_SIZE)/2; //moved to "leo/shared/Constants.java"
