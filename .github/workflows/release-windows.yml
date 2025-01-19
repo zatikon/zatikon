@@ -41,5 +41,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: zatikon-${{ steps.get-version.outputs.version }}
+          name: zatikon-${{ steps.get-version.outputs.version }}-windows
           path: exepack
