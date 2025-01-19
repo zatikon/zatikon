@@ -4,6 +4,7 @@
 - Fixed hover on players showing the wrong stats
 - Fixed new players not being saved
 - Changed new player intro screen
+- Fixed browser button in Linux
 
 # 1.1.7
 
