@@ -19,6 +19,8 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Vector;
 
+import javax.net.ssl.SSLHandshakeException;
+import java.io.IOException;
 
 public class ClientNetManager implements Runnable {
 
@@ -67,11 +69,26 @@ public class ClientNetManager implements Runnable {
     public LoginResponse connect(LoginAttempt loginAttempt) throws Exception {
         try {
             // Create the connection to the server
-            socket = SocketProvider.newSocket(Client.serverName, Client.LOGIN_PORT, useTls);
+            //socket = SocketProvider.newSocket(Client.serverName, Client.LOGIN_PORT, useTls);
+            try {
+                socket = SocketProvider.newSocket(Client.serverName, Client.LOGIN_PORT, useTls);
+                socket.setTcpNoDelay(true);
+            } catch (SSLHandshakeException e) {
+                // Handle SSL handshake issues (e.g., expired/invalid certificate)
+                Logger.error("SSL handshake failed: " + e.getMessage(), e);
+                LoginResponse response = new LoginResponse("SSL handshake failed: " + e.getMessage());
+                return response;
+                //throw e;
+            } catch (IOException e) {
+                // Handle other IO-related issues
+                Logger.error("Failed to connect: " + e.getMessage(), e);
+                LoginResponse response = new LoginResponse("Failed to connect: " + e.getMessage());
+                return response;
+            }
 
             // Bye delay
             //socket.setSoTimeout(0);
-            socket.setTcpNoDelay(true);
+            //socket.setTcpNoDelay(true);
 
             // Initialize the streams
             dis = new DataInputStream(socket.getInputStream());

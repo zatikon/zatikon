@@ -17,8 +17,8 @@ public class ClientMessageDialog extends Dialog
     /////////////////////////////////////////////////////////////////
     // Constants
     /////////////////////////////////////////////////////////////////
-    private static final int HEIGHT = 120;
-    private static final int WIDTH = 220;
+    private static final int HEIGHT = 170;
+    private static final int WIDTH = 320;
     private static final long serialVersionUID = 1L;
 
 

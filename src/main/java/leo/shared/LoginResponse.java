@@ -23,6 +23,10 @@ public class LoginResponse {
     public static final int FAIL_OLD_VERSION = 7;
     private static final long serialVersionUID = 1L;
 
+    //non server responses
+    public static final int SSL_ERROR = 32;
+    public static String msg = "";
+
 
     /////////////////////////////////////////////////////////////////
     // Properties
@@ -47,6 +51,13 @@ public class LoginResponse {
         chatID = newChatID;
     }
 
+    /////////////////////////////////////////////////////////////////
+    // Constructor
+    /////////////////////////////////////////////////////////////////
+    public LoginResponse(String newMsg) {
+        response = SSL_ERROR;
+        msg = newMsg;
+    }
 
     /////////////////////////////////////////////////////////////////
     // Get the status
@@ -62,4 +73,8 @@ public class LoginResponse {
     public int getChatID() {
         return chatID;
     }
+
+    public String getMsg() {
+        return msg;
+    }    
 }

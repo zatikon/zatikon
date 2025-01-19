@@ -233,7 +233,7 @@ public class ClientNewAccountDialog extends JDialog
             loginResponse = clientNetManager.connect(loginAttempt);
         } catch (Exception e) {
             status.dispose();
-            alert("Unable to reach the server.");
+            alert("Unable to reach the server with the following error:" + e + " ");
             return;
         } finally {
             status.dispose();

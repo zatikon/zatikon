@@ -212,10 +212,15 @@ public class ClientLoginDialog extends Dialog
             loginResponse = clientNetManager.connect(loginAttempt);
         } catch (Exception e) {
             status.dispose();
-            alert("Unable to reach the server:" + e);
+            alert("Unable to reach the server: " + e);
             return;
         } finally {
             status.dispose();
+        }
+
+        if (loginResponse.getResponse() == LoginResponse.SSL_ERROR) {
+            Logger.debug("SSL ERROR ALERT");
+            alert("Unable to reach the server, " + loginResponse.getMsg());
         }
 
         if (loginResponse.getResponse() == LoginResponse.FAIL_OLD_VERSION) {
