@@ -268,7 +268,7 @@ public class DatabaseManager {
             //Connection connection = initialize();
 
             // TODO replace datetime with Java code
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO players VALUES (?, ?, ?, ?, ?, NULL, ?, NULL, NULL, datetime(), ?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO players VALUES (?, ?, ?, ?, ?, NULL, ?, NULL, NULL, datetime(), ?, ?)");
             ps.setString(1, username);
             ps.setString(2, hashedPassword);
             ps.setBytes(3, salt);
@@ -277,6 +277,7 @@ public class DatabaseManager {
             ps.setObject(5, buf);
             ps.setString(6, email);
             ps.setString(7, jsonData);
+            ps.setInt(8, 0);
             ps.execute();
             ps.close();
 

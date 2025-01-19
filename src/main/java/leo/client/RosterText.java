@@ -69,6 +69,7 @@ public class RosterText extends LeoComponent {
 
     public void setText(String newText) {
         text = newText;
+        lines = null;
     }
 
 

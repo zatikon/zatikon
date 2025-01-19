@@ -158,6 +158,7 @@ public class PlayerList extends LeoComponent {
 
             // draw every players icon and name + rank
             int line = 0;
+            boolean hovering = false;
             for (int index = location; (index < players.size() && index < (location + MAX_LENGTH)); index++) {
                 String playerNameRating = players.elementAt(index).toString().substring(0, 1).toUpperCase() + players.elementAt(index).toString().substring(1);
                 String playerName = players.elementAt(index).getName().substring(0, 1).toUpperCase() + players.elementAt(index).getName().substring(1);
@@ -165,12 +166,15 @@ public class PlayerList extends LeoComponent {
                 //check for hover on each player
                 if (Client.getGameData().getMouseX() > getScreenX() + 3 && Client.getGameData().getMouseX() < getScreenX() + 200 && Client.getGameData().getMouseY() > getScreenY() + 34 + (35 * line) && Client.getGameData().getMouseY() < getScreenY() + 68 + (35 * line)) {
                     Client.getGameData().getRosterPanel().setMsgText(playerName + ", " + players.elementAt(index).getWinsLosses());
+                    hovering = true;
                 }
 
                 g.drawString(playerNameRating, getScreenX() + 45, getScreenY() + 54 + (35 * line));
                 g.drawImage(players.elementAt(index).getIcon(), getScreenX() + 10, getScreenY() + 35 + (35 * line), 30, 30, mainFrame);
                 line++;
             }
+            if(hovering == false)
+                Client.getGameData().getRosterPanel().setMsgText("");
             // Debug info
             //g.drawString("x= " + xx + " y= " + yy, getScreenX() + 45, getScreenY() + 25 + (35*line));
             //g.drawString("clientName= " + clientName, getScreenX() + 45, getScreenY() + 205);

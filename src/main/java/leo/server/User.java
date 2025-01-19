@@ -300,7 +300,7 @@ public class User implements Runnable {
         game = newGame;
         cancelled = true;
         waiting = false;
-        if (game instanceof PracticeGame)
+        if (game instanceof PracticeGame || game instanceof TutorialGame)
             server.sendState(getPlayer(), Action.CHAT_FIGHTING_SINGLE);
         else if (game instanceof CoopGame)
             server.sendState(getPlayer(), Action.CHAT_FIGHTING_COOP);

@@ -35,14 +35,14 @@ public class LaunchGameButton extends LeoComponent {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public LaunchGameButton(LeoContainer parent, int x, int y, int width, int height, int buttonImg, String buttonLabel, String buttonText, boolean buttonDisabled) {
+    public LaunchGameButton(LeoContainer parent, int x, int y, int width, int height, int buttonImg, String buttonLabel, String buttonText, boolean buttonDisabled, String disabledText) {
         super(x, y, width, height);
         img = buttonImg;
         disabled = buttonDisabled;
         label = buttonLabel;
 
         rosterText = new RosterText(parent,
-            (disabled ? "ONLINE ONLY. " : "") + buttonText,
+            (disabled ? disabledText + " " : "") + buttonText,
             4, 455, 186, 142);
     }
 
@@ -114,16 +114,9 @@ public class LaunchGameButton extends LeoComponent {
     /////////////////////////////////////////////////////////////////
     public void draw(Graphics2D g, Frame mainFrame) {
 
-        if(label == "Buy New Unit") {
-            if(disabled == false && Client.getGold() < 100)
-                disabled = true;
-            else if(disabled == true && Client.getGold() >= 100)
-                disabled = false;
-        }
-         
-            
-        else if(label == "Buy New Unit" && disabled == true)
-            disabled = false;
+        if(label == "Buy New Unit" && disabled == false && Client.getGold() < 100) {
+            disabled = true;
+            }
 
         if (isWithin(Client.getGameData().getMouseX(), Client.getGameData().getMouseY())) {
             rosterText.draw(g, mainFrame);
