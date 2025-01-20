@@ -48,7 +48,6 @@ public class Settings {
     // Save
     /////////////////////////////////////////////////////////////////
     public void save() {
-        if (Client.isWeb()) return;
         try {
             FileConfig config = FileConfig.of(SETTINGS_PATH);
             config.load(); // This isn't really required, this maintains the keys of the current config, even if they don't exist.
@@ -73,8 +72,6 @@ public class Settings {
 
     public void load(String path) {
         try {
-            if (Client.isWeb()) return;
-
             FileConfig config = FileConfig.of(path);
             config.load();
             if (!config.isEmpty()) {

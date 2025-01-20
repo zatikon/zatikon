@@ -58,7 +58,6 @@ public class Client {
     //public static final int  STATE_UNIT = 1; //moved to "leo/shared/Constants.java"
     //public static final int  STEP_SPEED = 9; //moved to "leo/shared/Constants.java"
     private static Random random;
-    private static boolean web;
     private static boolean active = false;
     private static final long serialVersionUID = 1L;
     private static final short[] units = new short[UnitType.UNIT_COUNT.value()];
@@ -148,20 +147,8 @@ public class Client {
 
         var succeeded = new File(Constants.LOCAL_DIR).mkdirs();
 
-        // jnlp or not?
-        web = false;
-        try {
-            web = (System.getProperty("jnlp.web").length() > 0);
-            Logger.info("jnlp.web: " + System.getProperty("jnlp.web"));
-
-        } catch (Exception e) { //System.out.println(e);
-        }
-
-        if (!web) {
-            // set some properties
-            System.setProperty("sun.java2d.translaccel", "true");
-
-        }
+        // set some properties
+        System.setProperty("sun.java2d.translaccel", "true");
 
         // load local settings
         settings = new Settings();
@@ -182,8 +169,6 @@ public class Client {
             String user = args[1];
             String pwd = args[2];
 
-            // TODO check if the web thingies are useful
-            web = true;
             login = new ClientLoginDialog();
             Logger.info("Attempting autologin");
             login.autoLogin(server, user, pwd);
@@ -870,14 +855,6 @@ public class Client {
     public static void musicOff(boolean newState) {
         settings.setMusicState(!newState);
         musicOff = newState;
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Web based...
-    /////////////////////////////////////////////////////////////////
-    public static boolean isWeb() {
-        return web;
     }
 
 
