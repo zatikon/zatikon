@@ -59,11 +59,10 @@ public class GameMedia {
             // Load the sound loader
             ClassLoader soundLoader = Thread.currentThread().getContextClassLoader();
 
-            if (!Client.isWeb()) {
-                String urlName = "file:" + getUserDir() + Constants.SOUND_JAR;
-                urls[0] = new URL(urlName);
-                soundLoader = new URLClassLoader(urls);
-            }
+            String urlName = "file:" + getUserDir() + Constants.SOUND_JAR;
+            urls[0] = new URL(urlName);
+            soundLoader = new URLClassLoader(urls);
+
 
             // The background music
             url = soundLoader.getResource(Constants.SOUND_LOC + "music.ogg");
@@ -264,14 +263,12 @@ public class GameMedia {
             // Load the art loader
             ClassLoader artLoader = Thread.currentThread().getContextClassLoader();
 
-            if (!Client.isWeb()) {
-                try {
-                    String urlName = "file:" + getUserDir() + Constants.ART_JAR;
-                    urls[0] = new URL(urlName);
-                    artLoader = new URLClassLoader(urls);
-                } catch (Exception e) {
-                    Logger.error("Classloader preload " + e);
-                }
+            try {
+                String urlName = "file:" + getUserDir() + Constants.ART_JAR;
+                urls[0] = new URL(urlName);
+                artLoader = new URLClassLoader(urls);
+            } catch (Exception e) {
+                Logger.error("Classloader preload " + e);
             }
 
             // user icon
@@ -352,14 +349,12 @@ public class GameMedia {
             // Load the art loader
             ClassLoader artLoader = Thread.currentThread().getContextClassLoader();
 
-            if (!Client.isWeb()) {
-                try {
-                    String urlName = "file:" + getUserDir() + Constants.ART_JAR;
-                    urls[0] = new URL(urlName);
-                    artLoader = new URLClassLoader(urls);
-                } catch (Exception e) {
-                    Logger.error("classloader load " + e);
-                }
+            try {
+                String urlName = "file:" + getUserDir() + Constants.ART_JAR;
+                urls[0] = new URL(urlName);
+                artLoader = new URLClassLoader(urls);
+            } catch (Exception e) {
+                Logger.error("classloader load " + e);
             }
 
             // start loading image urls
