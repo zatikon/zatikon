@@ -46,8 +46,17 @@ public class OggClip implements Runnable {
         this.soundName = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
         //Logger.info("OggClip(); construct: " + this.soundName);
         try {
+            // If OpenAL isn't initialized yet, initialize it
+            if (device == 0) {
+                initOpenAL();
+            }
+
             // Load the audio data from the JAR file
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream(url.getPath().substring(url.getPath().lastIndexOf("!") + 1))));
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(
+                new BufferedInputStream(
+                    getClass().getResourceAsStream(url.getPath())
+                )
+            );
             if (audioStream == null) {
                 throw new IOException("Resource not found: " + url.getPath().substring(url.getPath().lastIndexOf("!") + 1));
             }
@@ -67,11 +76,6 @@ public class OggClip implements Runnable {
             buffer = audioStream.readAllBytes();
 
             //Logger.info("OggClip(); Audio loaded: Format = " + format + ", Buffer size = " + buffer.length);
-
-            // If OpenAL isn't initialized yet, initialize it
-            if (device == 0) {
-                initOpenAL();
-            }
 
             // Load the sound into a buffer
             loadSound();
