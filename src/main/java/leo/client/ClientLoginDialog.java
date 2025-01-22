@@ -204,7 +204,7 @@ public class ClientLoginDialog extends Dialog
 
         // Attempt a connection to the server
         try {
-            Logger.info("Attempting login");
+            Logger.info("Attempting login with version " + Client.PROTOCOL_VERSION);
             status.setText("Attempting to contact server...");
             LoginAttempt loginAttempt =
                     new LoginAttempt(username.toLowerCase(), password, "fb", loginType, Client.PROTOCOL_VERSION, false);
@@ -224,7 +224,7 @@ public class ClientLoginDialog extends Dialog
         }
 
         if (loginResponse.getResponse() == LoginResponse.FAIL_OLD_VERSION) {
-            alert("Please download the latest version from https://www.chroniclogic.com/zat_download.htm");
+            alert("Your version is out of date, please download version " + loginResponse.getMsg() + " from https://www.chroniclogic.com/zat_download.htm");
             Client.shutdown();
             return;
         }
