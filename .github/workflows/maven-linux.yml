@@ -35,7 +35,7 @@ jobs:
 #        path: target/zatikon-*.jar
 
     - name: Pack into tgz
-      run: tar zcvf zatikon-1.2.0-dev-linux.tar.gz
+      run: tar zcvf zatikon-1.2.0-dev-linux.tar.gz target/
 
     - name: Deploy Nightly
       uses: WebFreak001/deploy-nightly@v3.2.0
