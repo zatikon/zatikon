@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -27,11 +28,23 @@ jobs:
 #    - name: Copy to staging
 #      run: mkdir staging && cp target/zatikon-*.jar staging
 
-    - name: Upload
-      uses: actions/upload-artifact@v4
+#    - name: Upload
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: zatikon-1.2.0-dev-linux
+#        path: target/zatikon-*.jar
+
+    - name: Pack into tgz
+      run: tar zcvf zatikon-1.2.0-dev-linux.tar.gz
+
+    - name: Deploy Nightly
+      uses: WebFreak001/deploy-nightly@v3.2.0
       with:
-        name: zatikon-1.2.0-dev-linux
-        path: target/zatikon-*.jar
+          upload_url: https://uploads.github.com/repos/zatikon/zatikon/releases/195528252/assets{?name,label}
+          release_id: 195528252
+          asset_path: ./zatikon-1.2.0-dev-linux.tar.gz
+          asset_name: zatikon-1.2.0-dev-linux-$$.tar.gz
+          asset_content_type: application/gzip
 
 # Well it's cool it can be deployed but I don't need that now
 #    - name: Publish package
