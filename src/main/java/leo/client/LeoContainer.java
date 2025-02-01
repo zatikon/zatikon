@@ -10,7 +10,7 @@ package leo.client;
 
 import java.awt.*;
 import java.util.Vector;
-
+//import org.tinylog.Logger;
 
 public class LeoContainer extends LeoComponent {
 
@@ -41,6 +41,7 @@ public class LeoContainer extends LeoComponent {
     // Activate the component
     /////////////////////////////////////////////////////////////////
     public boolean clickAt(int x, int y) {
+        //Logger.info(this.getClass().getSimpleName() + " (" + this + ") calling clickAt at (" + x + ", " + y + ")");
         if (!components.isEmpty()) {
             LeoComponent last = components.lastElement();
             if (last instanceof TutorialBoard) {
@@ -51,8 +52,11 @@ public class LeoContainer extends LeoComponent {
         //If the last element is not the tutorial (or if it is but click is false):
         for (int i = 0; i < components.size(); i++) {
             LeoComponent component = components.elementAt(i);
-            if (component != null && !(component instanceof TutorialBoard) && component.isWithin(x, y))
+            //Logger.info("checking in " + component);
+            if (component != null && !(component instanceof TutorialBoard) && component.isWithin(x, y)) {
+                //Logger.info("found passing to " + component);
                 return component.clickAt(x, y);
+            }
         }
         return false;
     }

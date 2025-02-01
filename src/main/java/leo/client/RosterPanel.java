@@ -43,23 +43,52 @@ public class RosterPanel extends LeoContainer {
                 Constants.SCREEN_WIDTH,
                 Constants.SCREEN_HEIGHT);
 
-        noob = true;
+        noob = isNoob;
 
-        SettingsButton tb = new SettingsButton(699, 495, 91, 19, Constants.IMG_TEAM_ICONS_BUTTON, "teamIcon");
+        int xPos = 699;
+        int yPos = 37;
+        int ySpacing = 50;
+        int buttonWidth = 91;
+        int buttonHeight = 17;
+
+        BlogButton bb = new BlogButton(xPos, yPos, buttonWidth, buttonHeight);
+        add(bb);
+        GuideButton gb = new GuideButton(xPos, yPos += ySpacing, buttonWidth, buttonHeight);
+        add(gb);
+        ForumButton fb = new ForumButton(xPos, yPos += ySpacing, buttonWidth, buttonHeight);
+        add(fb);
+        ExitButton eb = new ExitButton(xPos, yPos += ySpacing, buttonWidth, buttonHeight);
+        add(eb);
+        yPos = 276;
+        if(!noob) {
+            ScoresButton sb = new ScoresButton(xPos, yPos, buttonWidth, buttonHeight);
+            add(sb);
+            AccountButton ab = new AccountButton(xPos, yPos += ySpacing, buttonWidth, buttonHeight);
+            add(ab);
+            ReferButton rb = new ReferButton(xPos, yPos += ySpacing, buttonWidth, buttonHeight);
+            add(rb);
+            CreditsButton cb = new CreditsButton(xPos, yPos += ySpacing, buttonWidth, buttonHeight);
+            add(cb);
+        }
+        yPos = 495;
+        ySpacing = 36;
+
+        SettingsButton tb = new SettingsButton(xPos, yPos, buttonWidth, buttonHeight, Constants.IMG_TEAM_ICONS_BUTTON, "teamIcon");
         add(tb);
 
-        SettingsButton mb = new SettingsButton(719, 529, 51, 19, Constants.IMG_MUTE, "soundButton");
+        int smallButtonWidth = 17;
+        SettingsButton mb = new SettingsButton(xPos + smallButtonWidth + 1, yPos += ySpacing, buttonWidth - smallButtonWidth - smallButtonWidth - 2, buttonHeight, Constants.IMG_MUTE, "soundButton");
         add(mb);
-        SettingsButton mib = new SettingsButton(698, 529, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
+        SettingsButton mib = new SettingsButton(xPos, yPos, smallButtonWidth, buttonHeight, Constants.IMG_MINUS_BUTTON, "soundMinus");
         add(mib);
-        SettingsButton psb = new SettingsButton(772, 529, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
-        add(psb);        
+        SettingsButton psb = new SettingsButton(xPos + buttonWidth - smallButtonWidth, yPos, smallButtonWidth, buttonHeight, Constants.IMG_PLUS_BUTTON, "soundPlus");
+        add(psb);
 
-        SettingsButton msb = new SettingsButton(719, 563, 51, 19, Constants.IMG_MUSIC, "musicButton");
+        SettingsButton msb = new SettingsButton(xPos + smallButtonWidth + 1, yPos += ySpacing, buttonWidth - smallButtonWidth - smallButtonWidth - 2, buttonHeight, Constants.IMG_MUSIC, "musicButton");
         add(msb);
-        SettingsButton mmb = new SettingsButton(698, 563, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
+        SettingsButton mmb = new SettingsButton(xPos, yPos, smallButtonWidth, buttonHeight, Constants.IMG_MINUS_BUTTON, "musicMinus");
         add(mmb);
-        SettingsButton pmb = new SettingsButton(772, 563, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
+        SettingsButton pmb = new SettingsButton(xPos + buttonWidth - smallButtonWidth, yPos, smallButtonWidth, buttonHeight, Constants.IMG_PLUS_BUTTON, "musicPlus");
         add(pmb);
 
         // Create the buttons
@@ -76,164 +105,53 @@ public class RosterPanel extends LeoContainer {
         // Coop
         LaunchGameButton coopButton = new LaunchGameButton(
                 this, buttonX, 111, 38, 38, Constants.IMG_COOPERATIVE_RED, "Cooperative",
-                "Enter a queue to play in a cooperative game with another player against the Artificial Opponent.", true, "COMPLETE THE TUTORIAL FIRST!");
+                "Enter a queue to play in a cooperative game with another player against the Artificial Opponent.", Client.standalone || noob, Client.standalone ? "ONLINE ONLY." : "COMPLETE THE TUTORIAL FIRST!");
         add(coopButton);
 
         // Play 2v2
         LaunchGameButton teamButton = new LaunchGameButton(
                 this, buttonX, 153, 38, 38, Constants.IMG_TEAM, "2 vs 2",
-                "Enter a queue to play a 2 vs 2 team game using your presently configured armies. At least four players must be in queue for the match to begin.", true, "COMPLETE THE TUTORIAL FIRST!");
+                "Enter a queue to play a 2 vs 2 team game using your presently configured armies. At least four players must be in queue for the match to begin.", Client.standalone || noob, Client.standalone ? "ONLINE ONLY." : "COMPLETE THE TUTORIAL FIRST!");
         add(teamButton);
 
         // play Constructed
         LaunchGameButton playButton = new LaunchGameButton(
                 this, buttonX, 195, 38, 38, Constants.IMG_CONSTRUCTED_RED, "Constructed",
-                "Enter a queue to play another player in a one-on-one match using your presently configured armies.", true, "COMPLETE THE TUTORIAL FIRST!");
+                "Enter a queue to play another player in a one-on-one match using your presently configured armies.", Client.standalone || noob, Client.standalone ? "ONLINE ONLY." : "COMPLETE THE TUTORIAL FIRST!");
         add(playButton);
 
         // Duel with Random Armies
         LaunchGameButton duelButton = new LaunchGameButton(
                 this, buttonX, 237, 38, 38, Constants.IMG_RANDOM_RED, "Random",
-                "Enter a queue to play another player in a one-on-one match using randomly generated armies.", true, "COMPLETE THE TUTORIAL FIRST!");
+                "Enter a queue to play another player in a one-on-one match using randomly generated armies.", Client.standalone || noob, Client.standalone ? "ONLINE ONLY." : "COMPLETE THE TUTORIAL FIRST!");
         add(duelButton);
 
         // Duel with Mirrored Random Armies
         LaunchGameButton mirroredButton = new LaunchGameButton(
                 this, buttonX, 279, 38, 38, Constants.IMG_RANDOM_RED, "Mirrored Random",
-                "Enter a queue to play another player in a one-on-one match using the same randomly generated armies.", true, "COMPLETE THE TUTORIAL FIRST!");
+                "Enter a queue to play another player in a one-on-one match using the same randomly generated armies.", Client.standalone || noob, Client.standalone ? "ONLINE ONLY." : "COMPLETE THE TUTORIAL FIRST!");
         add(mirroredButton);
 
         // edit army
         LaunchGameButton editButton = new LaunchGameButton(
                 this, buttonX, 321, 38, 38, Constants.IMG_EDIT_RED, "Edit Army",
-                "Enter the army editor, where you can configure your army and buy and sell units.", true, "COMPLETE THE TUTORIAL FIRST!");
+                "Enter the army editor, where you can configure your army and buy and sell units.", Client.standalone || noob, Client.standalone ? "ONLINE ONLY." : "COMPLETE THE TUTORIAL FIRST!");
         add(editButton);
 
         // Army Archive
         LaunchGameButton archiveButton = new LaunchGameButton(
                 this, buttonX, 363, 38, 38, Constants.IMG_ARCHIVE_RED, "Army Archive",
-                "Save and load army configurations.", true, "COMPLETE THE TUTORIAL FIRST!");
+                "Save and load army configurations.", Client.standalone || noob, Client.standalone ? "ONLINE ONLY." : "COMPLETE THE TUTORIAL FIRST!");
         add(archiveButton);
 
         // Buy Unit
         LaunchGameButton buyButton = new LaunchGameButton(
                 this, buttonX, 405, 38, 38, Constants.IMG_BUY_RED, "Buy New Unit",
-                "Buy a randomly selected, new unit for your army for 100 gold.", true, "COMPLETE THE TUTORIAL FIRST!");
+                "Buy a randomly selected, new unit for your army for 100 gold.", Client.standalone || noob, Client.standalone ? "ONLINE ONLY." : "COMPLETE THE TUTORIAL FIRST!");
         add(buyButton);
 
         rosterText = new RosterText(this, "Wins: " + Client.getWins() + " Losses: " + Client.getLosses(), 4, 455, 186, 142);
     }
-
-
-    /////////////////////////////////////////////////////////////////
-    // Constructor
-    /////////////////////////////////////////////////////////////////
-    public RosterPanel() {
-        super(0,
-                0,
-                Constants.SCREEN_WIDTH,
-                Constants.SCREEN_HEIGHT);
-        //super(Constants.OFFSET,
-        // Constants.OFFSET,
-        // Constants.SCREEN_WIDTH - (Constants.OFFSET*2),
-        // Constants.SCREEN_HEIGHT - (Constants.OFFSET*2));
-
-        BlogButton bb = new BlogButton(699, 37, 91, 17);
-        add(bb);
-        GuideButton gb = new GuideButton(699, 87, 91, 17);
-        add(gb);
-        ForumButton fb = new ForumButton(699, 137, 91, 17);
-        add(fb);
-        ExitButton eb = new ExitButton(699, 187, 91, 17);
-        add(eb);
-
-        ScoresButton sb = new ScoresButton(699, 276, 91, 17);
-        add(sb);
-        AccountButton ab = new AccountButton(699, 326, 91, 17);
-        add(ab);
-        ReferButton rb = new ReferButton(699, 376, 91, 17);
-        add(rb);
-        CreditsButton cb = new CreditsButton(699, 426, 91, 17);
-        add(cb);
-
-        SettingsButton tb = new SettingsButton(699, 495, 91, 19, Constants.IMG_TEAM_ICONS_BUTTON, "teamIcon");
-        add(tb);        
-
-        SettingsButton mb = new SettingsButton(719, 529, 51, 19, Constants.IMG_MUTE, "soundButton");
-        add(mb);
-        SettingsButton mib = new SettingsButton(698, 529, 19, 19, Constants.IMG_MINUS_BUTTON, "soundMinus");
-        add(mib);
-        SettingsButton psb = new SettingsButton(772, 529, 19, 19, Constants.IMG_PLUS_BUTTON, "soundPlus");
-        add(psb);        
-
-        SettingsButton msb = new SettingsButton(719, 563, 51, 19, Constants.IMG_MUSIC, "musicButton");
-        add(msb);
-        SettingsButton mmb = new SettingsButton(698, 563, 19, 19, Constants.IMG_MINUS_BUTTON, "musicMinus");
-        add(mmb);
-        SettingsButton pmb = new SettingsButton(772, 563, 19, 19, Constants.IMG_PLUS_BUTTON, "musicPlus");
-        add(pmb);         
-
-        // Create the buttons
-        int buttonX = 5; //(Constants.SCREEN_WIDTH / 7) - 1;
-        //int buttonHeight = 154;
-        //int buttonY = Constants.SCREEN_HEIGHT - buttonHeight;
-
-        // Play AI
-        LaunchGameButton computerButton = new LaunchGameButton(
-                this, buttonX, 69, 38, 38, Constants.IMG_SINGLE_RED, "Single Player",
-                "Play a single player game against the Artificial Opponent using your presently configured army. Each game you win, the difficulty increases. Every two you lose, it decreases.", false, "");
-        add(computerButton);
-
-        // Coop
-        LaunchGameButton coopButton = new LaunchGameButton(
-                this, buttonX, 111, 38, 38, Constants.IMG_COOPERATIVE_RED, "Cooperative",
-                "Enter a queue to play in a cooperative game with another player against the Artificial Opponent.", Client.standalone, "ONLINE ONLY.");
-        add(coopButton);
-
-        // Play 2v2
-        LaunchGameButton teamButton = new LaunchGameButton(
-                this, buttonX, 153, 38, 38, Constants.IMG_TEAM, "2 vs 2",
-                "Enter a queue to play a 2 vs 2 team game using your presently configured armies. At least four players must be in queue for the match to begin.", Client.standalone, "ONLINE ONLY.");
-        add(teamButton);
-
-        // play Constructed
-        LaunchGameButton playButton = new LaunchGameButton(
-                this, buttonX, 195, 38, 38, Constants.IMG_CONSTRUCTED_RED, "Constructed",
-                "Enter a queue to play another player in a one-on-one match using your presently configured armies.", Client.standalone, "ONLINE ONLY.");
-        add(playButton);
-
-        // Duel with Random Armies
-        LaunchGameButton duelButton = new LaunchGameButton(
-                this, buttonX, 237, 38, 38, Constants.IMG_RANDOM_RED, "Random",
-                "Enter a queue to play another player in a one-on-one match using randomly generated armies.", Client.standalone, "ONLINE ONLY.");
-        add(duelButton);
-
-        // Duel with Mirrored Random Armies
-        LaunchGameButton mirroredButton = new LaunchGameButton(
-                this, buttonX, 279, 38, 38, Constants.IMG_RANDOM_RED, "Mirrored Random",
-                "Enter a queue to play another player in a one-on-one match using the same randomly generated armies.", Client.standalone, "ONLINE ONLY.");
-        add(mirroredButton);
-
-        // edit army
-        LaunchGameButton editButton = new LaunchGameButton(
-                this, buttonX, 321, 38, 38, Constants.IMG_EDIT_RED, "Edit Army",
-                "Enter the army editor, where you can configure your army and buy and sell units.", false, "");
-        add(editButton);
-
-        // Army Archive
-        LaunchGameButton archiveButton = new LaunchGameButton(
-                this, buttonX, 363, 38, 38, Constants.IMG_ARCHIVE_RED, "Army Archive",
-                "Save and load army configurations.", false, "");
-        add(archiveButton);
-
-        // Buy Unit
-        LaunchGameButton buyButton = new LaunchGameButton(
-                this, buttonX, 405, 38, 38, Constants.IMG_BUY_RED, "Buy New Unit",
-                "Buy a randomly selected, new unit for your army for 100 gold.", false, "");
-        add(buyButton);
-        rosterText = new RosterText(this, "Wins: " + Client.getWins() + " Losses: " + Client.getLosses(), 4, 455, 186, 142);
-    }
-
 
     /////////////////////////////////////////////////////////////////
     // Get the display string
@@ -271,7 +189,17 @@ public class RosterPanel extends LeoContainer {
     public void setMsgText(String newText) {
         msgText = newText;
     }
-
+    /*
+    public boolean clickAt(int x, int y) {
+        Logger.info("click");
+        if (Client.getGameData().newRecruit()) {
+            Client.getGameData().clearNewRecruit();
+        }
+        if (super.clickAt(x, y)) {
+            return true;
+        }
+        return false;
+    }*/
     /////////////////////////////////////////////////////////////////
     // Draw the component
     /////////////////////////////////////////////////////////////////
@@ -337,11 +265,10 @@ public class RosterPanel extends LeoContainer {
 
 
         if (Client.getGameData().newRecruit()) {
-            Client.getGameData().getHiddenUnitStats().draw(g, mainFrame);
+            //Client.getGameData().getHiddenUnitStats().draw(g, mainFrame);
 
             g.setFont(Client.getFontBig());
-            String text = "You have recruited a new " +
-                    Client.getGameData().getHiddenUnitStats().getName();
+            String text = "You have recruited a new " + Client.getGameData().getHiddenUnitStats().getName();
 
             //int atX = getScreenX() + (getWidth()/2) - (g.getFontMetrics().stringWidth(text)/2);
             //int atY = Client.getGameData().getHiddenUnitStats().getScreenY();

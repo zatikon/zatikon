@@ -354,20 +354,20 @@ public class DatabaseManager {
             rs.close();
 
             //scores.append("<table style='width: 100%;'>"); // border-spacing: 10px;
-            scores.append("<table style='width: 100%; border-spacing: 0px; border-collapse: collapse;'>"); //font-size: 12px;
-            scores.append("<tr><td style='padding: 0px; padding-right: 15px; text-align: left;'><b>PvP Top 20 Players</b></td><td style='padding: 0px; text-align: left;'><b>AI Top 20 Players</b></td></tr>");
+            scores.append("<table>"); //font-size: 12px;
+            scores.append("<tr><td>PvP Top 20 Players</td><td>AI Top 20 Players</td></tr>");
             // Ensure both lists have the same number of rows
             int maxRows = Math.max(topPlayers.size(), aiPlayers.size());
             for (int i = 0; i < maxRows; i++) {
                 scores.append("<tr>");
                 // Add Top 20 Player
-                scores.append("<td style='padding: 0px; text-align: left;'>");
+                scores.append("<td>");
                 if (i < topPlayers.size()) {
                     scores.append((i + 1) + ". " + topPlayers.get(i));
                 }
                 scores.append("</td>");
                 // Add AI Top 20 Player
-                scores.append("<td style='padding: 0px; text-align: left;'>");
+                scores.append("<td>");
                 if (i < aiPlayers.size()) {
                     scores.append((i + 1) + ". " + aiPlayers.get(i));
                 }

@@ -300,8 +300,10 @@ public class ClientNetManager implements Runnable {
 
                 case Action.TOP_SCORES:
                     String topString = dis.readUTF();
+                    Client.getGameData().showHighScores(topString);
+
                     //Thread.sleep(500);
-                    ScoresBox top = new ScoresBox(topString);
+                    //ScoresBox top = new ScoresBox(topString);
                     break;
 
                 case Action.NEED_EMAIL:

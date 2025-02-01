@@ -37,7 +37,7 @@ public class HiddenUnitStats extends LeoContainer {
     /////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////
-    public HiddenUnitStats(LeoContainer newParent) {
+    public HiddenUnitStats() {
         super(X, Y, WIDTH, HEIGHT);
 
         // Stats
@@ -118,5 +118,12 @@ public class HiddenUnitStats extends LeoContainer {
     /////////////////////////////////////////////////////////////////
     public void draw(Graphics2D g, Frame mainFrame) { //if (unit == null) return;
         super.draw(g, mainFrame);
+    }
+
+    public boolean clickAt(int x, int y) {
+        if (Client.getGameData().newRecruit()) {
+            Client.getGameData().clearNewRecruit();
+        }
+        return true;
     }
 }
