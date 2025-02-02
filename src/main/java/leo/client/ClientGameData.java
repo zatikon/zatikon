@@ -296,6 +296,9 @@ public class ClientGameData {
         mainBoard.queue();
     }
 
+    public boolean getQueueing() {
+        return mainBoard.queueing();
+    }
 
     /////////////////////////////////////////////////////////////////
     // SetScreen to versus
@@ -315,6 +318,7 @@ public class ClientGameData {
     /////////////////////////////////////////////////////////////////
     public void screenGame() {
         playing = true;
+        Client.setState("game");
         mainBoard.clear();
         Client.getText().clear();
         Client.getMessageBuffer().delete(0, Client.getMessageBuffer().length());
@@ -346,7 +350,7 @@ public class ClientGameData {
         ////////////////////////////////////////////
         Client.getNetManager().sendAction(Action.CHATTING, Action.NOTHING, Action.NOTHING);
         mainBoard.add(playerPanel);
-
+        Client.setState("home");
     }
 
 
@@ -396,6 +400,7 @@ public class ClientGameData {
         mainBoard.add(endGamePanel);
         ////////////////////////////////
         mainBoard.add(playerPanel);
+        //Client.setState("home");
     }
 
 
@@ -941,4 +946,7 @@ public class ClientGameData {
         playerPanel = newPlayerPanel;
     }
 
+    public boolean rebuilding() {
+        return rebuilding;
+    }
 }

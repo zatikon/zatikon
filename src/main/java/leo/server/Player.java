@@ -70,7 +70,7 @@ public class Player {
                     false          // inquisitions
             };
 
-    private long startTurnTime;
+    private long startTurnTime = -1;
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -856,7 +856,13 @@ public class Player {
     }
 
     public void startTurn() {
+        //Logger.info("player start turn");
         startTurnTime = System.currentTimeMillis();
+    }
+
+    public void endTurn() {
+        Logger.info("player end turn");
+        startTurnTime = -1;
     }
 
     public long getStartTurnTime() {

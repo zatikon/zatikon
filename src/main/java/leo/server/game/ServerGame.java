@@ -271,7 +271,6 @@ public class ServerGame implements Game {
         over = true;
         player1.getUser().endGame();
         player2.getUser().endGame();
-
         if (validGame()) {
             // Save the castles in case of a rematch if it is a random game
             if (type == ServerGame.DUEL) {

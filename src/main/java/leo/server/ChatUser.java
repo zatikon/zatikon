@@ -14,9 +14,11 @@ import leo.shared.Action;
 import leo.shared.Log;
 import leo.shared.Unit;
 import leo.server.game.*;
+import org.tinylog.Logger;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -43,6 +45,7 @@ public class ChatUser implements Runnable {
     public ChatUser(Server server, Socket newSocket) {
         this.server = server;
         try {
+            Logger.info("ChatUser thread started");
             socket = newSocket;
             //socket.setSoTimeout(0);
             runner = new Thread(this, "ChatUserThread");            
@@ -128,6 +131,7 @@ public class ChatUser implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void removePlayer(Player sentPlayer) {
         try {
+            Logger.info("ChatUser.removePlayer");
             ByteArrayOutputStream tmpBaos = new ByteArrayOutputStream();
             DataOutputStream tmpDos = new DataOutputStream(tmpBaos);
             tmpDos.writeShort(Action.CHAT_REMOVE_PLAYER);
@@ -269,11 +273,29 @@ public class ChatUser implements Runnable {
             }
 
             while (alive) {
-                short action = dis.readShort();
-                process(action);
-                user.clearIdle();
+                try {
+                    Logger.info("ChatUser blocking read, waiting");
+                    short action = dis.readShort();  // This call will throw if the socket is closed remotely.
+                    Logger.info("ChatUser action " + action);
+                    process(action);
+                    user.clearIdle();
+                } catch (InterruptedException e) {
+                    Logger.info("ChatUser thread was interrupted and is stopping.");
+                    Thread.currentThread().interrupt(); // Restore interrupt status and break out.
+                    break;
+                } catch (EOFException | SocketException e) {
+                    // EOFException is thrown when the end of the stream is reached,
+                    // SocketException can be thrown if the connection is reset or closed.
+                    Logger.info("Socket closed from remote end or connection reset: " + e.getMessage());
+                    break;  // Exit the loop gracefully.
+                } catch (Exception e) {
+                    Logger.error("ChatUser error: " + e);
+                    // Depending on the error, you might want to break out, or you could continue.
+                    break;
+                }
             }
-
+            close();
+            Logger.info("ChatUser thread is finishing gracefully.");
         } catch (Exception e) {
             Log.error("ChatUser.run " + e);
             close();
@@ -573,6 +595,20 @@ public class ChatUser implements Runnable {
             socket.close();
         } catch (Exception e) {
             Log.error("ChatUser.close " + e);
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Stop Method
+    /////////////////////////////////////////////////////////////////
+    public void stop() {
+        Log.system("Stopping ChatUser...");
+        close();
+
+        try {
+            runner.join(); // Wait for the thread to finish
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore interrupt status
         }
     }
 

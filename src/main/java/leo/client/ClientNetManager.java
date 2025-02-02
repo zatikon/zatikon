@@ -121,6 +121,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestGame() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.JOIN);
 
         } catch (Exception e) {
@@ -135,6 +136,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestDuel() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.JOIN_DUEL);
 
         } catch (Exception e) {
@@ -148,6 +150,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestMirrDuel() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.JOIN_MIRRORED_DUEL);
 
         } catch (Exception e) {
@@ -162,6 +165,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestPractice() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.PRACTICE);
 
         } catch (Exception e) {
@@ -176,6 +180,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestCooperative() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.COOPERATIVE);
 
         } catch (Exception e) {

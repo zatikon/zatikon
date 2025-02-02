@@ -58,7 +58,7 @@ public class Client {
     //public static final int  STATE_UNIT = 1; //moved to "leo/shared/Constants.java"
     //public static final int  STEP_SPEED = 9; //moved to "leo/shared/Constants.java"
     private static Random random;
-    private static boolean active = false;
+    //private static boolean active = false;
     private static final long serialVersionUID = 1L;
     private static final short[] units = new short[UnitType.UNIT_COUNT.value()];
 
@@ -88,7 +88,7 @@ public class Client {
     private static int textTimer = 0;
     private static GameFrame gameFrame = null;
     private static ClientLoginDialog login = null;
-    private static Label label;
+    //private static Label label;
     private static boolean drawing = false;
     private static boolean computing = false;
     private static ChatList chatList = null;
@@ -113,6 +113,7 @@ public class Client {
     private static JLabel fbText1 = null;
     private static JLabel fbText2 = null;
     private static boolean serverWillShutDown = false;
+    private static String state = "login"; //tracks what the client is doing login, home, lobby, game, army
 
     // access
     private static final boolean[] access =
@@ -188,7 +189,8 @@ public class Client {
 
         scheduler.scheduleAtFixedRate(() -> {
             try {
-                if(netManager != null && !Client.getGameData().playing())
+                //Logger.info("preparing to ping " + Client.getState() + " " + Client.getGameData().playing() + " " + Client.getGameData().getGameType() + " " + Client.getGameData().getQueueing() + " " + Client.computing());
+                if(netManager != null && Client.getState().equals("home") && !Client.getGameData().playing() && !Client.getGameData().rebuilding() && !Client.getGameData().getQueueing())
                     netManager.requestPing();
             } catch (Exception e) {
                 Logger.error("Error while calling Client.ping(): " + e.getMessage());
@@ -457,7 +459,7 @@ public class Client {
                 settings().save();
             }
 
-            active = false;
+            //active = false;
             if (clientGameData != null && clientGameData.getTimer() != null) clientGameData.getTimer().end();
             if (netManager != null) netManager.kill();
             if (getChat() != null) getChat().kill();
@@ -759,6 +761,12 @@ public class Client {
     public static boolean getServerWillShutDown() {
         return serverWillShutDown;
     }
+
+    public static void setState(String newState) {
+        state = newState;
+    }
+
+    public static String getState() { return state; }
 
     /////////////////////////////////////////////////////////////////
     // Get text

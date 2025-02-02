@@ -290,6 +290,8 @@ public class ClientLoginDialog extends Dialog
         }
         GameFrame gameFrame = new GameFrame();
         gameFrame.startGameMode();
+        //Logger.debug("setting Client state to home");
+        //Client.setState("home");
     }
 
 

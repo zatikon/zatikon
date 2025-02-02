@@ -84,7 +84,7 @@ public class User implements Runnable {
             game.disconnect(player);
             game = null;
         }
-        active = false;
+        //active = false;
         try {
             socket.close();
         } catch (Exception e) {
@@ -179,9 +179,12 @@ public class User implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void sendPing() throws Exception {
         try {
-            dos.writeShort(Action.NOTHING);
-            dos.writeShort(Action.NOTHING);
-            dos.writeShort(Action.NOTHING);
+            Logger.info("sendPing");
+            if(game == null && !waiting && !editing) {
+                dos.writeShort(Action.PING);
+                dos.writeShort(Action.NOTHING);
+                dos.writeShort(Action.NOTHING);
+            }
         } catch (Exception e) {
             Log.error("user.sendPing");
             throw e;
@@ -330,6 +333,7 @@ public class User implements Runnable {
     // End the game
     /////////////////////////////////////////////////////////////////
     public void endGame() {
+        player.endTurn();
         game = null;
         waiting = false;
         server.sendState(getPlayer(), Action.CHAT_CHATTING);
@@ -501,9 +505,12 @@ public class User implements Runnable {
                 idle = true;
                 long currentTime = System.currentTimeMillis();
 
-                // if it is players turn check if time limit is up
-                if (game != null && player.getCurrentCastle() == game.getCurrentCastle() && currentTime - player.getStartTurnTime() >= 10000) {
-                    Logger.info("turn over");
+                // if it is players turn check if time limit is up, set a few seconds later than client will end turn in cause
+                //if (game == null || player.getCurrentCastle() != game.getCurrentCastle())
+                    //player.endTurn();
+                    //Logger.info("checking for player turn over limit");
+                if (game != null && player.getCurrentCastle() == game.getCurrentCastle() && player.getStartTurnTime() != -1 && currentTime - player.getStartTurnTime() >= 93000) {
+                    Logger.info("server forced end of turn, client should have already");
                     sendAction(Action.END_TURN, Action.NOTHING, Action.NOTHING);
                     //end the turn
                     game.interpretAction(player, Action.END_TURN, Action.NOTHING, Action.NOTHING);
@@ -511,11 +518,11 @@ public class User implements Runnable {
 
                 if (dataReady) {
                     //short request = lastRequest; // Get the last read request
-                    Logger.info("received request: " + lastRequest);
+                    //Logger.info("received request: " + lastRequest);
                     //lastRequest = request;
                     idle = false;
                     interpretRequest(lastRequest);
-                    clearIdle();
+                    //clearIdle();
                     dataReady = false; // Reset the flag after processing
                 }
                 Thread.sleep(100);
@@ -525,7 +532,7 @@ public class User implements Runnable {
             Log.error("User.run " + player.getName() + ": " + e);
             Log.error("Last request: " + lastRequest);
         } finally {
-            Log.error("User.run.finally ");
+            Logger.info("User.run.finally ");
             cancelled = true;
             waiting = false;
             try {
@@ -542,7 +549,7 @@ public class User implements Runnable {
                     }
 
                     server.sendState(getPlayer(), Action.CHAT_DISABLE);
-
+                    //removePlayer(player); // added because was not cleaning up
                     Thread.sleep(1000);
                     if (!retired) {
                         quit();
@@ -551,13 +558,14 @@ public class User implements Runnable {
                     quit();
                 }
             } catch (Exception e) {
-                Log.error("User.run.finally " + e);
+                Logger.error("User.run.finally " + e);
             }
         }
     }
 
     private void startReadingThread() {
         // Start a thread to handle the blocking dis.readShort()
+        // Logger.info("starting new thread startReadingThread()");
         new Thread(() -> {
             try {
                 while (active && !retired) {
@@ -568,8 +576,11 @@ public class User implements Runnable {
 
                     Thread.sleep(100);
                 }
+            } catch (InterruptedException e) {
+                Logger.info("User.run startReadingThread() interrupted " + player.getName() + ": " + e);
+                Thread.currentThread().interrupt();  // Re-set the interrupt flag
             } catch (Exception e) {
-                Logger.error("User.run startReadingThread()" + player.getName() + ": " + e);
+                Logger.error("User.run startReadingThread() " + player.getName() + ": " + e);
             } finally {
                 Logger.info("User.run startReadingThread() finally");
             }
@@ -589,16 +600,17 @@ public class User implements Runnable {
                     short target = dis.readShort();
                     if (!(game != null && active)) return;
 
-                    //Log.activity("Action: " + request + ", actor: " + actor + ", target: " + target);
+                    //Logger.info("Action: " + request + ", actor: " + actor + ", target: " + target);
                     game.interpretAction(player, request, actor, target);
                     clearIdle();
                 } else {
                     switch (request) {
                     case Action.PING:
+                        sendPing();
                         //System.out.println("server received ping");
-                        dos.writeShort(Action.PING);
-                        dos.writeShort(Action.NOTHING);
-                        dos.writeShort(Action.NOTHING);                        
+                        //dos.writeShort(Action.PING);
+                        //dos.writeShort(Action.NOTHING);
+                        //dos.writeShort(Action.NOTHING);
                         break;
                     }
                 }
@@ -837,6 +849,7 @@ public class User implements Runnable {
 
                 case Action.QUIT:
                     disconnect = false;
+                    quit(); //added as it seemed like it was not cleaning up on a client quitting
                     break;                   
 
                 default:
@@ -1374,11 +1387,12 @@ public class User implements Runnable {
     public void checkIdle() {
         if(Client.standalone)
             return;
-        idling += 100;
 
         // If waiting for a game, takes longer to idle
         if (waiting)
-            idling -= 90;
+            idling += 10;
+        else
+            idling += 100;
 
         // Player has been idle for a long time, log him out
         if (idling >= 30000) {
@@ -1411,7 +1425,7 @@ public class User implements Runnable {
         }
 
         if (chat != null) sendText("");
-        if (game == null && idling > 0)
+        if (game == null && idling > 1000 && !waiting && !editing)
             try {
                 sendPing();
             } catch (Exception e) {

@@ -352,7 +352,7 @@ public class PracticeGame implements Game {
                 break;
 
             case Action.END_TURN:
-
+                player1.endTurn();
                 turns++;
 
                 player1.getCurrentCastle().refresh(Unit.TEAM_1);
