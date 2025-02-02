@@ -119,6 +119,7 @@ public class PracticeGame implements Game {
 
         player1.getUser().sendAction(Action.AI, Action.NOTHING, Action.NOTHING);
         player1.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+        player1.startTurn();
 
     }
 
@@ -373,6 +374,7 @@ public class PracticeGame implements Game {
 
                     player1.getUser().sendAction(Action.REFRESH_ENEMY, Action.NOTHING, Action.NOTHING);
                     player1.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+                    player1.startTurn();
                     if (!rebuilding) Log.game(player1.getName() + "'s turn");
                 }
                 break;
@@ -416,6 +418,12 @@ public class PracticeGame implements Game {
         }
         Log.game(output);
     }
+
+
+    /////////////////////////////////////////////////////////////////
+    // get the current player
+    /////////////////////////////////////////////////////////////////
+    public Castle getCurrentCastle() { return currentCastle; }
 
 
     /////////////////////////////////////////////////////////////////

@@ -13,6 +13,7 @@ package leo.server;
 import leo.client.Client;
 import leo.server.game.*;
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -56,6 +57,8 @@ public class User implements Runnable {
     private short waitingGame = 0;
     private boolean editing = false;
 
+    private volatile boolean dataReady = false;
+    private volatile short lastRequest = 0;
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -337,7 +340,7 @@ public class User implements Runnable {
     // The thread
     /////////////////////////////////////////////////////////////////
     public void run() {
-        short lastRequest = 0;
+        //short lastRequest = 0;
         User oldUser = null;
         try { // Get rid of the friggen delay!
             socket.setTcpNoDelay(true);
@@ -490,19 +493,39 @@ public class User implements Runnable {
             }
 
             server.sendText(player, "*** " + player.getChatName() + " has entered the chatroom ***");
+
+            // Start the reading thread
+            startReadingThread();
+
             while (active && !retired) {
                 idle = true;
-                short request = dis.readShort();
-                lastRequest = request;
-                idle = false;
-                interpretRequest(request);
-                clearIdle();
+                long currentTime = System.currentTimeMillis();
+
+                // if it is players turn check if time limit is up
+                if (game != null && player.getCurrentCastle() == game.getCurrentCastle() && currentTime - player.getStartTurnTime() >= 10000) {
+                    Logger.info("turn over");
+                    sendAction(Action.END_TURN, Action.NOTHING, Action.NOTHING);
+                    //end the turn
+                    game.interpretAction(player, Action.END_TURN, Action.NOTHING, Action.NOTHING);
+                }
+
+                if (dataReady) {
+                    //short request = lastRequest; // Get the last read request
+                    Logger.info("received request: " + lastRequest);
+                    //lastRequest = request;
+                    idle = false;
+                    interpretRequest(lastRequest);
+                    clearIdle();
+                    dataReady = false; // Reset the flag after processing
+                }
+                Thread.sleep(100);
             }
 
         } catch (Exception e) {
             Log.error("User.run " + player.getName() + ": " + e);
             Log.error("Last request: " + lastRequest);
         } finally {
+            Log.error("User.run.finally ");
             cancelled = true;
             waiting = false;
             try {
@@ -533,6 +556,26 @@ public class User implements Runnable {
         }
     }
 
+    private void startReadingThread() {
+        // Start a thread to handle the blocking dis.readShort()
+        new Thread(() -> {
+            try {
+                while (active && !retired) {
+                    if(!dataReady) {
+                        lastRequest = dis.readShort();  // Blocking read
+                        dataReady = true;  // Indicate that data is ready to be processed
+                    }
+
+                    Thread.sleep(100);
+                }
+            } catch (Exception e) {
+                Logger.error("User.run startReadingThread()" + player.getName() + ": " + e);
+            } finally {
+                Logger.info("User.run startReadingThread() finally");
+            }
+        }).start();
+    }
+
     /////////////////////////////////////////////////////////////////
     // Interpret the request
     /////////////////////////////////////////////////////////////////
@@ -557,7 +600,6 @@ public class User implements Runnable {
                         dos.writeShort(Action.NOTHING);
                         dos.writeShort(Action.NOTHING);                        
                         break;
-
                     }
                 }
 

@@ -70,6 +70,7 @@ public class Player {
                     false          // inquisitions
             };
 
+    private long startTurnTime;
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -854,6 +855,13 @@ public class Player {
         return access[game];
     }
 
+    public void startTurn() {
+        startTurnTime = System.currentTimeMillis();
+    }
+
+    public long getStartTurnTime() {
+        return startTurnTime;
+    }
     /////////////////////////////////////////////////////////////////
     // Sets
     /////////////////////////////////////////////////////////////////

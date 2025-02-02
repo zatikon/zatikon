@@ -335,6 +335,7 @@ public class ClientNetManager implements Runnable {
                     break;
 
                 case Action.END_TURN:
+                    Client.getGameData().endTurn(false);
                     break;
 
                 case Action.REFRESH:
