@@ -154,6 +154,8 @@ public class Client {
         settings = new Settings();
 
         clientImages = new GameMedia();
+        Thread loader = new Thread(() -> Client.getImages().load());
+        loader.start();
 
         // preload graphics
         Client.getImages().preload();
