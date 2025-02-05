@@ -1,4 +1,4 @@
-name: Main branch - Linux JAR
+name: Main branch - JAR
 
 on:
   push:
@@ -40,7 +40,7 @@ jobs:
 #        path: target/zatikon-*.jar
 
     - name: Pack into tgz
-      run: mv target/zatikon-*.jar zatikon-dev-linux.jar
+      run: mv target/zatikon-*.jar zatikon-dev.jar
 
     - name: Deploy Nightly
       if: github.event_name != 'pull_request'  # don't deploy the PR builds
@@ -48,8 +48,8 @@ jobs:
       with:
           upload_url: https://uploads.github.com/repos/zatikon/zatikon/releases/197933187/assets{?name,label}
           release_id: 197933187
-          asset_path: zatikon-dev-linux.jar
-          asset_name: zatikon-dev-linux-$$.jar
+          asset_path: zatikon-dev.jar
+          asset_name: zatikon-dev-${{ matrix.natives }}-$$.jar
           asset_content_type: application/java-archive
 
 # Well it's cool it can be deployed but I don't need that now
