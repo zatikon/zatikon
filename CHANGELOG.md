@@ -1,3 +1,8 @@
+# 1.1.9
+
+- fixed sounds not working when running non-JAR version
+- added early loading of the game assets to improve the startup time
+
 # 1.1.8
 
 - Fixed Windows version crashing on launch
