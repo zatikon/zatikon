@@ -1,5 +1,13 @@
 # 1.1.9
 
+- Fixed "gateguard unlimited range to move to castle" bug
+- Cleaned up some leftovers of old web version of the game
+- Added experimental server port selection through properties
+- Added logging the game version at startup
+- Fixed win/loss not updating in the playerlist after each game
+- Added version in logging response when the client version is incorrect
+- Build system improvement, including "nightly" releases of the latest dev version
+- Minor sound normalization
 - fixed sounds not working when running non-JAR version
 - added early loading of the game assets to improve the startup time
 
