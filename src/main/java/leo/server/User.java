@@ -607,10 +607,6 @@ public class User implements Runnable {
                     switch (request) {
                     case Action.PING:
                         sendPing();
-                        //System.out.println("server received ping");
-                        //dos.writeShort(Action.PING);
-                        //dos.writeShort(Action.NOTHING);
-                        //dos.writeShort(Action.NOTHING);
                         break;
                     }
                 }

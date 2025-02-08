@@ -722,8 +722,6 @@ public class ClientGameData {
     //don't notify the server because this request was sent by the server so it has already ended the turn
     public void endTurn(boolean notify) {
         Client.getGameData().setSelectedUnit(null);
-        //Client.getGameData().getMyCastle().refresh(Unit.TEAM_1);
-        //Client.getGameData().setCastlePlaying(Client.getGameData().getEnemyCastle());
         Client.getGameData().setCastlePlaying(null);
     }
 

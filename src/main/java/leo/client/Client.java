@@ -13,7 +13,7 @@ import leo.shared.*;
 import leo.shared.Action;
 import org.tinylog.Logger;
 
-import javax.swing.*;
+//import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -110,8 +110,8 @@ public class Client {
 //    private static GameApplet applet = null;
     private static int chatID;
     private static boolean timeOut = false;
-    private static JLabel fbText1 = null;
-    private static JLabel fbText2 = null;
+    //private static JLabel fbText1 = null;
+    //private static JLabel fbText2 = null;
     private static boolean serverWillShutDown = false;
     private static String state = "login"; //tracks what the client is doing login, home, lobby, game, army
 
@@ -190,7 +190,7 @@ public class Client {
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 //Logger.info("preparing to ping " + Client.getState() + " " + Client.getGameData().playing() + " " + Client.getGameData().getGameType() + " " + Client.getGameData().getQueueing() + " " + Client.computing());
-                if(netManager != null && Client.getState().equals("home") && !Client.getGameData().playing() && !Client.getGameData().rebuilding() && !Client.getGameData().getQueueing())
+                if(netManager != null && Client.getState().equals("home") && !Client.getGameData().rebuilding()) //&& !Client.getGameData().getQueueing()
                     netManager.requestPing();
             } catch (Exception e) {
                 Logger.error("Error while calling Client.ping(): " + e.getMessage());
