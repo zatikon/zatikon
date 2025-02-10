@@ -500,16 +500,19 @@ public class User implements Runnable {
 
             // Start the reading thread
             startReadingThread();
-
+            //int showDebugText = 0;
             while (active && !retired) {
                 idle = true;
                 long currentTime = System.currentTimeMillis();
 
+                /*
+                showDebugText++;
+                if (game != null && showDebugText >= 200) {
+                    Logger.info("check " + player.getName() + " time: " + (int) ((currentTime / 1000) % 60) + " - " + (player.getStartTurnTime() == -1 ? "-1" : (int) ((player.getStartTurnTime() / 1000) % 60)));
+                    showDebugText = 0;
+                } */
                 // if it is players turn check if time limit is up, set a few seconds later than client will end turn in cause
-                //if (game == null || player.getCurrentCastle() != game.getCurrentCastle())
-                    //player.endTurn();
-                    //Logger.info("checking for player turn over limit");
-                if (game != null && player.getCurrentCastle() == game.getCurrentCastle() && player.getStartTurnTime() != -1 && currentTime - player.getStartTurnTime() >= 93000) {
+                if (game != null && player.getStartTurnTime() != -1 && currentTime - player.getStartTurnTime() >= 10000) { // && player.getCurrentCastle() == game.getCurrentCastle()
                     Logger.info("server forced end of turn, client should have already");
                     sendAction(Action.END_TURN, Action.NOTHING, Action.NOTHING);
                     //end the turn
@@ -525,7 +528,7 @@ public class User implements Runnable {
                     //clearIdle();
                     dataReady = false; // Reset the flag after processing
                 }
-                Thread.sleep(100);
+                Thread.sleep(10);
             }
 
         } catch (Exception e) {

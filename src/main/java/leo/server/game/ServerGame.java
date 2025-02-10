@@ -206,20 +206,21 @@ public class ServerGame implements Game {
             }
         }
   
-  /*if(gameType == Action.GAME_CONSTRUCTED){
-   player1.getUser().sendAction(Action.SET_CONSTRUCTED, Action.NOTHING, Action.NOTHING);
-   player2.getUser().sendAction(Action.SET_CONSTRUCTED, Action.NOTHING, Action.NOTHING);
-  }
-  else if(gameType == Action.GAME_RANDOM){
-   player1.getUser().sendAction(Action.SET_RANDOM, Action.NOTHING, Action.NOTHING);
-   player2.getUser().sendAction(Action.SET_RANDOM, Action.NOTHING, Action.NOTHING);
-  }
-  else if(gameType == Action.GAME_MIRRORED_RANDOM){
-   player1.getUser().sendAction(Action.SET_MIRRORED_RANDOM, Action.NOTHING, Action.NOTHING);
-   player2.getUser().sendAction(Action.SET_MIRRORED_RANDOM, Action.NOTHING, Action.NOTHING);
-  }*/
+      /*if(gameType == Action.GAME_CONSTRUCTED){
+       player1.getUser().sendAction(Action.SET_CONSTRUCTED, Action.NOTHING, Action.NOTHING);
+       player2.getUser().sendAction(Action.SET_CONSTRUCTED, Action.NOTHING, Action.NOTHING);
+      }
+      else if(gameType == Action.GAME_RANDOM){
+       player1.getUser().sendAction(Action.SET_RANDOM, Action.NOTHING, Action.NOTHING);
+       player2.getUser().sendAction(Action.SET_RANDOM, Action.NOTHING, Action.NOTHING);
+      }
+      else if(gameType == Action.GAME_MIRRORED_RANDOM){
+       player1.getUser().sendAction(Action.SET_MIRRORED_RANDOM, Action.NOTHING, Action.NOTHING);
+       player2.getUser().sendAction(Action.SET_MIRRORED_RANDOM, Action.NOTHING, Action.NOTHING);
+      }*/
         player1.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
         player2.getUser().sendAction(Action.START_TURN_ENEMY, Action.NOTHING, Action.NOTHING);
+        player1.startTurn();
 
         if (player1.getUser().isClosed()) {
             Log.game("Player " + player1.getChatName() + " left after pairing but before game began");
@@ -655,6 +656,7 @@ public class ServerGame implements Game {
                     player2.getUser().sendAction(Action.MOVE_PANEL, Action.NOTHING, Action.NOTHING);
                 }
                 if (player == player1) {
+                    player1.endTurn();
                     player1.getCurrentCastle().refresh(Unit.TEAM_1);
                     castle2.startTurn(Unit.TEAM_1);
                     currentCastle = castle2;
@@ -666,12 +668,13 @@ public class ServerGame implements Game {
                     player1.getUser().sendAction(Action.START_TURN_ENEMY, Action.NOTHING, Action.NOTHING);
                     player2.getUser().sendAction(Action.REFRESH_ENEMY, Action.NOTHING, Action.NOTHING);
                     player2.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
-
+                    player2.startTurn();
                     if (!rebuilding) Log.game(player2.getName() + "'s turn");
                 }
 
                 if (player == player2) {
                     // wrap it up for player 2
+                    player2.endTurn();
                     player2.getCurrentCastle().refresh(Unit.TEAM_1);
                     castle1.startTurn(Unit.TEAM_1);
                     currentCastle = castle1;
@@ -684,6 +687,7 @@ public class ServerGame implements Game {
                     player2.getUser().sendAction(Action.START_TURN_ENEMY, Action.NOTHING, Action.NOTHING);
                     player1.getUser().sendAction(Action.REFRESH_ENEMY, Action.NOTHING, Action.NOTHING);
                     player1.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+                    player1.startTurn();
 
                     if (!rebuilding) Log.game(player1.getName() + "'s turn");
                 }

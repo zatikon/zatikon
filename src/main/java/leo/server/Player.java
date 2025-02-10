@@ -861,7 +861,7 @@ public class Player {
     }
 
     public void endTurn() {
-        Logger.info("player end turn");
+        //Logger.info("player end turn");
         startTurnTime = -1;
     }
 
