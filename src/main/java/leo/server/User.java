@@ -512,7 +512,7 @@ public class User implements Runnable {
                     showDebugText = 0;
                 } */
                 // if it is players turn check if time limit is up, set a few seconds later than client will end turn in cause
-                if (game != null && player.getStartTurnTime() != -1 && currentTime - player.getStartTurnTime() >= 10000) { // && player.getCurrentCastle() == game.getCurrentCastle()
+                if (game != null && player.getStartTurnTime() != -1 && currentTime - player.getStartTurnTime() >= 91000) { // && player.getCurrentCastle() == game.getCurrentCastle()
                     Logger.info("server forced end of turn, client should have already");
                     sendAction(Action.END_TURN, Action.NOTHING, Action.NOTHING);
                     //end the turn

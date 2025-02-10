@@ -290,7 +290,6 @@ public class ChatUser implements Runnable {
                     break;  // Exit the loop gracefully.
                 } catch (Exception e) {
                     Logger.error("ChatUser error: " + e);
-                    // Depending on the error, you might want to break out, or you could continue.
                     break;
                 }
             }
