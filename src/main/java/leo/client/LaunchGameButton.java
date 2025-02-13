@@ -30,6 +30,7 @@ public class LaunchGameButton extends LeoComponent {
     private BufferedImage highlightedImg = null;
     private int img;
     private boolean disabled;
+    private boolean tempDisabled;
     private String label;
 
     /////////////////////////////////////////////////////////////////
@@ -39,10 +40,11 @@ public class LaunchGameButton extends LeoComponent {
         super(x, y, width, height);
         img = buttonImg;
         disabled = buttonDisabled;
+        tempDisabled = buttonDisabled;
         label = buttonLabel;
 
         rosterText = new RosterText(parent,
-            (disabled ? disabledText + " " : "") + buttonText,
+            (tempDisabled ? disabledText + " " : "") + buttonText,
             4, 455, 186, 142);
     }
 
@@ -50,25 +52,29 @@ public class LaunchGameButton extends LeoComponent {
     // Click code
     /////////////////////////////////////////////////////////////////
     public boolean clickAt(int x, int y) {
-        if(disabled) {
+        if(tempDisabled) {
             return false;
         }
         try {
             if(label == "Buy New Unit") {
                 if (Client.getGold() < 100) return false;
                 Client.getImages().playSound(Constants.SOUND_BUTTON);
+                Client.setState("buying new unit");
                 Client.getNetManager().sendAction(Action.BUY_UNIT, Action.NOTHING, Action.NOTHING);
-                return true;                
+                Client.setState("home");
+                return true;
             }
 
             Client.getImages().playSound(Constants.SOUND_BUTTON);
 
             if(label == "Edit Army") {
+                Client.setState("edit army");
                 Client.getGameData().screenEditCastle();
                 return true;
             }
 
             if(label == "Army Archive") {
+                Client.setState("army archive");
                 CastleArchiveList cal = new CastleArchiveList();
                 return true;
             }
@@ -113,10 +119,12 @@ public class LaunchGameButton extends LeoComponent {
     // Draw the component
     /////////////////////////////////////////////////////////////////
     public void draw(Graphics2D g, Frame mainFrame) {
+        if(label.equals("Buy New Unit") && !disabled && Client.getGold() < 100) {
+            tempDisabled = true;
+        } else if(label.equals("Buy New Unit") && !disabled && tempDisabled) { //gold is more than 99 so set disabled to false
+            tempDisabled = false;
+        }
 
-        if(label == "Buy New Unit" && disabled == false && Client.getGold() < 100) {
-            disabled = true;
-            }
 
         if (isWithin(Client.getGameData().getMouseX(), Client.getGameData().getMouseY())) {
             rosterText.draw(g, mainFrame);
@@ -124,7 +132,7 @@ public class LaunchGameButton extends LeoComponent {
                 Client.getImages().playSound(Constants.SOUND_MOUSEOVER);
             }
             inside = true;
-            if(disabled) {
+            if(tempDisabled) {
                 createGrayscaleImage();
                 g.drawImage(disabledImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
             } else {
@@ -133,7 +141,7 @@ public class LaunchGameButton extends LeoComponent {
             }
         } else {
             inside = false;
-            if(disabled) {
+            if(tempDisabled) {
                 createGrayscaleImage();
                 g.drawImage(disabledImg, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
             } else {            
@@ -208,7 +216,7 @@ public class LaunchGameButton extends LeoComponent {
         g.drawString(text, atX, atY + 1);
         g.drawString(text, atX, atY - 1);
 
-        if(disabled)
+        if(tempDisabled)
             g.setColor(Color.gray);
         else if (inside)
             g.setColor(Color.yellow);

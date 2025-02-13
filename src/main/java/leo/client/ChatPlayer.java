@@ -222,4 +222,7 @@ public class ChatPlayer {
         }
     }
 
+    public int getState() {
+        return icon;
+    }
 }

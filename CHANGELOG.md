@@ -1,6 +1,9 @@
 # 1.1.9
-
 - Fixed bug where users record would not update after game
+- Fixed bug which could cause desync
+- Fixed bug which caused buy unit button to be disabled after gold increased above 100
+- Fixed potential issue with turns not ending
+- Changed server to try to resync immediately if an issue is detected.
 - Fixed "gateguard unlimited range to move to castle" bug
 - Cleaned up some leftovers of old web version of the game
 - Added experimental server port selection through properties
@@ -44,7 +47,7 @@
 # 1.1.5
 
 - The warrior's whirlwind attack now always attacks the target first and then continues in a clockwise order. With the zealous relic Will only trigger on the first attack.
-- Restricted broken and redundent relic/unit combos for the AI
+- Restricted broken and redundant relic/unit combos for the AI
 - Changed number of commanders and types for random armies
 - Updated UI buttons with correct links and a discord link.
 - Updated UI to show wins/losses and active pvp players and rankings

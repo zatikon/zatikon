@@ -119,6 +119,7 @@ public class PracticeGame implements Game {
 
         player1.getUser().sendAction(Action.AI, Action.NOTHING, Action.NOTHING);
         player1.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+        player1.startTurn();
 
     }
 
@@ -271,6 +272,7 @@ public class PracticeGame implements Game {
 
             if (player.getCurrentCastle() != currentCastle && action != Action.OFFER_DRAW && action != Action.SURRENDER) {
                 Log.alert(player.getName() + " attempted an action: " + action + " out of turn.");
+                resynch();
                 return;
             }
         }
@@ -288,12 +290,14 @@ public class PracticeGame implements Game {
                 // Make sure the unit exists
                 if (actor == null) {
                     Log.error("Player " + player.getName() + " sent an invalid actor location.");
+                    resynch();
                     return;
                 }
 
                 // Make sure it belongs to them
                 if (actor.getCastle() != player.getCurrentCastle()) {
                     Log.error("Player " + player.getName() + " tried to use a unit that's not their's.");
+                    resynch();
                     return;
                 }
 
@@ -330,6 +334,7 @@ public class PracticeGame implements Game {
                     // No unit there?
                     if (unit == null) {
                         Log.error("Player " + player.getName() + " attempted to deploy a non-existent unit: " + actorLocation);
+                        resynch();
                         return;
                     }
 
@@ -337,6 +342,7 @@ public class PracticeGame implements Game {
                     Vector targets = unit.getCastleTargets();
                     if (!validateTarget(targets, tmpTarget)) {
                         Log.error("Player " + player.getName() + " attempted to deploy to an invalid location.");
+                        resynch();
                         return;
                     }
 
@@ -351,7 +357,7 @@ public class PracticeGame implements Game {
                 break;
 
             case Action.END_TURN:
-
+                player1.endTurn();
                 turns++;
 
                 player1.getCurrentCastle().refresh(Unit.TEAM_1);
@@ -373,6 +379,7 @@ public class PracticeGame implements Game {
 
                     player1.getUser().sendAction(Action.REFRESH_ENEMY, Action.NOTHING, Action.NOTHING);
                     player1.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+                    player1.startTurn();
                     if (!rebuilding) Log.game(player1.getName() + "'s turn");
                 }
                 break;
@@ -416,6 +423,12 @@ public class PracticeGame implements Game {
         }
         Log.game(output);
     }
+
+
+    /////////////////////////////////////////////////////////////////
+    // get the current player
+    /////////////////////////////////////////////////////////////////
+    public Castle getCurrentCastle() { return currentCastle; }
 
 
     /////////////////////////////////////////////////////////////////
