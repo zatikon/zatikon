@@ -104,7 +104,16 @@ public class ClientNetManager implements Runnable {
 
             // Get the response
             Logger.debug("Waiting for login response");
-            LoginResponse response = new LoginResponse(dis.readInt(), dis.readInt());
+            int response1 = dis.readInt();
+            int response2 = dis.readInt();
+            LoginResponse response = null;
+            //Logger.info("login response: " + response1 + " " + response2);
+            if(response1 == LoginResponse.FAIL_OLD_VERSION) {
+                //Logger.info("wrong version");
+                response = new LoginResponse(response1, response2, dis.readUTF());
+            } else {
+                response = new LoginResponse(response1, response2);
+            }
             Logger.debug("Got login response");
 
             return response;

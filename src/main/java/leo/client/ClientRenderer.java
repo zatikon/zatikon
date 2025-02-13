@@ -105,7 +105,7 @@ public class ClientRenderer implements Runnable {
     /////////////////////////////////////////////////////////////////
     private void initialize() {
         // Load the graphics
-        Client.getImages().load();
+//        Client.getImages().load();
 
         // get the army
         Client.getNetManager().getArmyUnits();
