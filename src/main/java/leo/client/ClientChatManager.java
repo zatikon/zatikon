@@ -458,10 +458,13 @@ public class ClientChatManager implements Runnable {
             int id = dis.readInt();
             int newRating = dis.readInt();
             int newRank = dis.readInt();
+            int newWins = dis.readInt();
+            int newLosses = dis.readInt();
             ChatPlayer player = Client.getPlayer(id);
             if (player != null) {
                 player.setRating(newRating);
                 player.setRank(newRank);
+                player.setWinsLosses(newWins, newLosses);
                 Client.updateChatList();
             }
         } catch (Exception e) {

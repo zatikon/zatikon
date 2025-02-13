@@ -156,6 +156,8 @@ public class ChatUser implements Runnable {
             //Changing rank back to rating
             tmpDos.writeInt(sentPlayer.getRating());
             tmpDos.writeInt(sentPlayer.getRank());
+            tmpDos.writeInt(sentPlayer.getWins() + sentPlayer.getWinsToLower());
+            tmpDos.writeInt(sentPlayer.getLosses() + sentPlayer.getLossesToHigher());
             tmpDos.flush();
             send(tmpBaos.toByteArray());
         } catch (Exception e) {

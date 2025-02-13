@@ -18,6 +18,7 @@ import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 import javax.sound.sampled.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.io.BufferedInputStream;
@@ -48,7 +49,18 @@ public class Sound implements Runnable {
         //Logger.info("Sound(): construct: " + this.soundName);
         try {
             // Load the audio data from the JAR file
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream(url.getPath().substring(url.getPath().lastIndexOf("!") + 1))));
+            BufferedInputStream buf = null;
+            if (url.getPath().contains("!")) {
+                buf = new BufferedInputStream(
+                        getClass().getResourceAsStream(url.getPath().substring(url.getPath().lastIndexOf("!") + 1))
+                );
+            } else {
+                buf = new BufferedInputStream(
+                        new FileInputStream(url.getPath())
+                );
+            }
+
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(buf);
             if (audioStream == null) {
                 throw new IOException("Resource not found: " + url.getPath().substring(url.getPath().lastIndexOf("!") + 1));
             }

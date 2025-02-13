@@ -3,6 +3,16 @@
 - Fixed bug which caused buy unit button to be disabled after gold increased above 100
 - Fixed potential issue with turns not ending
 - Changed server to try to resync immediately if an issue is detected.
+- Fixed "gateguard unlimited range to move to castle" bug
+- Cleaned up some leftovers of old web version of the game
+- Added experimental server port selection through properties
+- Added logging the game version at startup
+- Fixed win/loss not updating in the playerlist after each game
+- Added version in logging response when the client version is incorrect
+- Build system improvement, including "nightly" releases of the latest dev version
+- Minor sound normalization
+- fixed sounds not working when running non-JAR version
+- added early loading of the game assets to improve the startup time
 
 # 1.1.8
 

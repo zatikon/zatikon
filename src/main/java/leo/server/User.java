@@ -370,6 +370,7 @@ public class User implements Runnable {
 
                 dos.writeInt(LoginResponse.FAIL_OLD_VERSION);
                 dos.writeInt(0);
+                dos.writeUTF(Client.PROTOCOL_VERSION);
                 return;
             }
 
