@@ -274,9 +274,9 @@ public class ChatUser implements Runnable {
 
             while (alive) {
                 try {
-                    Logger.info("ChatUser blocking read, waiting");
+                    //Logger.info("ChatUser blocking read, waiting");
                     short action = dis.readShort();  // This call will throw if the socket is closed remotely.
-                    Logger.info("ChatUser action " + action);
+                    //Logger.info("ChatUser action " + action);
                     process(action);
                     user.clearIdle();
                 } catch (InterruptedException e) {
