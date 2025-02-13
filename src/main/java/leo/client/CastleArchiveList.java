@@ -50,6 +50,13 @@ public class CastleArchiveList extends JDialog implements ActionListener {
         add(listPanel, BorderLayout.CENTER);
         add(new JLabel("Save/Load an Army", SwingConstants.CENTER), BorderLayout.NORTH);
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Client.setState("home");
+            }
+        });
+
         // Show it
         Dimension dim = getToolkit().getScreenSize();
         validate();

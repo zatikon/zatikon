@@ -35,4 +35,6 @@ public interface Game {
     void banish(Unit unit);
 
     void endGame(Castle winner);
+
+    Castle getCurrentCastle();
 }

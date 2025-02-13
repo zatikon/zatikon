@@ -181,6 +181,7 @@ public class TeamGame implements Game {
 
         // Start the game
         player1.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+        player1.startTurn();
         player2.getUser().sendAction(Action.START_TURN_ENEMY, Action.NOTHING, Action.NOTHING);
         player3.getUser().sendAction(Action.START_TURN_ALLY, Action.NOTHING, Action.NOTHING);
         player4.getUser().sendAction(Action.START_TURN_ENEMY, Action.NOTHING, Action.NOTHING);
@@ -642,7 +643,7 @@ public class TeamGame implements Game {
                 if (player == player1) {
                     sendMessage(player2.getChatName() + " is now playing");
                     sendMessage(player3.getChatName() + " will be next");
-
+                    player1.endTurn();
                     whiteCastle.refresh(Unit.TEAM_1);
                     redCastle.startTurn(Unit.TEAM_1);
                     currentCastle = redCastle;
@@ -651,6 +652,7 @@ public class TeamGame implements Game {
                     player1.getUser().sendAction(Action.START_TURN_ENEMY, Action.NOTHING, Action.NOTHING);
                     player2.getUser().sendAction(Action.REFRESH_ENEMY, Action.NOTHING, Action.NOTHING);
                     player2.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+                    player2.startTurn();
                     player3.getUser().sendAction(Action.REFRESH_ALLY, Action.NOTHING, Action.NOTHING);
                     player3.getUser().sendAction(Action.START_TURN_ENEMY, Action.NOTHING, Action.NOTHING);
                     player4.getUser().sendAction(Action.REFRESH_ENEMY, Action.NOTHING, Action.NOTHING);
@@ -662,7 +664,7 @@ public class TeamGame implements Game {
                 if (player == player2) {
                     sendMessage(player3.getChatName() + " is now playing");
                     sendMessage(player4.getChatName() + " will be next");
-
+                    player2.endTurn();
                     redCastle.refresh(Unit.TEAM_1);
                     whiteCastle.startTurn(Unit.TEAM_2);
                     currentCastle = whiteCastle;
@@ -673,6 +675,7 @@ public class TeamGame implements Game {
                     player2.getUser().sendAction(Action.START_TURN_ENEMY_ALLY, Action.NOTHING, Action.NOTHING);
                     player3.getUser().sendAction(Action.REFRESH_ENEMY, Action.NOTHING, Action.NOTHING);
                     player3.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+                    player3.startTurn();
                     player4.getUser().sendAction(Action.REFRESH_ALLY, Action.NOTHING, Action.NOTHING);
                     player4.getUser().sendAction(Action.START_TURN_ENEMY_ALLY, Action.NOTHING, Action.NOTHING);
                 }
@@ -681,7 +684,7 @@ public class TeamGame implements Game {
                 if (player == player3) {
                     sendMessage(player4.getChatName() + " is now playing");
                     sendMessage(player1.getChatName() + " will be next");
-
+                    player3.endTurn();
                     whiteCastle.refresh(Unit.TEAM_2);
                     redCastle.startTurn(Unit.TEAM_2);
                     currentCastle = redCastle;
@@ -694,13 +697,14 @@ public class TeamGame implements Game {
                     player3.getUser().sendAction(Action.START_TURN_ENEMY_ALLY, Action.NOTHING, Action.NOTHING);
                     player4.getUser().sendAction(Action.REFRESH_ENEMY_ALLY, Action.NOTHING, Action.NOTHING);
                     player4.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+                    player4.startTurn();
                 }
 
                 // move the turn to the next guy
                 if (player == player4) {
                     sendMessage(player1.getChatName() + " is now playing");
                     sendMessage(player2.getChatName() + " will be next");
-
+                    player4.endTurn();
                     redCastle.refresh(Unit.TEAM_2);
                     whiteCastle.startTurn(Unit.TEAM_1);
                     currentCastle = whiteCastle;
@@ -781,6 +785,10 @@ public class TeamGame implements Game {
 
     }
 
+    /////////////////////////////////////////////////////////////////
+    // get the current player
+    /////////////////////////////////////////////////////////////////
+    public Castle getCurrentCastle() { return currentCastle; }
 
     /////////////////////////////////////////////////////////////////
     // get the current player
