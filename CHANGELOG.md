@@ -1,4 +1,5 @@
 # 1.1.9
+- Fixed bug where users record would not update after game
 - Fixed bug which could cause desync
 - Fixed bug which caused buy unit button to be disabled after gold increased above 100
 - Fixed potential issue with turns not ending
