@@ -1,3 +1,7 @@
+# 1.1.9
+
+- Fixed bug where users record would not update after game
+
 # 1.1.8
 
 - Fixed Windows version crashing on launch
