@@ -22,9 +22,9 @@ public class InfoPanel extends LeoContainer {
     // Properties
     /////////////////////////////////////////////////////////////////
     private static final int MARGIN = 5;
-    private static final int WIDTH = 400;
+    private static final int WIDTH = 500;
     private static final int HEIGHT = 400;
-    private static final int X = (Constants.SCREEN_WIDTH / 2) - (WIDTH / 2);
+    private static final int X = ((695 - 185) / 2) - (WIDTH / 2) + 185 ;
     private static final int Y = (Constants.SCREEN_HEIGHT / 2) - (HEIGHT / 2);
 
     private String msg;
@@ -43,7 +43,7 @@ public class InfoPanel extends LeoContainer {
     /////////////////////////////////////////////////////////////////
     public void draw(Graphics2D g, Frame mainFrame) {
         // Draw the background image
-        Image img = Client.getImages().getImage(Constants.IMG_EDIT_STAT_PANEL);
+        Image img = Client.getImages().getImage(Constants.IMG_EDIT_STAT_BOX);
         g.drawImage(img, getScreenX(), getScreenY(), getWidth(), getHeight(), mainFrame);
 
         // Extract table rows and columns using regular expressions
@@ -54,10 +54,9 @@ public class InfoPanel extends LeoContainer {
         int tableY = getScreenY() + MARGIN + 20; // Y position of the table
         int cellPadding = 5; // Space between text and cell border
         int rowHeight = 15; // Height of each row
-        int columnWidth = 150; // Width of each column
         int numRows = tableData.size();
         int numCols = tableData.get(0).size();
-
+        int columnWidth = WIDTH / numCols; // Width of each column
         // Set color for text
         g.setColor(Color.WHITE);
         Font font = new Font("Arial", Font.PLAIN, 14);

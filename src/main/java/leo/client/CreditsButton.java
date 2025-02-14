@@ -35,44 +35,26 @@ public class CreditsButton extends LeoComponent {
         Client.getImages().playSound(Constants.SOUND_BUTTON);
         //CreditsFrame cf = new CreditsFrame();
         String credits = "<table>" +
-                "<tr><td>Zatikon " + Client.VERSION + "</td></tr>" +
-                "<tr><td>Chronic Logic</td></tr>" +
-                "<tr><td></td></tr>" + // Empty row for spacing
+                "<tr><td>Zatikon " + Client.VERSION + "</td><td></td></tr>" +
+                "<tr><td>Chronic Logic</td><td></td></tr>" +
+                "<tr><td></td><td></td></tr>" +
+                "<tr><td>Programming and Design</td><td>Art</td></tr>" +
+                "<tr><td>Gabe Jones</td><td>Alex Biskner</td></tr>" +
+                "<tr><td></td><td>Samuel Goldberg</td></tr>" +
 
-                "<tr><td>Programming and Design</td></tr>" +
-                "<tr><td>Gabe Jones</td></tr>" +
-                "<tr><td></td></tr>" +
+                "<tr><td>Producer</td><td>Sean Madden</td></tr>" +
+                "<tr><td>Josiah Pisciotta</td><td>Julian Noble</td></tr>" +
+                "<tr><td></td><td>Amber Okamura</td></tr>" +
 
-                "<tr><td>Producer</td></tr>" +
-                "<tr><td>Josiah Pisciotta</td></tr>" +
-                "<tr><td></td></tr>" +
-
-                "<tr><td>Additional Programming</td></tr>" +
-                "<tr><td>William Cole</td></tr>" +
-                "<tr><td>Linus Foster</td></tr>" +
-                "<tr><td>Daniel Healy</td></tr>" +
-                "<tr><td>Alexander McCaleb</td></tr>" +
-                "<tr><td>Julian Noble</td></tr>" +
-                "<tr><td>David Schwartz</td></tr>" +
-                "<tr><td>Josiah Pisciotta</td></tr>" +
-                "<tr><td>Lukky513</td></tr>" +
-                "<tr><td></td></tr>" +
-
-                "<tr><td>Art</td></tr>" +
-                "<tr><td>Alex Biskner</td></tr>" +
-                "<tr><td>Samuel Goldberg</td></tr>" +
-                "<tr><td>Sean Madden</td></tr>" +
-                "<tr><td>Julian Noble</td></tr>" +
-                "<tr><td>Amber Okamura</td></tr>" +
-                "<tr><td></td></tr>" +
-
-                "<tr><td>Audio</td></tr>" +
-                "<tr><td>Tony Porter</td></tr>" +
-                "<tr><td></td></tr>" +
-
-                "<tr><td>Zatikon FOSS project</td></tr>" +
-                "<tr><td>Lukky513</td></tr>" +
-                "<tr><td></td></tr>" +
+                "<tr><td>Additional Programming</td><td></td></tr>" +
+                "<tr><td>William Cole</td><td>Audio</td></tr>" +
+                "<tr><td>Linus Foster</td><td>Tony Porter</td></tr>" +
+                "<tr><td>Daniel Healy</td><td></td></tr>" +
+                "<tr><td>Alexander McCaleb</td><td>Zatikon FOSS project</td></tr>" +
+                "<tr><td>Julian Noble</td><td>Lukky513</td></tr>" +
+                "<tr><td>David Schwartz</td><td></td></tr>" +
+                "<tr><td>Josiah Pisciotta</td><td></td></tr>" +
+                "<tr><td>Lukky513</td><td></td></tr>" +
                 "</table>";
         Client.getGameData().showCredits(credits);
         return true;

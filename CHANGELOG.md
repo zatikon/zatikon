@@ -1,3 +1,7 @@
+# 1.1.9
+
+- Started moving all screens into the game screen.
+
 # 1.1.8
 
 - Fixed Windows version crashing on launch
