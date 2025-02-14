@@ -13,6 +13,7 @@ package leo.server;
 import leo.client.Client;
 import leo.server.game.*;
 import leo.shared.*;
+import org.tinylog.Logger;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -56,6 +57,8 @@ public class User implements Runnable {
     private short waitingGame = 0;
     private boolean editing = false;
 
+    private volatile boolean dataReady = false;
+    private volatile short lastRequest = 0;
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -81,7 +84,7 @@ public class User implements Runnable {
             game.disconnect(player);
             game = null;
         }
-        active = false;
+        //active = false;
         try {
             socket.close();
         } catch (Exception e) {
@@ -176,9 +179,12 @@ public class User implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void sendPing() throws Exception {
         try {
-            dos.writeShort(Action.NOTHING);
-            dos.writeShort(Action.NOTHING);
-            dos.writeShort(Action.NOTHING);
+            Logger.info("sendPing");
+            if(game == null && !waiting && !editing) {
+                dos.writeShort(Action.PING);
+                dos.writeShort(Action.NOTHING);
+                dos.writeShort(Action.NOTHING);
+            }
         } catch (Exception e) {
             Log.error("user.sendPing");
             throw e;
@@ -327,6 +333,7 @@ public class User implements Runnable {
     // End the game
     /////////////////////////////////////////////////////////////////
     public void endGame() {
+        player.endTurn();
         game = null;
         waiting = false;
         server.sendState(getPlayer(), Action.CHAT_CHATTING);
@@ -337,7 +344,7 @@ public class User implements Runnable {
     // The thread
     /////////////////////////////////////////////////////////////////
     public void run() {
-        short lastRequest = 0;
+        //short lastRequest = 0;
         User oldUser = null;
         try { // Get rid of the friggen delay!
             socket.setTcpNoDelay(true);
@@ -363,6 +370,7 @@ public class User implements Runnable {
 
                 dos.writeInt(LoginResponse.FAIL_OLD_VERSION);
                 dos.writeInt(0);
+                dos.writeUTF(Client.PROTOCOL_VERSION);
                 return;
             }
 
@@ -490,19 +498,45 @@ public class User implements Runnable {
             }
 
             server.sendText(player, "*** " + player.getChatName() + " has entered the chatroom ***");
+
+            // Start the reading thread
+            startReadingThread();
+            //int showDebugText = 0;
             while (active && !retired) {
                 idle = true;
-                short request = dis.readShort();
-                lastRequest = request;
-                idle = false;
-                interpretRequest(request);
-                clearIdle();
+                long currentTime = System.currentTimeMillis();
+
+                /*
+                showDebugText++;
+                if (game != null && showDebugText >= 200) {
+                    Logger.info("check " + player.getName() + " time: " + (int) ((currentTime / 1000) % 60) + " - " + (player.getStartTurnTime() == -1 ? "-1" : (int) ((player.getStartTurnTime() / 1000) % 60)));
+                    showDebugText = 0;
+                } */
+                // if it is players turn check if time limit is up, set a few seconds later than client will end turn in cause
+                if (game != null && player.getStartTurnTime() != -1 && currentTime - player.getStartTurnTime() >= 91000) { // && player.getCurrentCastle() == game.getCurrentCastle()
+                    Logger.info("server forced end of turn, client should have already");
+                    sendAction(Action.END_TURN, Action.NOTHING, Action.NOTHING);
+                    //end the turn
+                    game.interpretAction(player, Action.END_TURN, Action.NOTHING, Action.NOTHING);
+                }
+
+                if (dataReady) {
+                    //short request = lastRequest; // Get the last read request
+                    //Logger.info("received request: " + lastRequest);
+                    //lastRequest = request;
+                    idle = false;
+                    interpretRequest(lastRequest);
+                    //clearIdle();
+                    dataReady = false; // Reset the flag after processing
+                }
+                Thread.sleep(10);
             }
 
         } catch (Exception e) {
             Log.error("User.run " + player.getName() + ": " + e);
             Log.error("Last request: " + lastRequest);
         } finally {
+            Logger.info("User.run.finally ");
             cancelled = true;
             waiting = false;
             try {
@@ -519,7 +553,7 @@ public class User implements Runnable {
                     }
 
                     server.sendState(getPlayer(), Action.CHAT_DISABLE);
-
+                    //removePlayer(player); // added because was not cleaning up
                     Thread.sleep(1000);
                     if (!retired) {
                         quit();
@@ -528,9 +562,33 @@ public class User implements Runnable {
                     quit();
                 }
             } catch (Exception e) {
-                Log.error("User.run.finally " + e);
+                Logger.error("User.run.finally " + e);
             }
         }
+    }
+
+    private void startReadingThread() {
+        // Start a thread to handle the blocking dis.readShort()
+        // Logger.info("starting new thread startReadingThread()");
+        new Thread(() -> {
+            try {
+                while (active && !retired) {
+                    if(!dataReady) {
+                        lastRequest = dis.readShort();  // Blocking read
+                        dataReady = true;  // Indicate that data is ready to be processed
+                    }
+
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {
+                Logger.info("User.run startReadingThread() interrupted " + player.getName() + ": " + e);
+                Thread.currentThread().interrupt();  // Re-set the interrupt flag
+            } catch (Exception e) {
+                Logger.error("User.run startReadingThread() " + player.getName() + ": " + e);
+            } finally {
+                Logger.info("User.run startReadingThread() finally");
+            }
+        }).start();
     }
 
     /////////////////////////////////////////////////////////////////
@@ -546,18 +604,14 @@ public class User implements Runnable {
                     short target = dis.readShort();
                     if (!(game != null && active)) return;
 
-                    //Log.activity("Action: " + request + ", actor: " + actor + ", target: " + target);
+                    //Logger.info("Action: " + request + ", actor: " + actor + ", target: " + target);
                     game.interpretAction(player, request, actor, target);
                     clearIdle();
                 } else {
                     switch (request) {
                     case Action.PING:
-                        //System.out.println("server received ping");
-                        dos.writeShort(Action.PING);
-                        dos.writeShort(Action.NOTHING);
-                        dos.writeShort(Action.NOTHING);                        
+                        sendPing();
                         break;
-
                     }
                 }
 
@@ -795,6 +849,7 @@ public class User implements Runnable {
 
                 case Action.QUIT:
                     disconnect = false;
+                    quit(); //added as it seemed like it was not cleaning up on a client quitting
                     break;                   
 
                 default:
@@ -1332,11 +1387,12 @@ public class User implements Runnable {
     public void checkIdle() {
         if(Client.standalone)
             return;
-        idling += 100;
 
         // If waiting for a game, takes longer to idle
         if (waiting)
-            idling -= 90;
+            idling += 10;
+        else
+            idling += 100;
 
         // Player has been idle for a long time, log him out
         if (idling >= 30000) {
@@ -1369,7 +1425,7 @@ public class User implements Runnable {
         }
 
         if (chat != null) sendText("");
-        if (game == null && idling > 0)
+        if (game == null && idling > 1000 && !waiting && !editing)
             try {
                 sendPing();
             } catch (Exception e) {

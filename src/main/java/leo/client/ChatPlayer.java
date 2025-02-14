@@ -134,6 +134,14 @@ public class ChatPlayer {
     }
 
     /////////////////////////////////////////////////////////////////
+    // Set winsLosses
+    /////////////////////////////////////////////////////////////////
+    public void setWinsLosses(int newWins, int newLosses) {
+        wins = newWins;
+        losses = newLosses;
+    }
+
+    /////////////////////////////////////////////////////////////////
     // Set icon state
     /////////////////////////////////////////////////////////////////
     public void setState(short newState) {
@@ -214,4 +222,7 @@ public class ChatPlayer {
         }
     }
 
+    public int getState() {
+        return icon;
+    }
 }

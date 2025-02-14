@@ -104,7 +104,16 @@ public class ClientNetManager implements Runnable {
 
             // Get the response
             Logger.debug("Waiting for login response");
-            LoginResponse response = new LoginResponse(dis.readInt(), dis.readInt());
+            int response1 = dis.readInt();
+            int response2 = dis.readInt();
+            LoginResponse response = null;
+            //Logger.info("login response: " + response1 + " " + response2);
+            if(response1 == LoginResponse.FAIL_OLD_VERSION) {
+                //Logger.info("wrong version");
+                response = new LoginResponse(response1, response2, dis.readUTF());
+            } else {
+                response = new LoginResponse(response1, response2);
+            }
             Logger.debug("Got login response");
 
             return response;
@@ -121,6 +130,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestGame() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.JOIN);
 
         } catch (Exception e) {
@@ -135,6 +145,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestDuel() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.JOIN_DUEL);
 
         } catch (Exception e) {
@@ -148,6 +159,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestMirrDuel() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.JOIN_MIRRORED_DUEL);
 
         } catch (Exception e) {
@@ -162,6 +174,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestPractice() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.PRACTICE);
 
         } catch (Exception e) {
@@ -176,6 +189,7 @@ public class ClientNetManager implements Runnable {
     /////////////////////////////////////////////////////////////////
     public void requestCooperative() {
         try { // Start the join
+            Client.setState("lobby");
             dos.writeShort(Action.COOPERATIVE);
 
         } catch (Exception e) {
@@ -337,6 +351,7 @@ public class ClientNetManager implements Runnable {
                     break;
 
                 case Action.END_TURN:
+                    Client.getGameData().endTurn(false);
                     break;
 
                 case Action.REFRESH:

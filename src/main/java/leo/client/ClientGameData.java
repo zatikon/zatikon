@@ -296,6 +296,9 @@ public class ClientGameData {
         mainBoard.queue();
     }
 
+    public boolean getQueueing() {
+        return mainBoard.queueing();
+    }
 
     /////////////////////////////////////////////////////////////////
     // SetScreen to versus
@@ -315,6 +318,7 @@ public class ClientGameData {
     /////////////////////////////////////////////////////////////////
     public void screenGame() {
         playing = true;
+        Client.setState("game");
         mainBoard.clear();
         Client.getText().clear();
         Client.getMessageBuffer().delete(0, Client.getMessageBuffer().length());
@@ -346,7 +350,7 @@ public class ClientGameData {
         ////////////////////////////////////////////
         Client.getNetManager().sendAction(Action.CHATTING, Action.NOTHING, Action.NOTHING);
         mainBoard.add(playerPanel);
-
+        Client.setState("home");
     }
 
 
@@ -396,6 +400,7 @@ public class ClientGameData {
         mainBoard.add(endGamePanel);
         ////////////////////////////////
         mainBoard.add(playerPanel);
+        //Client.setState("home");
     }
 
 
@@ -715,6 +720,12 @@ public class ClientGameData {
         Client.getNetManager().sendAction(Action.END_TURN, (byte) 0, (byte) 0);
     }
 
+    //don't notify the server because this request was sent by the server so it has already ended the turn
+    public void endTurn(boolean notify) {
+        Client.getGameData().setSelectedUnit(null);
+        Client.getGameData().setCastlePlaying(null);
+    }
+
     /////////////////////////////////////////////////////////////////
     // redraw army
     /////////////////////////////////////////////////////////////////
@@ -953,4 +964,7 @@ public class ClientGameData {
         playerPanel = newPlayerPanel;
     }
 
+    public boolean rebuilding() {
+        return rebuilding;
+    }
 }

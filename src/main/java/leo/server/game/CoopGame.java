@@ -138,6 +138,7 @@ public class CoopGame implements Game {
         // Start the game
         player1.getUser().sendAction(Action.AI, Action.NOTHING, Action.NOTHING);
         player1.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+        player1.startTurn();
         player2.getUser().sendAction(Action.AI, Action.NOTHING, Action.NOTHING);
         player2.getUser().sendAction(Action.START_TURN_ALLY, Action.NOTHING, Action.NOTHING);
 
@@ -424,6 +425,7 @@ public class CoopGame implements Game {
 
                 // move the turn to the next guy
                 if (player == player1) {
+                    player1.endTurn();
                     playerCastle.refresh(Unit.TEAM_1);
                     playerCastle.startTurn(Unit.TEAM_2);
 
@@ -432,11 +434,12 @@ public class CoopGame implements Game {
 
                     player2.getUser().sendAction(Action.REFRESH_ALLY, Action.NOTHING, Action.NOTHING);
                     player2.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+                    player2.startTurn();
                 }
 
                 // give control to the AI
                 if (player == player2) {
-
+                    player2.endTurn();
                     playerCastle.refresh(Unit.TEAM_2);
                     currentCastle = AICastle;
                     AICastle.startTurn(Unit.TEAM_1);
@@ -459,6 +462,7 @@ public class CoopGame implements Game {
                         player1.getUser().sendAction(Action.REFRESH_ENEMY, Action.NOTHING, Action.NOTHING);
                         player2.getUser().sendAction(Action.REFRESH_ENEMY, Action.NOTHING, Action.NOTHING);
                         player1.getUser().sendAction(Action.START_TURN, Action.NOTHING, Action.NOTHING);
+                        player1.startTurn();
                         player2.getUser().sendAction(Action.START_TURN_ALLY, Action.NOTHING, Action.NOTHING);
                     }
                 }
@@ -516,6 +520,10 @@ public class CoopGame implements Game {
         Log.game(output);
     }
 
+    /////////////////////////////////////////////////////////////////
+    // get the current player
+    /////////////////////////////////////////////////////////////////
+    public Castle getCurrentCastle() { return currentCastle; }
 
     /////////////////////////////////////////////////////////////////
     // get the current player

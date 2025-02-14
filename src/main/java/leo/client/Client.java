@@ -13,7 +13,7 @@ import leo.shared.*;
 import leo.shared.Action;
 import org.tinylog.Logger;
 
-import javax.swing.*;
+//import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -32,7 +32,7 @@ public class Client {
     //public static final int  SCREEN_WIDTH = 800; //moved to "leo/shared/Constants.java"
     //public static final int  SCREEN_HEIGHT = 600; //moved to "leo/shared/Constants.java"
     public static final String VERSION = getGameVersion();
-    public static final String PROTOCOL_VERSION = "1.1.8";
+    public static final String PROTOCOL_VERSION = "1.1.9";
     public static final String TITLE = "Zatikon ";
     public static final String CREDITS = " Chronic Logic 2024";
 //    public static final String SERVER_NAME = "localhost";
@@ -58,7 +58,7 @@ public class Client {
     //public static final int  STATE_UNIT = 1; //moved to "leo/shared/Constants.java"
     //public static final int  STEP_SPEED = 9; //moved to "leo/shared/Constants.java"
     private static Random random;
-    private static boolean active = false;
+    //private static boolean active = false;
     private static final long serialVersionUID = 1L;
     private static final short[] units = new short[UnitType.UNIT_COUNT.value()];
 
@@ -88,7 +88,7 @@ public class Client {
     private static int textTimer = 0;
     private static GameFrame gameFrame = null;
     private static ClientLoginDialog login = null;
-    private static Label label;
+    //private static Label label;
     private static boolean drawing = false;
     private static boolean computing = false;
     private static ChatList chatList = null;
@@ -110,9 +110,10 @@ public class Client {
 //    private static GameApplet applet = null;
     private static int chatID;
     private static boolean timeOut = false;
-    private static JLabel fbText1 = null;
-    private static JLabel fbText2 = null;
+    //private static JLabel fbText1 = null;
+    //private static JLabel fbText2 = null;
     private static boolean serverWillShutDown = false;
+    private static String state = "login"; //tracks what the client is doing login, home, lobby, game, army
 
     // access
     private static final boolean[] access =
@@ -154,6 +155,8 @@ public class Client {
         settings = new Settings();
 
         clientImages = new GameMedia();
+        Thread loader = new Thread(() -> Client.getImages().load());
+        loader.start();
 
         // preload graphics
         Client.getImages().preload();
@@ -188,7 +191,8 @@ public class Client {
 
         scheduler.scheduleAtFixedRate(() -> {
             try {
-                if(netManager != null && !Client.getGameData().playing())
+                //Logger.info("preparing to ping " + Client.getState() + " " + Client.getGameData().playing() + " " + Client.getGameData().getGameType() + " " + Client.getGameData().getQueueing() + " " + Client.computing());
+                if(netManager != null && Client.getState().equals("home") && !Client.getGameData().rebuilding()) //&& !Client.getGameData().getQueueing()
                     netManager.requestPing();
             } catch (Exception e) {
                 Logger.error("Error while calling Client.ping(): " + e.getMessage());
@@ -457,7 +461,7 @@ public class Client {
                 settings().save();
             }
 
-            active = false;
+            //active = false;
             if (clientGameData != null && clientGameData.getTimer() != null) clientGameData.getTimer().end();
             if (netManager != null) netManager.kill();
             if (getChat() != null) getChat().kill();
@@ -759,6 +763,12 @@ public class Client {
     public static boolean getServerWillShutDown() {
         return serverWillShutDown;
     }
+
+    public static void setState(String newState) {
+        state = newState;
+    }
+
+    public static String getState() { return state; }
 
     /////////////////////////////////////////////////////////////////
     // Get text
