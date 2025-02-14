@@ -11,7 +11,7 @@ package leo.client;
 import leo.shared.Constants;
 
 import java.awt.*;
-import java.util.Vector;
+//import java.util.Vector;
 import java.util.regex.*;
 import java.util.List;
 import java.util.ArrayList;
