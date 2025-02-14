@@ -75,16 +75,16 @@ public class ClientGameData {
     private TeamLoadingPanel teamLoadingPanel = new TeamLoadingPanel();
     private TimeOutPanel timeOutPanel = new TimeOutPanel();
     private final VersusPanel versusPanel = new VersusPanel();
-    private RosterPanel rosterPanel = new RosterPanel();
+    private RosterPanel rosterPanel = new RosterPanel(false);
     private EditCastlePanel editCastlePanel = new EditCastlePanel();
     private final EndGamePanel endGamePanel = new EndGamePanel();
     private final MessagePanel messagePanel = new MessagePanel();
     private PlayerPanel playerPanel = new PlayerPanel();
-    private final HiddenUnitStats hiddenUnitStats = new HiddenUnitStats(mainBoard);
+    private final HiddenUnitStats hiddenUnitStats = new HiddenUnitStats();
     private boolean newRecruit = false;
     private long gainGold = 0;
     private TutorialBoard tutorialBoard;
-
+    private final InfoPanel infoPanel = new InfoPanel();
 
     /////////////////////////////////////////////////////////////////
     // Constructor
@@ -685,7 +685,8 @@ public class ClientGameData {
     /////////////////////////////////////////////////////////////////
     public void recruit(short newUnitID) {
         Unit newUnit = Unit.getUnit(newUnitID, new Castle());
-        getHiddenUnitStats().initialize(newUnit);
+        rosterPanel.add(hiddenUnitStats);
+        hiddenUnitStats.initialize(newUnit);
         newRecruit = true;
         gainGold = 0;
     }
@@ -866,6 +867,25 @@ public class ClientGameData {
 
     public boolean newRecruit() {
         return newRecruit;
+    }
+
+    public void clearNewRecruit() {
+        newRecruit = false;
+        rosterPanel.remove(hiddenUnitStats);
+    }
+
+    public void showHighScores(String msg) {
+        rosterPanel.add(infoPanel);
+        infoPanel.setMsg(msg);
+    }
+
+    public void showCredits(String msg) {
+        rosterPanel.add(infoPanel);
+        infoPanel.setMsg(msg);
+    }
+
+    public void removeInfoPanel() {
+        rosterPanel.remove(infoPanel);
     }
 
     public long gainGold() {

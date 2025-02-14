@@ -1,4 +1,5 @@
 # 1.1.9
+
 - Fixed bug where users record would not update after game
 - Fixed bug which could cause desync
 - Fixed bug which caused buy unit button to be disabled after gold increased above 100
@@ -14,6 +15,7 @@
 - Minor sound normalization
 - fixed sounds not working when running non-JAR version
 - added early loading of the game assets to improve the startup time
+- Started moving all screens into the game screen.
 
 # 1.1.8
 
