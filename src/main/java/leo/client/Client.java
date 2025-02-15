@@ -19,6 +19,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 
 import java.util.concurrent.Executors;
@@ -141,12 +142,14 @@ public class Client {
     // Main module
     /////////////////////////////////////////////////////////////////
     public static void main(String[] args) {
+        var succeeded = new File(Constants.LOCAL_DIR).mkdirs();
+
+        Log.setup(true, Paths.get(Constants.LOCAL_DIR, "zatikon.log").toString());
+
         Logger.info("Starting Zatikon " + VERSION + ", protocol version " + PROTOCOL_VERSION);
         //for (int i = 0; i < args.length; i++)
         //{ System.out.println("argument " + i + ": " + args[i]);
         //}
-
-        var succeeded = new File(Constants.LOCAL_DIR).mkdirs();
 
         // set some properties
         System.setProperty("sun.java2d.translaccel", "true");

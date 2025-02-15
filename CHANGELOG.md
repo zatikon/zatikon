@@ -13,9 +13,11 @@
 - Added version in logging response when the client version is incorrect
 - Build system improvement, including "nightly" releases of the latest dev version
 - Minor sound normalization
-- fixed sounds not working when running non-JAR version
-- added early loading of the game assets to improve the startup time
+- Fixed sounds not working when running non-JAR version
+- Added early loading of the game assets to improve the startup time
 - Started moving all screens into the game screen.
+- Added basic server config
+- Added saving of client logs
 
 # 1.1.8
 
