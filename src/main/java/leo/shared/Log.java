@@ -9,27 +9,11 @@ package leo.shared;
 // imports
 
 import org.tinylog.Logger;
+import org.tinylog.configuration.Configuration;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.nio.file.Paths;
 
 public class Log {
-
-    /////////////////////////////////////////////////////////////////
-    // Properties
-    /////////////////////////////////////////////////////////////////
-    private static final DateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-
-
-    /////////////////////////////////////////////////////////////////
-    // Get the time
-    /////////////////////////////////////////////////////////////////
-    private static String getTime() {
-        return format.format(new Date());
-    }
-
-
     /////////////////////////////////////////////////////////////////
     // Log an error
     /////////////////////////////////////////////////////////////////
@@ -42,7 +26,7 @@ public class Log {
     // Log activity
     /////////////////////////////////////////////////////////////////
     public static void activity(String text) {
-        Logger.debug(text);
+        Logger.debug("ACTIVITY: " + text);
     }
 
 
@@ -50,7 +34,7 @@ public class Log {
     // Log game actions
     /////////////////////////////////////////////////////////////////
     public static void game(String text) {
-        Logger.info(text);
+        Logger.info("GAME: " + text);
     }
 
 
@@ -74,8 +58,29 @@ public class Log {
     // System
     /////////////////////////////////////////////////////////////////
     public static void system(String text) {
-        Logger.info(text);
+        Logger.info("SYSTEM: " + text);
     }
 
 
+    public static void setup(boolean logToTerminal, String logFile) {
+        if (Configuration.isFrozen()) {
+            Logger.warn("Logger is already initialized. Skipping setup.");
+
+            return;
+        }
+
+        if (logToTerminal) {
+            Configuration.set("writerConsole", "console");
+            Configuration.set("writerConsole.level", "info");
+        }
+
+        var parent = Paths.get(logFile).getParent();
+        if (parent != null) {
+            var succeeded = parent.toFile().mkdirs();
+        }
+
+        Configuration.set("writerFile", "file");
+        Configuration.set("writerFile.file", logFile);
+        Configuration.set("writerFile.append", "true");
+    }
 }

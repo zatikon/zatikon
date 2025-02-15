@@ -18,6 +18,7 @@ import leo.shared.Action;
 import leo.shared.Constants;
 import leo.shared.Log;
 import leo.shared.Unit;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.util.Arrays;
@@ -51,6 +52,7 @@ public class Server {
     private final DatabaseManager dbm;
     private final Vector<ServerGame> gameListMulti = new Vector<ServerGame>();
     private final Vector<PracticeGame> gameListSingle = new Vector<PracticeGame>();
+    private final Config config;
 
     private volatile boolean running = true;
     private boolean willShutDown = false;
@@ -60,6 +62,9 @@ public class Server {
     /////////////////////////////////////////////////////////////////
 
     public Server(boolean useTls) {
+        config = new Config();
+        Log.setup(config.isLogToTerminal(), config.getLogFile());
+
         dbm = new DatabaseManager();
 
         Log.system("Booting Zatikon Server ver. " + Client.VERSION);
