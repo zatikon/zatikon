@@ -98,7 +98,7 @@ public class RosterPanel extends LeoContainer {
 
         // Play
         LaunchGameButton computerButton = new LaunchGameButton(
-                this, buttonX, 69, 38, 38, Constants.IMG_SINGLE_RED, "Start Here!",
+                this, buttonX, 69, 38, 38, Constants.IMG_SINGLE_RED, isNoob ? "Start Here!" : "Single player",
                 "Play a single player game against the Artificial Opponent using your presently configured army. Each game you win, the difficulty increases. Every two you lose, it decreases.", false, "");
         add(computerButton);
 
