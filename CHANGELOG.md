@@ -1,3 +1,7 @@
+# 1.1.10
+
+- Fix singleplayer mode not running correctly due to mislabeling
+
 # 1.1.9
 
 - Fixed bug where users record would not update after game
